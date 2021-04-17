@@ -35,10 +35,20 @@
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
     <Button
-        android:layout_width="wrap_content"
+        android:backgroundTint="@color/teal_200"
+        android:id="@+id/Login"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Log in"
         app:layout_constraintTop_toBottomOf='@id/Password'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="Register"
+        app:layout_constraintTop_toBottomOf='@id/Login'
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
