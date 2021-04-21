@@ -12,6 +12,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         tools:ignore="MissingConstraints">
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="text"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Username">
@@ -26,6 +28,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         tools:ignore="MissingConstraints">
         <com.google.android.material.textfield.TextInputEditText
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
