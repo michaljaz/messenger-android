@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
@@ -30,6 +31,7 @@ class LoginFragment : Fragment() {
         }
         view.findViewById<Button>(R.id.Login).setOnClickListener {
             findNavController().navigate(R.id.login)
+            Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
         }
     }
 }
