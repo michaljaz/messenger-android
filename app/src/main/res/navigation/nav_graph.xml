@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_register"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/login"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -20,6 +23,15 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.myapplication.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/logout"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
