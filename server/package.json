@@ -3,5 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "socket.io": "^4.1.1"
   }
 }
