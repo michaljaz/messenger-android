@@ -5,6 +5,9 @@ const server = http.createServer(app)
 const { Server } = require('socket.io')
 const io = new Server(server)
 const port = process.env.PORT || 8080
+const cors = require('cors')
+
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('socket.io is running!')

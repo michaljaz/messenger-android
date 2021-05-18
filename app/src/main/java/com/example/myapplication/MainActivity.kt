@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this,MyService::class.java)
         startService(intent)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
