@@ -6,19 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
-import io.socket.client.Socket
+import io.socket.emitter.Emitter
 
 class LoginFragment : Fragment() {
+    private var list: Emitter? = null
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        this.list=(activity as MainActivity).socket.once("auth_ok") {
+            showLog("authorized")
+            findNavController().navigate(R.id.login)
+        }
+
         return inflater.inflate(R.layout.fragment_login, container, false)
+    }
+
+    override fun onDestroyView() {
+        this.list?.off()
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,11 +42,6 @@ class LoginFragment : Fragment() {
             val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
             val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
             (activity as MainActivity).socket.emit("auth",username,password)
-        }
-
-        (activity as MainActivity).socket.once("auth_ok") {
-            showLog("authorized")
-            findNavController().navigate(R.id.login)
         }
 
     }
