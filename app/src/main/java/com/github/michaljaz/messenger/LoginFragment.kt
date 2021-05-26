@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.github.michaljaz.messenger
 
 import android.os.Bundle
 import android.util.Log

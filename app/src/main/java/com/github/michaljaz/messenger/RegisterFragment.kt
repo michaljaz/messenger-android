@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.github.michaljaz.messenger
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
