@@ -14,28 +14,18 @@ import io.socket.client.IO
 import io.socket.client.Socket
 
 class MainActivity : AppCompatActivity() {
-
+    val socket=IO.socket("https://mess-serv.glitch.me")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
         setSupportActionBar(findViewById(R.id.toolbar))
-        val socket = IO.socket("https://mess-serv.glitch.me")
+//        socket =
         socket.connect()
         socket.on(Socket.EVENT_CONNECT) {
             showLog("connected")
         }
         socket.on(Socket.EVENT_DISCONNECT) {
             showLog("disconnected")
-        }
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            findViewById<TextInputLayout>(R.id.Username).editText?.let {
-                Snackbar.make(
-                    view,
-                    it.text,
-                    Snackbar.LENGTH_LONG
-                )
-                    .setAction("Action", null).show()
-            }
         }
 
         val intent = Intent(this,MyService::class.java)

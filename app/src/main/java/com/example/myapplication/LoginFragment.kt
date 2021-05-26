@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
+import io.socket.client.Socket
 
 
 /**
@@ -19,6 +23,9 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).socket.on(Socket.EVENT_CONNECT) {
+            showLog("connected from fragment")
+        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
@@ -31,7 +38,12 @@ class LoginFragment : Fragment() {
         }
         view.findViewById<Button>(R.id.Login).setOnClickListener {
             findNavController().navigate(R.id.login)
+            showLog(view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString())
+
             Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
         }
+    }
+    private fun showLog(message: String){
+        Log.d("lul", message.toString())
     }
 }
