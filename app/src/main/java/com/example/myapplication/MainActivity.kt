@@ -10,7 +10,8 @@ import io.socket.client.IO
 import io.socket.client.Socket
 
 class MainActivity : AppCompatActivity() {
-    val socket: Socket =IO.socket("https://mess-serv.glitch.me")
+    val socket: Socket = IO.socket("https://mess-serv.glitch.me")
+//    val socket: Socket = IO.socket("https://181d82419eb2.ngrok.io")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)

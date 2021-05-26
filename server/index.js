@@ -15,6 +15,15 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected')
+  socket.on('auth', (username, password) => {
+  	console.log('auth')
+  	if (username === password) {
+  		socket.emit('auth_ok')
+  	}
+  })
+  socket.on('disconnect', () => {
+  	console.log('a user disconnected')
+  })
 })
 
 server.listen(port, () => {

@@ -31,10 +31,16 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_register)
         }
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            findNavController().navigate(R.id.login)
-            showLog(view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString())
 
-            Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
+            val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
+            val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
+            (activity as MainActivity).socket.emit("auth",username,password)
+
+        }
+        (activity as MainActivity).socket.on("auth_ok") {
+            showLog("authorized")
+            findNavController().navigate(R.id.login)
+//            Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
         }
     }
     private fun showLog(message: String){
