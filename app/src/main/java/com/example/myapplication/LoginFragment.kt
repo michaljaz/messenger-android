@@ -18,9 +18,6 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        (activity as MainActivity).socket.on(Socket.EVENT_CONNECT) {
-            showLog("connected from fragment")
-        }
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -35,13 +32,13 @@ class LoginFragment : Fragment() {
             val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
             val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
             (activity as MainActivity).socket.emit("auth",username,password)
-
         }
-        (activity as MainActivity).socket.on("auth_ok") {
+
+        (activity as MainActivity).socket.once("auth_ok") {
             showLog("authorized")
             findNavController().navigate(R.id.login)
-//            Toast.makeText(context, "Logged in", Toast.LENGTH_LONG).show()
         }
+
     }
     private fun showLog(message: String){
         Log.d("lul", message.toString())
