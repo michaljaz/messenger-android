@@ -9,14 +9,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import io.socket.client.Socket
 
-
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
 class LoginFragment : Fragment() {
 
     override fun onCreateView(
@@ -26,7 +21,6 @@ class LoginFragment : Fragment() {
         (activity as MainActivity).socket.on(Socket.EVENT_CONNECT) {
             showLog("connected from fragment")
         }
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 

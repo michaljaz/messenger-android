@@ -5,9 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import io.socket.client.IO
-import io.socket.client.Socket
 
 class MyService : Service() {
 
@@ -24,8 +21,6 @@ class MyService : Service() {
         Toast.makeText(this, "Logged in", Toast.LENGTH_LONG).show()
         showLog("onTaskRemoved called")
         super.onTaskRemoved(rootIntent)
-        //do something you want
-        //stop service
         this.stopSelf()
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

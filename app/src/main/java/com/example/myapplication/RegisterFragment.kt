@@ -1,10 +1,8 @@
 package com.example.myapplication
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,9 +16,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
 import kotlin.with as with
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class RegisterFragment : Fragment() {
 
     private val notificationManager: NotificationManager? = null
