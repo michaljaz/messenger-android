@@ -39,14 +39,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@color/orange"
         android:text="Log in"
         android:id="@+id/Login"
         app:layout_constraintTop_toBottomOf='@id/Password'
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <Button
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/red"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

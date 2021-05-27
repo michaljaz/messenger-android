@@ -12,7 +12,7 @@
         android:id="@+id/HomeTitle"
         tools:ignore="MissingConstraints" />
     <Button
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/yellow"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
