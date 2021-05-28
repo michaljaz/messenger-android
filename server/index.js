@@ -15,14 +15,18 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
   console.log('a user connected')
-  socket.on('auth', (username, password) => {
-  	console.log('auth')
-  	if (username === password) {
-  		socket.emit('auth_ok')
-  	}
+  socket.on('signin', (username, password) => {
+    console.log('User signin')
+    if (username === password) {
+      socket.emit('signin_ok')
+    }
+  })
+  socket.on('signup', (username, password) => {
+    console.log('User signup')
+    socket.emit('signup_ok')
   })
   socket.on('disconnect', () => {
-  	console.log('a user disconnected')
+    console.log('a user disconnected')
   })
 })
 

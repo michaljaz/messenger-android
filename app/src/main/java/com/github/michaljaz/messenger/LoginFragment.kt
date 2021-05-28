@@ -18,17 +18,14 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        this.list=(activity as MainActivity).socket.once("auth_ok") {
-            showLog("authorized")
-            findNavController().navigate(R.id.login)
+        this.list=(activity as MainActivity).getSocket()?.once("signin_ok") {
+            showLog("sign in success")
+            try {
+                findNavController().navigate(R.id.login)
+            } catch (e: Exception){}
         }
 
         return inflater.inflate(R.layout.fragment_login, container, false)
-    }
-
-    override fun onDestroyView() {
-        this.list?.off()
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,10 +35,9 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_register)
         }
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-
             val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
             val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
-            (activity as MainActivity).socket.emit("auth",username,password)
+            (activity as MainActivity).getSocket()?.emit("signin",username,password)
         }
 
     }

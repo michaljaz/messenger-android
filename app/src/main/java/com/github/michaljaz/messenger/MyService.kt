@@ -29,7 +29,7 @@ class MyService : Service() {
         val runnable = Runnable {
 
             while(true) {
-                showLog("Service is running.")
+//                showLog("Service is running.")
                 Thread.sleep(1000)
             }
         }
