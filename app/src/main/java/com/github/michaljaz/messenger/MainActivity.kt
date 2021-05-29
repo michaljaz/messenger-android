@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         try {
             socket=IO.socket(URL)
-//            socket=IO.socket("https://mess-serv.glitch.me")
         } catch (e: URISyntaxException) {
             throw RuntimeException(e)
         }
