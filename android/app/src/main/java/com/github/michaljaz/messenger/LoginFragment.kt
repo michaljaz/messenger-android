@@ -64,6 +64,7 @@ class LoginFragment : Fragment() {
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient((activity as MainActivity), gso);
         val google=view.findViewById<Button>(R.id.google_login)
+        callbackManager=CallbackManager.Factory.create()
         google.setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
@@ -72,7 +73,7 @@ class LoginFragment : Fragment() {
         // Facebook button
         val loginButton = view.findViewById<Button>(R.id.facebook_login)
         loginButton.setOnClickListener {
-            callbackManager=CallbackManager.Factory.create()
+            CallbackManager.Factory.create()
             LoginManager.getInstance()
                 .logInWithReadPermissions(this, listOf("email", "public_profile"))
             LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {

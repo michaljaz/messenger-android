@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
-        android:text="Log in"
+        android:text="Sign in"
         android:id="@+id/Login"
         app:layout_constraintTop_toBottomOf='@id/Password'
         app:layout_constraintEnd_toEndOf="parent"
