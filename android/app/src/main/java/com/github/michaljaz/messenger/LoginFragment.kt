@@ -73,13 +73,15 @@ class LoginFragment : Fragment() {
         // Facebook button
         val loginButton = view.findViewById<Button>(R.id.facebook_login)
         loginButton.setOnClickListener {
-            CallbackManager.Factory.create()
             LoginManager.getInstance()
                 .logInWithReadPermissions(this, listOf("email", "public_profile"))
             LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     Log.d("TAG", "Success Login")
                     getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
+                    try {
+                        findNavController().navigate(R.id.login)
+                    } catch (e: Exception){}
                 }
 
                 override fun onCancel() {
