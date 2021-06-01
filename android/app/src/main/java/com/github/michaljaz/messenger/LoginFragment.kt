@@ -12,17 +12,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputLayout
 import io.socket.emitter.Emitter
-import java.util.*
 
 
 private const val RC_SIGN_IN = 7
@@ -48,48 +46,50 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //register
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
+
+        //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
+            val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString()
             val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
-            (activity as MainActivity).getSocket()?.emit("signin",username,password)
+            (activity as MainActivity).getSocket()?.emit("signin",email,password)
         }
+
+        //Google button
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient((activity as MainActivity), gso);
-
-        val google=view.findViewById<SignInButton>(R.id.sign_in_button)
+        val google=view.findViewById<Button>(R.id.google_login)
         google.setOnClickListener {
-            showLog("LUL")
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
         }
-        google.setSize(SignInButton.SIZE_WIDE)
-        callbackManager = CallbackManager.Factory.create()
 
+        // Facebook button
+        val loginButton = view.findViewById<Button>(R.id.facebook_login)
+        loginButton.setOnClickListener {
+            callbackManager=CallbackManager.Factory.create()
+            LoginManager.getInstance()
+                .logInWithReadPermissions(this, listOf("email", "public_profile"))
+            LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+                override fun onSuccess(loginResult: LoginResult?) {
+                    Log.d("TAG", "Success Login")
+                    getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
+                }
 
-        val loginButton = view.findViewById<LoginButton>(R.id.login_button)
-        loginButton.setReadPermissions(listOf("public_profile", "email"))
-        // If you are using in a fragment, call loginButton.setFragment(this)
-        loginButton.fragment = this
-        // Callback registration
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
-            override fun onSuccess(loginResult: LoginResult?) {
-                Log.d("TAG", "Success Login")
-                getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
-            }
+                override fun onCancel() {
+                    Toast.makeText(context, "Login Cancelled", Toast.LENGTH_LONG).show()
+                }
 
-            override fun onCancel() {
-                Toast.makeText(context, "Login Cancelled", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onError(exception: FacebookException) {
-                Toast.makeText(context, exception.message, Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onError(exception: FacebookException) {
+                    Toast.makeText(context, exception.message, Toast.LENGTH_LONG).show()
+                }
+            })
+        }
 
     }
 

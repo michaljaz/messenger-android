@@ -6,7 +6,7 @@
     android:padding="16dp"
     tools:context=".RegisterFragment">
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/Username"
+        android:id="@+id/Email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -16,13 +16,13 @@
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Username">
+            android:hint="Email">
 
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Password"
-        app:layout_constraintTop_toBottomOf='@+id/Username'
+        app:layout_constraintTop_toBottomOf='@+id/Email'
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -36,29 +36,13 @@
 
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/RepeatPassword"
-        app:layout_constraintTop_toBottomOf='@+id/Password'
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        tools:ignore="MissingConstraints">
-        <com.google.android.material.textfield.TextInputEditText
-            android:maxLines="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textPassword"
-            android:hint="Repeat password">
-
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
         android:text="Register"
         android:id="@+id/Register"
-        app:layout_constraintTop_toBottomOf='@id/RepeatPassword'
+        app:layout_constraintTop_toBottomOf='@id/Password'
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <Button

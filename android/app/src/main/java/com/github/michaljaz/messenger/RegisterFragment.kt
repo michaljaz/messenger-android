@@ -32,7 +32,7 @@ class RegisterFragment : Fragment() {
             findNavController().navigate(R.id.action_login)
         }
         view.findViewById<Button>(R.id.Register).setOnClickListener {
-            val username=view.findViewById<TextInputLayout>(R.id.Username).editText?.text.toString()
+            val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString()
             val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
             (activity as MainActivity).getSocket()?.emit("signup",username,password)
         }
