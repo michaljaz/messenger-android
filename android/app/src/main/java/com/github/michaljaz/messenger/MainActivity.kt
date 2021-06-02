@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
-    
+
     private fun showLog(message: String){
         Log.d("lul",message)
     }
