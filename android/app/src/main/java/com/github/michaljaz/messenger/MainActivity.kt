@@ -18,6 +18,8 @@ private const val URL = "https://mess-serv.glitch.me"
 class MainActivity : AppCompatActivity() {
     private var socket: Socket? = null
     private lateinit var mNavDrawer:DrawerLayout
+    private lateinit var toggle:ActionBarDrawerToggle
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -26,11 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         mNavDrawer=findViewById<DrawerLayout>(R.id.drawer_layout)
 
-        val toggle=ActionBarDrawerToggle(
+        toggle=ActionBarDrawerToggle(
             this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
         )
         mNavDrawer.addDrawerListener(toggle)
-
+        disableDrawer()
         toggle.syncState()
 
         try {
@@ -53,6 +55,16 @@ class MainActivity : AppCompatActivity() {
 
     fun getSocket(): Socket? {
         return socket
+    }
+
+    fun enableDrawer() {
+        toggle.isDrawerIndicatorEnabled = true
+        mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+    }
+
+    fun disableDrawer() {
+        toggle.isDrawerIndicatorEnabled = false
+        mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -31,6 +31,7 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).disableDrawer()
         this.list=(activity as MainActivity).getSocket()?.once("signin_ok") {
             showLog("sign in success")
             try {
@@ -107,6 +108,9 @@ class LoginFragment : Fragment() {
 
             // Signed in successfully, show authenticated UI.
             showLog("GOOGLE SUCCESS")
+            try {
+                findNavController().navigate(R.id.login)
+            } catch (e: Exception){}
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
