@@ -5,3 +5,5 @@
 ## About
 
 Messenger is clone of facebook messenger written in kotlin.
+
+[<img src=".github/play-store-button.svg" height="100px">](https://play.google.com/store/apps/details?id=com.github.michaljaz.messenger)
