@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
-import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import io.socket.client.IO
 import io.socket.client.Socket
 import java.net.URISyntaxException
@@ -15,10 +17,22 @@ private const val URL = "https://mess-serv.glitch.me"
 
 class MainActivity : AppCompatActivity() {
     private var socket: Socket? = null
+    private lateinit var mNavDrawer:DrawerLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        val toolbar=findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        mNavDrawer=findViewById<DrawerLayout>(R.id.drawer_layout)
+
+        val toggle=ActionBarDrawerToggle(
+            this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
+        )
+        mNavDrawer.addDrawerListener(toggle)
+
+        toggle.syncState()
+
         try {
             socket=IO.socket(URL)
         } catch (e: URISyntaxException) {
