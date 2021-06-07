@@ -32,6 +32,7 @@ class LoginFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         (activity as MainActivity).disableDrawer()
+        (activity as MainActivity).supportActionBar?.setTitle("Messenger")
         this.list=(activity as MainActivity).getSocket()?.once("signin_ok") {
             showLog("sign in success")
             try {

@@ -14,6 +14,7 @@ class HomeFragment : Fragment() {
     ): View? {
         setHasOptionsMenu(true)
         (activity as MainActivity).enableDrawer()
+        (activity as MainActivity).supportActionBar?.setTitle("Chats")
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
