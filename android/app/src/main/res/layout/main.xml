@@ -33,5 +33,6 @@
         android:layout_height="wrap_content"
         app:menu="@menu/bottom"
         android:layout_gravity="start"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:headerLayout="@layout/header_nav_drawer"/>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main)
         val toolbar=findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        mNavDrawer=findViewById<DrawerLayout>(R.id.drawer_layout)
+        mNavDrawer=findViewById(R.id.drawer_layout)
 
         toggle=ActionBarDrawerToggle(
             this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
