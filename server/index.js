@@ -10,7 +10,8 @@ const cors = require('cors')
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send('socket.io is running!')
+  console.log(Date.now() + ' Ping Received')
+  res.sendStatus(200)
 })
 
 io.on('connection', (socket) => {
@@ -33,3 +34,7 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(`listening on *:${port}`)
 })
+
+setInterval(() => {
+  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`)
+}, 280000)
