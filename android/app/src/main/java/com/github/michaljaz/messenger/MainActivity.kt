@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity() {
     fun disableDrawer() {
         toggle.isDrawerIndicatorEnabled = false
         mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    override fun onBackPressed() {
+        showLog("disabled back press")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
