@@ -3,6 +3,7 @@ package com.github.michaljaz.messenger
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import io.socket.emitter.Emitter
 
 
@@ -35,13 +38,6 @@ class LoginFragment : Fragment() {
     ): View? {
         (activity as MainActivity).disableDrawer()
         (activity as MainActivity).supportActionBar?.setTitle("Messenger")
-        this.list=(activity as MainActivity).getSocket()?.once("signin_ok") {
-            showLog("sign in success")
-            try {
-                findNavController().navigate(R.id.login)
-            } catch (e: Exception){}
-        }
-
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -54,9 +50,31 @@ class LoginFragment : Fragment() {
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString()
-            val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString()
-            (activity as MainActivity).getSocket()?.emit("signin",email,password)
+            val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
+            val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
+            when {
+                TextUtils.isEmpty(email) -> {
+                    Toast.makeText(context,"Please enter email!", Toast.LENGTH_SHORT).show()
+                }
+                TextUtils.isEmpty(password) -> {
+                    Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener { task ->
+                            if(task.isSuccessful){
+                                showLog("sign in success")
+                                val firebaseUser: FirebaseUser =task.result!!.user!!
+                                try {
+                                    findNavController().navigate(R.id.login)
+                                } catch (e: Exception){}
+                            }else{
+                                Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                }
+            }
+
         }
 
         //Google button
