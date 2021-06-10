@@ -16,22 +16,18 @@ import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import io.socket.emitter.Emitter
 
 
 private const val RC_SIGN_IN = 7
 
 class LoginFragment : Fragment() {
     lateinit var callbackManager: CallbackManager
-    private var list: Emitter? = null
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -44,11 +40,13 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //register
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
         val auth=FirebaseAuth.getInstance()
+
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
             val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
@@ -77,22 +75,23 @@ class LoginFragment : Fragment() {
             }
 
         }
+        callbackManager=CallbackManager.Factory.create()
+
 
         //Google button
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient((activity as MainActivity), gso);
-        val google=view.findViewById<Button>(R.id.google_login)
-        callbackManager=CallbackManager.Factory.create()
-        google.setOnClickListener {
+
+        view.findViewById<Button>(R.id.google_login).setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
         }
 
         // Facebook button
-        val loginButton = view.findViewById<Button>(R.id.facebook_login)
-        loginButton.setOnClickListener {
+        view.findViewById<Button>(R.id.facebook_login).setOnClickListener {
             LoginManager.getInstance()
                 .logInWithReadPermissions(this, listOf("email", "public_profile"))
             LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
@@ -134,23 +133,21 @@ class LoginFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==RC_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
-        }
-    }
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-
-            // Signed in successfully, show authenticated UI.
-            showLog("GOOGLE SUCCESS")
             try {
-                findNavController().navigate(R.id.login)
-            } catch (e: Exception){}
-        } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            showLog("GOOGLE FAIL")
-            showLog("signInResult:failed code=" + e.statusCode)
+                val account = task.getResult(ApiException::class.java)
+
+                // Signed in successfully, show authenticated UI.
+                showLog("GOOGLE SUCCESS")
+                try {
+                    findNavController().navigate(R.id.login)
+                } catch (e: Exception) {
+                }
+            } catch (e: ApiException) {
+                // The ApiException status code indicates the detailed failure reason.
+                // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                showLog("GOOGLE FAIL")
+                showLog("signInResult:failed code=" + e.statusCode)
+            }
         }
     }
 

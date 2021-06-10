@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import io.socket.client.IO
-import io.socket.client.Socket
-import java.net.URISyntaxException
 
 
 class MainActivity : AppCompatActivity() {
