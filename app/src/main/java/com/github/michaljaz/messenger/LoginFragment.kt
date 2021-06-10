@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import io.socket.emitter.Emitter
@@ -47,7 +48,7 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
-
+        val auth=FirebaseAuth.getInstance()
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
             val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
@@ -60,7 +61,7 @@ class LoginFragment : Fragment() {
                     Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
                 }
                 else -> {
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
+                    auth.signInWithEmailAndPassword(email,password)
                         .addOnCompleteListener { task ->
                             if(task.isSuccessful){
                                 showLog("sign in success")
@@ -97,6 +98,19 @@ class LoginFragment : Fragment() {
             LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     Log.d("TAG", "Success Login")
+                    val credential=FacebookAuthProvider.getCredential(loginResult?.accessToken?.token.toString())
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener { task ->
+                            if(task.isSuccessful){
+                                showLog("sign in success")
+                                val firebaseUser: FirebaseUser =task.result!!.user!!
+                                try {
+                                    findNavController().navigate(R.id.login)
+                                } catch (e: Exception){}
+                            }else{
+                                Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
                     try {
                         findNavController().navigate(R.id.login)
