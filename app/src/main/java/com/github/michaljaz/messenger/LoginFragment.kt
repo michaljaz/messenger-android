@@ -46,7 +46,13 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
-        auth=FirebaseAuth.getInstance()
+        auth=(activity as MainActivity).getFirebase()
+
+        if(auth.currentUser !=null){
+            try {
+                findNavController().navigate(R.id.login)
+            } catch (e: Exception){}
+        }
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
