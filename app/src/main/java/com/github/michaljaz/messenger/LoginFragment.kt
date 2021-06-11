@@ -22,13 +22,14 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 
 private const val RC_SIGN_IN = 7
 
 class LoginFragment : Fragment() {
     lateinit var callbackManager: CallbackManager
-
+    lateinit var auth: FirebaseAuth
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -45,7 +46,7 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
-        val auth=FirebaseAuth.getInstance()
+        auth=FirebaseAuth.getInstance()
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
@@ -134,10 +135,19 @@ class LoginFragment : Fragment() {
         if(requestCode==RC_SIGN_IN){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                val account = task.getResult(ApiException::class.java)
-
-                // Signed in successfully, show authenticated UI.
-                showLog("GOOGLE SUCCESS")
+                val account = task.getResult(ApiException::class.java)!!
+                val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                auth.signInWithCredential(credential)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            showLog("GOOGLE SUCCESS")
+                            val user = auth.currentUser
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            showLog("signInWithCredential:failure"+task.exception)
+                        }
+                    }
                 try {
                     findNavController().navigate(R.id.login)
                 } catch (e: Exception) {
