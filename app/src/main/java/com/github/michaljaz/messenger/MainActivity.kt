@@ -9,12 +9,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mNavDrawer:DrawerLayout
     private lateinit var toggle:ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         auth=FirebaseAuth.getInstance()
+        database = Firebase.database.reference
 
         mNavDrawer=findViewById(R.id.drawer_layout)
 
@@ -51,6 +56,10 @@ class MainActivity : AppCompatActivity() {
 
     fun getFirebase(): FirebaseAuth {
         return auth
+    }
+
+    fun getFirebaseDatabase(): DatabaseReference {
+        return database
     }
 
     override fun onBackPressed() {
