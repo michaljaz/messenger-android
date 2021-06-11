@@ -48,12 +48,6 @@ class LoginFragment : Fragment() {
         }
         auth=(activity as MainActivity).getFirebase()
 
-        if(auth.currentUser !=null){
-            try {
-                findNavController().navigate(R.id.login)
-            } catch (e: Exception){}
-        }
-
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
             val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
@@ -95,6 +89,15 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.google_login).setOnClickListener {
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
+        }
+
+        if(auth.currentUser !=null){
+            try {
+                findNavController().navigate(R.id.login)
+            } catch (e: Exception){}
+        }else{
+            mGoogleSignInClient.signOut()
+            LoginManager.getInstance().logOut()
         }
 
         // Facebook button
