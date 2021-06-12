@@ -1,22 +1,15 @@
 package com.github.michaljaz.messenger
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
@@ -35,9 +28,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 private const val RC_SIGN_IN = 7
 
 class LoginFragment : Fragment() {
-    lateinit var callbackManager: CallbackManager
-    lateinit var auth: FirebaseAuth
-    lateinit var mactivity: MainActivity
+    private lateinit var callbackManager: CallbackManager
+    private lateinit var auth: FirebaseAuth
+    private lateinit var mactivity: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -54,16 +47,16 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //register
+        callbackManager=CallbackManager.Factory.create()
+        auth=mactivity.getFirebase()
+
+        //redirect to register fragment
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
-        auth=mactivity.getFirebase()
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             if(mactivity.isOnline()){
                 val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
@@ -78,9 +71,8 @@ class LoginFragment : Fragment() {
                         auth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
-                                    showLog("sign in success")
-                                    val firebaseUser: FirebaseUser =task.result!!.user!!
                                     try {
+                                        mactivity.hideKeyboard(it)
                                         findNavController().navigate(R.id.login)
                                     } catch (e: Exception){}
                                 }else{
@@ -92,11 +84,7 @@ class LoginFragment : Fragment() {
             }else{
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
-
-
         }
-        callbackManager=CallbackManager.Factory.create()
-
 
         //Google button
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -113,15 +101,6 @@ class LoginFragment : Fragment() {
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
 
-        }
-
-        if(auth.currentUser != null){
-            try {
-                findNavController().navigate(R.id.login)
-            } catch (e: Exception){}
-        }else{
-            mGoogleSignInClient.signOut()
-            LoginManager.getInstance().logOut()
         }
 
         // Facebook button
@@ -163,6 +142,16 @@ class LoginFragment : Fragment() {
 
         }
 
+        //Session check
+        if(auth.currentUser != null){
+            try {
+                findNavController().navigate(R.id.login)
+            } catch (e: Exception){}
+        }else{
+            mGoogleSignInClient.signOut()
+            LoginManager.getInstance().logOut()
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -176,22 +165,16 @@ class LoginFragment : Fragment() {
                 auth.signInWithCredential(credential)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            showLog("GOOGLE SUCCESS")
-                            val user = auth.currentUser
                             try {
                                 findNavController().navigate(R.id.login)
                             } catch (e: Exception) {
                             }
                         } else {
-                            // If sign in fails, display a message to the user.
                             showLog("signInWithCredential:failure"+task.exception)
                         }
                     }
 
             } catch (e: ApiException) {
-                // The ApiException status code indicates the detailed failure reason.
-                // Please refer to the GoogleSignInStatusCodes class reference for more information.
                 showLog("GOOGLE FAIL")
                 showLog("signInResult:failed code=" + e.statusCode)
             }
@@ -229,7 +212,6 @@ class LoginFragment : Fragment() {
                 Log.d("Facebook Id: ", "Not exists")
             }
 
-
             // Facebook First Name
             if (jsonObject.has("first_name")) {
                 val facebookFirstName = jsonObject.getString("first_name")
@@ -237,7 +219,6 @@ class LoginFragment : Fragment() {
             } else {
                 Log.d("Facebook First Name: ", "Not exists")
             }
-
 
             // Facebook Middle Name
             if (jsonObject.has("middle_name")) {
@@ -247,7 +228,6 @@ class LoginFragment : Fragment() {
                 Log.d("Facebook Middle Name: ", "Not exists")
             }
 
-
             // Facebook Last Name
             if (jsonObject.has("last_name")) {
                 val facebookLastName = jsonObject.getString("last_name")
@@ -256,7 +236,6 @@ class LoginFragment : Fragment() {
                 Log.d("Facebook Last Name: ", "Not exists")
             }
 
-
             // Facebook Name
             if (jsonObject.has("name")) {
                 val facebookName = jsonObject.getString("name")
@@ -264,7 +243,6 @@ class LoginFragment : Fragment() {
             } else {
                 Log.d("Facebook Name: ", "Not exists")
             }
-
 
             // Facebook Profile Pic URL
             if (jsonObject.has("picture")) {

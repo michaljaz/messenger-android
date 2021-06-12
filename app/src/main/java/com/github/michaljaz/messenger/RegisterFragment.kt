@@ -1,6 +1,5 @@
 package com.github.michaljaz.messenger
 
-import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -8,33 +7,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class RegisterFragment : Fragment() {
-    lateinit var mactivity: MainActivity
+    private lateinit var mactivity: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        mactivity=(activity as MainActivity)
+        mactivity = activity as MainActivity
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Already have account button
         view.findViewById<Button>(R.id.RegLogin).setOnClickListener {
             findNavController().navigate(R.id.action_login)
         }
+
+        //Register button
         view.findViewById<Button>(R.id.Register).setOnClickListener {
-            val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             if(mactivity.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
@@ -49,9 +48,8 @@ class RegisterFragment : Fragment() {
                         FirebaseAuth.getInstance().createUserWithEmailAndPassword(username,password)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
-                                    showLog("sign up success")
-                                    val firebaseUser: FirebaseUser=task.result!!.user!!
                                     try {
+                                        mactivity.hideKeyboard(it)
                                         findNavController().navigate(R.id.action_login)
                                     } catch (e: Exception){}
                                 }else{

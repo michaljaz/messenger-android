@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -43,8 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this,MyService::class.java)
         startService(intent)
-
-
     }
 
     fun enableDrawer() {
@@ -68,8 +68,12 @@ class MainActivity : AppCompatActivity() {
     fun isOnline(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
-        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
-        return isConnected
+        return activeNetwork?.isConnectedOrConnecting == true
+    }
+
+    fun hideKeyboard(v: View) {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
     override fun onBackPressed() {

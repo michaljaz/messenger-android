@@ -9,17 +9,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
 class Chat : Fragment() {
-    lateinit var mactivity: MainActivity
-    lateinit var auth: FirebaseAuth
-    lateinit var db: DatabaseReference
+    private lateinit var mactivity: MainActivity
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: DatabaseReference
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mactivity=(activity as MainActivity)
-        mactivity.supportActionBar?.setTitle("Chats")
-        auth=mactivity.getFirebase()
+        mactivity = activity as MainActivity
+        mactivity.supportActionBar?.title = "Chats"
+        auth = mactivity.getFirebase()
         db = mactivity.getFirebaseDatabase()
+
         return inflater.inflate(R.layout.chat, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +35,5 @@ class Chat : Fragment() {
                 findNavController().navigate(R.id.logout)
             }
         }
-
     }
-
 }

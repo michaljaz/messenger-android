@@ -11,7 +11,7 @@ class Users : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mactivity=(activity as MainActivity)
-        mactivity.supportActionBar?.setTitle("Users")
+        mactivity.supportActionBar?.title = "Users"
         return inflater.inflate(R.layout.users, container, false)
     }
 }
