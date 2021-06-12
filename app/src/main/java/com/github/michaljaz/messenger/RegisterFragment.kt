@@ -1,5 +1,6 @@
 package com.github.michaljaz.messenger
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
@@ -31,6 +33,8 @@ class RegisterFragment : Fragment() {
             findNavController().navigate(R.id.action_login)
         }
         view.findViewById<Button>(R.id.Register).setOnClickListener {
+            val imm = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             if(mactivity.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
