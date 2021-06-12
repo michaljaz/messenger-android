@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mNavDrawer:DrawerLayout
     private lateinit var toggle:ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
+    private lateinit var db: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         auth=FirebaseAuth.getInstance()
-        database = Firebase.database.reference
+        db = Firebase.database.reference
 
         mNavDrawer=findViewById(R.id.drawer_layout)
 
@@ -61,8 +61,8 @@ class MainActivity : AppCompatActivity() {
         return auth
     }
 
-    fun getFirebaseDatabase(): DatabaseReference {
-        return database
+    fun getFirebaseDatabase(): DatabaseReference{
+        return db
     }
 
     fun isOnline(): Boolean {

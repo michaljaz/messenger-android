@@ -44,10 +44,11 @@ class LoginFragment : Fragment() {
         mactivity=(activity as MainActivity)
         mactivity.disableDrawer()
         mactivity.supportActionBar?.setTitle("Messenger")
+
+        auth=mactivity.getFirebase()
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -133,6 +134,7 @@ class LoginFragment : Fragment() {
                                 if(task.isSuccessful){
                                     showLog("sign in success")
                                     val firebaseUser: FirebaseUser =task.result!!.user!!
+                                    auth.currentUser?.let { it1 -> showLog(it1.uid) }
                                     try {
                                         findNavController().navigate(R.id.login)
                                     } catch (e: Exception){}
@@ -141,9 +143,6 @@ class LoginFragment : Fragment() {
                                 }
                             }
                         getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
-                        try {
-                            findNavController().navigate(R.id.login)
-                        } catch (e: Exception){}
                     }
 
                     override fun onCancel() {
@@ -176,15 +175,16 @@ class LoginFragment : Fragment() {
                             // Sign in success, update UI with the signed-in user's information
                             showLog("GOOGLE SUCCESS")
                             val user = auth.currentUser
+                            try {
+                                findNavController().navigate(R.id.login)
+                            } catch (e: Exception) {
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             showLog("signInWithCredential:failure"+task.exception)
                         }
                     }
-                try {
-                    findNavController().navigate(R.id.login)
-                } catch (e: Exception) {
-                }
+
             } catch (e: ApiException) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.

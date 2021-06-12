@@ -9,6 +9,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
     lateinit var auth: FirebaseAuth
@@ -23,11 +25,14 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         mactivity.enableDrawer()
         mactivity.supportActionBar?.setTitle("Chats")
+
         auth=mactivity.getFirebase()
-        try {
-            db = mactivity.getFirebaseDatabase()
-            db.child("users").child(auth.currentUser!!.uid).child("test").setValue(true)
-        }catch (e:Exception){}
+        db = mactivity.getFirebaseDatabase()
+        Log.d("lul",auth.currentUser!!.uid)
+        if(mactivity.isOnline()){
+            db.child("users").child(auth.currentUser!!.uid).child("email").setValue(auth.currentUser!!.email)
+        }
+
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
