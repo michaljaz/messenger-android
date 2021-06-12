@@ -28,9 +28,28 @@ class HomeFragment : Fragment() {
 
         auth=mactivity.getFirebase()
         db = mactivity.getFirebaseDatabase()
-        Log.d("lul",auth.currentUser!!.uid)
         if(mactivity.isOnline()){
             db.child("users").child(auth.currentUser!!.uid).child("email").setValue(auth.currentUser!!.email)
+            auth.currentUser?.let {
+                for (profile in it.providerData) {
+                    // Id of the provider (ex: google.com)
+                    val providerId = profile.providerId
+
+                    // UID specific to the provider
+                    val uid = profile.uid
+
+                    // Name, email address, and profile photo Url
+                    val name = profile.displayName
+                    val email = profile.email
+                    val photoUrl = profile.photoUrl
+                    Log.d("x", providerId)
+                    Log.d("x", uid)
+                    Log.d("x", name.toString())
+                    Log.d("x", email.toString())
+                    Log.d("x",photoUrl.toString())
+                }
+            }
+//            db.child("users").child(auth.currentUser!!.uid).child("provider").setValue(auth.currentUser!!.providerData)
         }
 
         return inflater.inflate(R.layout.home_fragment, container, false)
