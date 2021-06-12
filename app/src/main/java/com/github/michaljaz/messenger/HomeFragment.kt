@@ -6,7 +6,10 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -24,7 +27,6 @@ class HomeFragment : Fragment() {
         mactivity=(activity as MainActivity)
         setHasOptionsMenu(true)
         mactivity.enableDrawer()
-        mactivity.supportActionBar?.setTitle("Chats")
 
         auth=mactivity.getFirebase()
         db = mactivity.getFirebaseDatabase()
@@ -63,17 +65,31 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.Logout).setOnClickListener {
-            auth.signOut()
-            findNavController().navigate(R.id.logout)
-        }
-        view.findViewById<Button>(R.id.Remove).setOnClickListener {
-            db.child("users").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                auth.currentUser!!.delete()
-                auth.signOut()
-                findNavController().navigate(R.id.logout)
+        childFragmentManager
+            .beginTransaction()
+            .replace(R.id.frame_layout,Chat())
+            .setTransition(FragmentTransaction.TRANSIT_NONE)
+            .commit()
+        view.findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { item ->
+            childFragmentManager
+            when(item.itemId){
+                R.id.page_1 -> {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.frame_layout,Chat())
+                        .setTransition(FragmentTransaction.TRANSIT_NONE)
+                        .commit()
+                }
+                R.id.page_2 -> {
+                    childFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.frame_layout,Users())
+                        .setTransition(FragmentTransaction.TRANSIT_NONE)
+                        .commit()
+                }
             }
-
+            Log.d("xd","clicked")
+            true
         }
     }
 }

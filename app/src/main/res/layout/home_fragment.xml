@@ -4,32 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="100px"
-        android:id="@+id/HomeTitle"
-        tools:ignore="MissingConstraints" />
-    <Button
-        android:backgroundTint="@color/yellow"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:id="@+id/Logout"
-        app:layout_constraintTop_toBottomOf='@id/HomeTitle'
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:backgroundTint="@color/red"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Remove account"
-        android:id="@+id/Remove"
-        app:layout_constraintTop_toBottomOf='@id/Logout'
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/frame_layout"
+        />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
