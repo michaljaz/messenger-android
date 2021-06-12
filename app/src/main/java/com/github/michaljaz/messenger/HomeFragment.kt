@@ -12,18 +12,22 @@ import com.google.firebase.database.DatabaseReference
 
 class HomeFragment : Fragment() {
     lateinit var auth: FirebaseAuth
-    lateinit var db:DatabaseReference
+    lateinit var db: DatabaseReference
+    lateinit var mactivity: MainActivity
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        mactivity=(activity as MainActivity)
         setHasOptionsMenu(true)
-        (activity as MainActivity).enableDrawer()
-        (activity as MainActivity).supportActionBar?.setTitle("Chats")
-        auth=(activity as MainActivity).getFirebase()
-        db=(activity as MainActivity).getFirebaseDatabase()
-        Log.d("xd",auth.currentUser!!.uid)
-        db.child("users").child(auth.currentUser!!.uid).child("test").setValue(true)
+        mactivity.enableDrawer()
+        mactivity.supportActionBar?.setTitle("Chats")
+        auth=mactivity.getFirebase()
+        try {
+            db = mactivity.getFirebaseDatabase()
+            db.child("users").child(auth.currentUser!!.uid).child("test").setValue(true)
+        }catch (e:Exception){}
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 

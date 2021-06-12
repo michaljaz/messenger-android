@@ -1,7 +1,11 @@
 package com.github.michaljaz.messenger
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -10,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
@@ -30,15 +35,19 @@ private const val RC_SIGN_IN = 7
 class LoginFragment : Fragment() {
     lateinit var callbackManager: CallbackManager
     lateinit var auth: FirebaseAuth
+    lateinit var mactivity: MainActivity
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        (activity as MainActivity).disableDrawer()
-        (activity as MainActivity).supportActionBar?.setTitle("Messenger")
+        mactivity=(activity as MainActivity)
+        mactivity.disableDrawer()
+        mactivity.supportActionBar?.setTitle("Messenger")
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,34 +55,39 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
             findNavController().navigate(R.id.action_register)
         }
-        auth=(activity as MainActivity).getFirebase()
+        auth=mactivity.getFirebase()
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
-            val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
-            when {
-                TextUtils.isEmpty(email) -> {
-                    Toast.makeText(context,"Please enter email!", Toast.LENGTH_SHORT).show()
-                }
-                TextUtils.isEmpty(password) -> {
-                    Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    auth.signInWithEmailAndPassword(email,password)
-                        .addOnCompleteListener { task ->
-                            if(task.isSuccessful){
-                                showLog("sign in success")
-                                val firebaseUser: FirebaseUser =task.result!!.user!!
-                                try {
-                                    findNavController().navigate(R.id.login)
-                                } catch (e: Exception){}
-                            }else{
-                                Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+            if(mactivity.isOnline()){
+                val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
+                val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
+                when {
+                    TextUtils.isEmpty(email) -> {
+                        Toast.makeText(context,"Please enter email!", Toast.LENGTH_SHORT).show()
+                    }
+                    TextUtils.isEmpty(password) -> {
+                        Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        auth.signInWithEmailAndPassword(email,password)
+                            .addOnCompleteListener { task ->
+                                if(task.isSuccessful){
+                                    showLog("sign in success")
+                                    val firebaseUser: FirebaseUser =task.result!!.user!!
+                                    try {
+                                        findNavController().navigate(R.id.login)
+                                    } catch (e: Exception){}
+                                }else{
+                                    Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+                                }
                             }
-                        }
+                    }
                 }
+            }else{
+                Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
+
 
         }
         callbackManager=CallbackManager.Factory.create()
@@ -84,14 +98,19 @@ class LoginFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient((activity as MainActivity), gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(mactivity, gso);
 
         view.findViewById<Button>(R.id.google_login).setOnClickListener {
-            val signInIntent = mGoogleSignInClient.signInIntent
-            startActivityForResult(signInIntent,RC_SIGN_IN)
+            if(mactivity.isOnline()){
+                val signInIntent = mGoogleSignInClient.signInIntent
+                startActivityForResult(signInIntent,RC_SIGN_IN)
+            }else{
+                Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
-        if(auth.currentUser !=null){
+        if(auth.currentUser != null){
             try {
                 findNavController().navigate(R.id.login)
             } catch (e: Exception){}
@@ -102,38 +121,43 @@ class LoginFragment : Fragment() {
 
         // Facebook button
         view.findViewById<Button>(R.id.facebook_login).setOnClickListener {
-            LoginManager.getInstance()
-                .logInWithReadPermissions(this, listOf("email", "public_profile"))
-            LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
-                override fun onSuccess(loginResult: LoginResult?) {
-                    Log.d("TAG", "Success Login")
-                    val credential=FacebookAuthProvider.getCredential(loginResult?.accessToken?.token.toString())
-                    auth.signInWithCredential(credential)
-                        .addOnCompleteListener { task ->
-                            if(task.isSuccessful){
-                                showLog("sign in success")
-                                val firebaseUser: FirebaseUser =task.result!!.user!!
-                                try {
-                                    findNavController().navigate(R.id.login)
-                                } catch (e: Exception){}
-                            }else{
-                                Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+            if(mactivity.isOnline()){
+                LoginManager.getInstance()
+                    .logInWithReadPermissions(this, listOf("email", "public_profile"))
+                LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+                    override fun onSuccess(loginResult: LoginResult?) {
+                        Log.d("TAG", "Success Login")
+                        val credential=FacebookAuthProvider.getCredential(loginResult?.accessToken?.token.toString())
+                        auth.signInWithCredential(credential)
+                            .addOnCompleteListener { task ->
+                                if(task.isSuccessful){
+                                    showLog("sign in success")
+                                    val firebaseUser: FirebaseUser =task.result!!.user!!
+                                    try {
+                                        findNavController().navigate(R.id.login)
+                                    } catch (e: Exception){}
+                                }else{
+                                    Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+                                }
                             }
-                        }
-                    getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
-                    try {
-                        findNavController().navigate(R.id.login)
-                    } catch (e: Exception){}
-                }
+                        getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
+                        try {
+                            findNavController().navigate(R.id.login)
+                        } catch (e: Exception){}
+                    }
 
-                override fun onCancel() {
-                    Toast.makeText(context, "Login Cancelled", Toast.LENGTH_LONG).show()
-                }
+                    override fun onCancel() {
+                        Toast.makeText(context, "Login Cancelled", Toast.LENGTH_LONG).show()
+                    }
 
-                override fun onError(exception: FacebookException) {
-                    Toast.makeText(context, exception.message, Toast.LENGTH_LONG).show()
-                }
-            })
+                    override fun onError(exception: FacebookException) {
+                        Toast.makeText(context, exception.message, Toast.LENGTH_LONG).show()
+                    }
+                })
+            }else{
+                Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
     }
