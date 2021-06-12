@@ -61,7 +61,6 @@ class RegisterFragment : Fragment() {
             }else{
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
     private fun showLog(message: String){
