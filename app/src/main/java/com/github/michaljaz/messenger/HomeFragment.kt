@@ -48,5 +48,11 @@ class HomeFragment : Fragment() {
             auth.signOut()
             findNavController().navigate(R.id.logout)
         }
+        view.findViewById<Button>(R.id.Remove).setOnClickListener {
+            db.child("users").child(auth.currentUser!!.uid).removeValue()
+            auth.currentUser!!.delete()
+            auth.signOut()
+            findNavController().navigate(R.id.logout)
+        }
     }
 }

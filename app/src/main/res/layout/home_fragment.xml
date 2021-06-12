@@ -21,6 +21,15 @@
         app:layout_constraintTop_toBottomOf='@id/HomeTitle'
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:backgroundTint="@color/red"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remove account"
+        android:id="@+id/Remove"
+        app:layout_constraintTop_toBottomOf='@id/Logout'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
