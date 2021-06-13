@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -63,6 +64,20 @@ class MainActivity : AppCompatActivity() {
 
     fun getFirebaseDatabase(): DatabaseReference{
         return db
+    }
+
+    fun updateProfile(displayName:String="Untitled",photoUrl:String="default") {
+        val userdb = db.child("users").child(auth.currentUser!!.uid)
+        val profile=auth.currentUser!!.providerData[1]
+        userdb.child("email").setValue(profile.email)
+        userdb.child("providerId").setValue(profile.providerId)
+        if(profile.providerId!="password"){
+            userdb.child("displayName").setValue(profile.displayName)
+            userdb.child("photoUrl").setValue(profile.photoUrl.toString())
+        }else{
+            userdb.child("displayName").setValue(displayName)
+            userdb.child("photoUrl").setValue(photoUrl)
+        }
     }
 
     fun isOnline(): Boolean {

@@ -119,6 +119,7 @@ class LoginFragment : Fragment() {
                                     val firebaseUser: FirebaseUser =task.result!!.user!!
                                     auth.currentUser?.let { it1 -> showLog(it1.uid) }
                                     try {
+                                        mactivity.updateProfile()
                                         findNavController().navigate(R.id.login)
                                     } catch (e: Exception){}
                                 }else{
@@ -166,6 +167,7 @@ class LoginFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             try {
+                                mactivity.updateProfile()
                                 findNavController().navigate(R.id.login)
                             } catch (e: Exception) {
                             }

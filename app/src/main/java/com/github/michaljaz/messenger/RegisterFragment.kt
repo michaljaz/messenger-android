@@ -37,6 +37,8 @@ class RegisterFragment : Fragment() {
             if(mactivity.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
+                val displayName=view.findViewById<TextInputLayout>(R.id.DisplayName).editText?.text.toString().trim { it <= ' ' }
+
                 when {
                     TextUtils.isEmpty(username) -> {
                         Toast.makeText(context,"Please enter email!", Toast.LENGTH_SHORT).show()
@@ -50,6 +52,7 @@ class RegisterFragment : Fragment() {
                                 if(task.isSuccessful){
                                     try {
                                         mactivity.hideKeyboard(it)
+                                        mactivity.updateProfile(displayName,"default")
                                         findNavController().navigate(R.id.action_login)
                                     } catch (e: Exception){}
                                 }else{
