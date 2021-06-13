@@ -30,15 +30,18 @@ class Users : Fragment() {
         val list = view.findViewById<ListView>(R.id.list)
 
         db.child("users").get().addOnSuccessListener {
-            val array = ArrayList<String>()
-            for(ds in it.children) {
-                array.add(ds.child("displayName").value.toString())
-            }
-            list.adapter = ArrayAdapter<String>(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                array
-            )
+            try{
+                val array = ArrayList<String>()
+                for(ds in it.children) {
+                    array.add(ds.child("displayName").value.toString())
+                }
+                list.adapter = ArrayAdapter<String>(
+                    requireContext(),
+                    android.R.layout.simple_list_item_1,
+                    array
+                )
+            }catch(e:Exception){}
+
         }
         return view
     }
