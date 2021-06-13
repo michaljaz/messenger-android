@@ -4,7 +4,7 @@
         android:id="@+id/page_1"
         android:enabled="true"
         android:icon="@drawable/ic_chat"
-        android:title="Chat"/>
+        android:title="Chats"/>
     <item
         android:id="@+id/page_2"
         android:enabled="true"
