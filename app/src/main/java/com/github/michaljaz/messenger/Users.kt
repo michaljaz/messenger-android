@@ -33,14 +33,17 @@ class Users : Fragment() {
             try{
                 val array = ArrayList<String>()
                 for(ds in it.children) {
-                    array.add(ds.child("displayName").value.toString())
+                    db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
+                        array.add(itx.value.toString())
+                        list.adapter = ArrayAdapter<String>(
+                            requireContext(),
+                            android.R.layout.simple_list_item_1,
+                            array
+                        )
+                    }
                 }
-                list.adapter = ArrayAdapter<String>(
-                    requireContext(),
-                    android.R.layout.simple_list_item_1,
-                    array
-                )
-            }catch(e:Exception){}
+
+            }catch(e:Exception){ }
 
         }
         return view

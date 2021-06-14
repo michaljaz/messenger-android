@@ -30,9 +30,11 @@ class Chat : Fragment() {
         }
         view.findViewById<Button>(R.id.Remove).setOnClickListener {
             db.child("users").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                auth.currentUser!!.delete()
-                auth.signOut()
-                findNavController().navigate(R.id.logout)
+                db.child("usersData").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
+                    auth.currentUser!!.delete()
+                    auth.signOut()
+                    findNavController().navigate(R.id.logout)
+                }
             }
         }
     }

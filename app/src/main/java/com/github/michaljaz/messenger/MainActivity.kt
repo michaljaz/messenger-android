@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateProfile(displayName:String="Untitled",photoUrl:String="default") {
-        val userdb = db.child("users").child(auth.currentUser!!.uid)
+        val userdb = db.child("usersData").child(auth.currentUser!!.uid)
+        db.child("users").child(auth.currentUser!!.uid).setValue(true)
         val profile=auth.currentUser!!.providerData[1]
         userdb.child("email").setValue(profile.email)
         userdb.child("providerId").setValue(profile.providerId)
