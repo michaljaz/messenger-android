@@ -28,24 +28,24 @@ class Users : Fragment() {
         mactivity.supportActionBar?.title = "Users"
 
         val list = view.findViewById<ListView>(R.id.list)
+        try{
+            db.child("users").get().addOnSuccessListener {
 
-        db.child("users").get().addOnSuccessListener {
-            try{
                 val array = ArrayList<String>()
                 for(ds in it.children) {
                     db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
                         array.add(itx.value.toString())
-                        list.adapter = ArrayAdapter<String>(
-                            requireContext(),
-                            android.R.layout.simple_list_item_1,
-                            array
-                        )
+                        list.adapter = context?.let { it1 ->
+                            ArrayAdapter<String>(
+                                it1,
+                                android.R.layout.simple_list_item_1,
+                                array
+                            )
+                        }
                     }
                 }
-
-            }catch(e:Exception){ }
-
-        }
+            }
+        }catch(e:Exception){ }
         return view
     }
 }
