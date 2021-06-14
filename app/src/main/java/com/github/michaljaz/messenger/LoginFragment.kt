@@ -115,11 +115,8 @@ class LoginFragment : Fragment() {
                         auth.signInWithCredential(credential)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
-                                    showLog("sign in success")
-                                    val firebaseUser: FirebaseUser =task.result!!.user!!
-                                    auth.currentUser?.let { it1 -> showLog(it1.uid) }
+                                    Log.d("xd","sign in success")
                                     try {
-                                        mactivity.updateProfile()
                                         findNavController().navigate(R.id.login)
                                     } catch (e: Exception){}
                                 }else{
@@ -167,18 +164,17 @@ class LoginFragment : Fragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             try {
-                                mactivity.updateProfile()
                                 findNavController().navigate(R.id.login)
                             } catch (e: Exception) {
                             }
                         } else {
-                            showLog("signInWithCredential:failure"+task.exception)
+                            Log.d("xd","signInWithCredential:failure"+task.exception)
                         }
                     }
 
             } catch (e: ApiException) {
-                showLog("GOOGLE FAIL")
-                showLog("signInResult:failed code=" + e.statusCode)
+                Log.d("xd","GOOGLE FAIL")
+                Log.d("xd","signInResult:failed code=" + e.statusCode)
             }
         }
     }
@@ -268,9 +264,5 @@ class LoginFragment : Fragment() {
                 Log.d("Facebook Email: ", "Not exists")
             }
         }.executeAsync()
-    }
-
-    private fun showLog(message: String){
-        Log.d("lul", message.toString())
     }
 }

@@ -1,26 +1,31 @@
 package com.github.michaljaz.messenger
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+
 
 class RegisterFragment : Fragment() {
     private lateinit var mactivity: MainActivity
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         mactivity = activity as MainActivity
+        auth=mactivity.getFirebase()
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -51,8 +56,12 @@ class RegisterFragment : Fragment() {
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
                                     try {
+                                        val profileUpdates = UserProfileChangeRequest.Builder()
+                                            .setDisplayName(displayName)
+                                            .setPhotoUri(Uri.parse("default"))
+                                            .build()
+                                        auth.currentUser!!.updateProfile(profileUpdates)
                                         mactivity.hideKeyboard(it)
-                                        mactivity.updateProfile(displayName,"default")
                                         findNavController().navigate(R.id.action_login)
                                     } catch (e: Exception){}
                                 }else{
@@ -65,8 +74,5 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-    private fun showLog(message: String){
-        Log.d("lul", message.toString())
     }
 }

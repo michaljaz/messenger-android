@@ -6,15 +6,16 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         db = Firebase.database.reference
 
         mNavDrawer=findViewById(R.id.drawer_layout)
-
         toggle=ActionBarDrawerToggle(
             this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
         )
@@ -46,6 +46,15 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this,MyService::class.java)
         startService(intent)
+    }
+
+    fun updateDisplayName(s:String){
+        try{
+            val navView = findViewById<View>(R.id.side_navigation) as NavigationView
+            navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=s
+        }catch(e:Exception){}
+
+
     }
 
     fun enableDrawer() {
@@ -66,21 +75,6 @@ class MainActivity : AppCompatActivity() {
         return db
     }
 
-    fun updateProfile(displayName:String="Untitled",photoUrl:String="default") {
-        val userdb = db.child("usersData").child(auth.currentUser!!.uid)
-        db.child("users").child(auth.currentUser!!.uid).setValue(true)
-        val profile=auth.currentUser!!.providerData[1]
-        userdb.child("email").setValue(profile.email)
-        userdb.child("providerId").setValue(profile.providerId)
-        if(profile.providerId!="password"){
-            userdb.child("displayName").setValue(profile.displayName)
-            userdb.child("photoUrl").setValue(profile.photoUrl.toString())
-        }else{
-            userdb.child("displayName").setValue(displayName)
-            userdb.child("photoUrl").setValue(photoUrl)
-        }
-    }
-
     fun isOnline(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
@@ -93,15 +87,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        showLog("disabled back press")
+        Log.d("xd","disabled back press")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.empty, menu)
         return true
-    }
-
-    private fun showLog(message: String){
-        Log.d("lul",message)
     }
 }
