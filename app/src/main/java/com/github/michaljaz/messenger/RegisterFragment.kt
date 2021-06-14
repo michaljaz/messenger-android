@@ -60,9 +60,10 @@ class RegisterFragment : Fragment() {
                                             .setDisplayName(displayName)
                                             .setPhotoUri(Uri.parse("default"))
                                             .build()
-                                        auth.currentUser!!.updateProfile(profileUpdates)
-                                        mactivity.hideKeyboard(it)
-                                        findNavController().navigate(R.id.action_login)
+                                        auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener { itx->
+                                            mactivity.hideKeyboard(it)
+                                            findNavController().navigate(R.id.action_login)
+                                        }
                                     } catch (e: Exception){}
                                 }else{
                                     Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()

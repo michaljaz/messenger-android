@@ -48,13 +48,12 @@ class MainActivity : AppCompatActivity() {
         startService(intent)
     }
 
-    fun updateDisplayName(s:String){
+    fun updateHeader(title:String,subtitle:String){
         try{
             val navView = findViewById<View>(R.id.side_navigation) as NavigationView
-            navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=s
+            navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=title
+            navView.getHeaderView(0).findViewById<TextView>(R.id.subtitle_name).text=subtitle
         }catch(e:Exception){}
-
-
     }
 
     fun enableDrawer() {

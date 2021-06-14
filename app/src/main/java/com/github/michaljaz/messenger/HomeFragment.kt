@@ -29,10 +29,13 @@ class HomeFragment : Fragment() {
         db.child("users").child(auth.currentUser!!.uid).setValue(true)
 
         val profile=auth.currentUser!!.providerData[1]
-        userdb.child("email").setValue(profile.email)
+        userdb.child("email").setValue(profile.email.toString())
         userdb.child("providerId").setValue(profile.providerId)
         userdb.child("displayName").setValue(auth.currentUser!!.providerData[0].displayName.toString())
-        mactivity.updateDisplayName(auth.currentUser!!.providerData[0].displayName.toString())
+        mactivity.updateHeader(
+            auth.currentUser!!.providerData[0].displayName.toString(),
+            profile.email.toString()
+        )
         if(profile.providerId!="password"){
             userdb.child("photoUrl").setValue(profile.photoUrl.toString())
         }else{
