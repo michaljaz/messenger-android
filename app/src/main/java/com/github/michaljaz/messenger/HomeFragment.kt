@@ -36,11 +36,12 @@ class HomeFragment : Fragment() {
             auth.currentUser!!.providerData[0].displayName.toString(),
             profile.email.toString()
         )
-        if(profile.providerId!="password"){
+        if(profile.providerId=="google"){
             userdb.child("photoUrl").setValue(profile.photoUrl.toString())
         }else{
             userdb.child("photoUrl").setValue(auth.currentUser!!.providerData[0].photoUrl.toString())
         }
+//        Log.d("xd",profile.photoUrl.toString())
 
 
         childFragmentManager

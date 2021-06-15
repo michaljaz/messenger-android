@@ -2,6 +2,7 @@ package com.github.michaljaz.messenger
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -19,10 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 
 
 private const val RC_SIGN_IN = 7
@@ -115,15 +113,12 @@ class LoginFragment : Fragment() {
                         auth.signInWithCredential(credential)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
-                                    Log.d("xd","sign in success")
-                                    try {
-                                        findNavController().navigate(R.id.login)
-                                    } catch (e: Exception){}
+                                    getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
                                 }else{
                                     Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
                                 }
                             }
-                        getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
+
                     }
 
                     override fun onCancel() {
@@ -202,46 +197,6 @@ class LoginFragment : Fragment() {
                 FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
             }
 
-            // Facebook Id
-            if (jsonObject.has("id")) {
-                val facebookId = jsonObject.getString("id")
-                Log.d("Facebook Id: ", facebookId.toString())
-            } else {
-                Log.d("Facebook Id: ", "Not exists")
-            }
-
-            // Facebook First Name
-            if (jsonObject.has("first_name")) {
-                val facebookFirstName = jsonObject.getString("first_name")
-                Log.d("Facebook First Name: ", facebookFirstName)
-            } else {
-                Log.d("Facebook First Name: ", "Not exists")
-            }
-
-            // Facebook Middle Name
-            if (jsonObject.has("middle_name")) {
-                val facebookMiddleName = jsonObject.getString("middle_name")
-                Log.d("Facebook Middle Name: ", facebookMiddleName)
-            } else {
-                Log.d("Facebook Middle Name: ", "Not exists")
-            }
-
-            // Facebook Last Name
-            if (jsonObject.has("last_name")) {
-                val facebookLastName = jsonObject.getString("last_name")
-                Log.d("Facebook Last Name: ", facebookLastName)
-            } else {
-                Log.d("Facebook Last Name: ", "Not exists")
-            }
-
-            // Facebook Name
-            if (jsonObject.has("name")) {
-                val facebookName = jsonObject.getString("name")
-                Log.d("Facebook Name: ", facebookName)
-            } else {
-                Log.d("Facebook Name: ", "Not exists")
-            }
-
             // Facebook Profile Pic URL
             if (jsonObject.has("picture")) {
                 val facebookPictureObject = jsonObject.getJSONObject("picture")
@@ -249,10 +204,20 @@ class LoginFragment : Fragment() {
                     val facebookDataObject = facebookPictureObject.getJSONObject("data")
                     if (facebookDataObject.has("url")) {
                         val facebookProfilePicURL = facebookDataObject.getString("url")
+
                         Log.d("Facebook Profile Pic URL: ", facebookProfilePicURL)
+                        val profile=UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(facebookProfilePicURL)).build()
+                        auth.currentUser!!.updateProfile(profile).addOnCompleteListener {
+                            try {
+                                findNavController().navigate(R.id.login)
+                            } catch (e: Exception){}
+                        }
                     }
                 }
             } else {
+                try {
+                    findNavController().navigate(R.id.login)
+                } catch (e: Exception){}
                 Log.d("Facebook Profile Pic URL: ", "Not exists")
             }
 
@@ -263,6 +228,7 @@ class LoginFragment : Fragment() {
             } else {
                 Log.d("Facebook Email: ", "Not exists")
             }
+
         }.executeAsync()
     }
 }
