@@ -24,12 +24,6 @@ class Chat : Fragment() {
         return inflater.inflate(R.layout.chat, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mactivity.sessionHelper(this)
-    }
-    fun logout() {
-        try{
-            findNavController().navigate(R.id.logout)
-        }catch(e:Exception){}
 
     }
 }

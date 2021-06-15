@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -14,6 +15,11 @@ class HomeFragment : Fragment() {
     private lateinit var mactivity: MainActivity
     private lateinit var auth: FirebaseAuth
     private lateinit var db: DatabaseReference
+    fun logout() {
+        try{
+            findNavController().navigate(R.id.logout)
+        }catch(e:Exception){}
+    }
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -24,7 +30,7 @@ class HomeFragment : Fragment() {
         db = mactivity.getFirebaseDatabase()
         setHasOptionsMenu(true)
         mactivity.enableDrawer()
-
+        mactivity.sessionHelper(this)
         val userdb = db.child("usersData").child(auth.currentUser!!.uid)
         db.child("users").child(auth.currentUser!!.uid).setValue(true)
 

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         startService(intent)
     }
 
-    fun sessionHelper(chat: Chat){
+    fun sessionHelper(f:HomeFragment){
         var clicked=false
         findViewById<NavigationView>(R.id.side_navigation).setNavigationItemSelectedListener { item ->
             if(!clicked) {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.page_1 -> {
                             clicked=true
                             auth.signOut()
-                            chat.logout()
+                            f.logout()
                         }
                         R.id.page_2 -> {
                             clicked=true
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                                             .removeValue().addOnCompleteListener {
                                                 auth.currentUser!!.delete()
                                                 auth.signOut()
-                                                chat.logout()
+                                                f.logout()
                                             }
                                     }
                             }
