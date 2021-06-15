@@ -27,6 +27,9 @@ class Chat : Fragment() {
         mactivity.sessionHelper(this)
     }
     fun logout() {
-        findNavController().navigate(R.id.logout)
+        try{
+            findNavController().navigate(R.id.logout)
+        }catch(e:Exception){}
+
     }
 }

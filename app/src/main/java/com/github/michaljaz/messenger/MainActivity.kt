@@ -51,22 +51,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sessionHelper(chat: Chat){
+        var clicked=false
         findViewById<NavigationView>(R.id.side_navigation).setNavigationItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.page_1 -> {
-                    auth.signOut()
-                    chat.logout()
-                }
-                R.id.page_2 -> {
-                    db.child("users").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                        db.child("usersData").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                            auth.currentUser!!.delete()
+            if(!clicked) {
+                try {
+                    when (item.itemId) {
+                        R.id.page_1 -> {
+                            clicked=true
                             auth.signOut()
                             chat.logout()
+                        }
+                        R.id.page_2 -> {
+                            clicked=true
+                            if (auth.currentUser != null) {
+                                db.child("users").child(auth.currentUser!!.uid).removeValue()
+                                    .addOnCompleteListener {
+                                        db.child("usersData").child(auth.currentUser!!.uid)
+                                            .removeValue().addOnCompleteListener {
+                                                auth.currentUser!!.delete()
+                                                auth.signOut()
+                                                chat.logout()
+                                            }
+                                    }
+                            }
 
                         }
                     }
-                }
+                } catch (e: Exception) { }
             }
             true
         }
