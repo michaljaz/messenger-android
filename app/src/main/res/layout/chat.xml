@@ -16,24 +16,5 @@
             android:textSize="100px"
             android:id="@+id/HomeTitle"
             tools:ignore="MissingConstraints" />
-        <Button
-            android:backgroundTint="@color/yellow"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"
-            android:id="@+id/Logout"
-            app:layout_constraintTop_toBottomOf='@id/HomeTitle'
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-        <Button
-            android:backgroundTint="@color/red"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Remove account"
-            android:id="@+id/Remove"
-            app:layout_constraintTop_toBottomOf='@id/Logout'
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

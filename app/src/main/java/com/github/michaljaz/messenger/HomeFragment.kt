@@ -50,7 +50,6 @@ class HomeFragment : Fragment() {
             .setTransition(FragmentTransaction.TRANSIT_NONE)
             .commit()
         view.findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { item ->
-            childFragmentManager
             when(item.itemId){
                 R.id.page_1 -> {
                     childFragmentManager

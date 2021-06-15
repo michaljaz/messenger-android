@@ -31,7 +31,7 @@
         android:id="@+id/side_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/bottom"
+        app:menu="@menu/side_menu"
         android:layout_gravity="start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:headerLayout="@layout/header_nav_drawer"/>

@@ -24,18 +24,9 @@ class Chat : Fragment() {
         return inflater.inflate(R.layout.chat, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<Button>(R.id.Logout).setOnClickListener {
-            auth.signOut()
-            findNavController().navigate(R.id.logout)
-        }
-        view.findViewById<Button>(R.id.Remove).setOnClickListener {
-            db.child("users").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                db.child("usersData").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
-                    auth.currentUser!!.delete()
-                    auth.signOut()
-                    findNavController().navigate(R.id.logout)
-                }
-            }
-        }
+        mactivity.sessionHelper(this)
+    }
+    fun logout() {
+        findNavController().navigate(R.id.logout)
     }
 }

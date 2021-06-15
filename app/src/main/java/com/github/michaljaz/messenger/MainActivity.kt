@@ -14,6 +14,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -46,6 +48,28 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this,MyService::class.java)
         startService(intent)
+    }
+
+    fun sessionHelper(chat: Chat){
+        findViewById<NavigationView>(R.id.side_navigation).setNavigationItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.page_1 -> {
+                    auth.signOut()
+                    chat.logout()
+                }
+                R.id.page_2 -> {
+                    db.child("users").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
+                        db.child("usersData").child(auth.currentUser!!.uid).removeValue().addOnCompleteListener {
+                            auth.currentUser!!.delete()
+                            auth.signOut()
+                            chat.logout()
+
+                        }
+                    }
+                }
+            }
+            true
+        }
     }
 
     fun updateHeader(title:String,subtitle:String){
