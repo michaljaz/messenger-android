@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.facebook.android:facebook-login:6.+'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 }
 
 configurations {

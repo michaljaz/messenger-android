@@ -3,13 +3,13 @@ package com.github.michaljaz.messenger
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.messaging.FirebaseMessaging
 
 class HomeFragment : Fragment() {
     private lateinit var mactivity: MainActivity
@@ -38,6 +38,14 @@ class HomeFragment : Fragment() {
         userdb.child("email").setValue(profile.email.toString())
         userdb.child("providerId").setValue(profile.providerId)
         userdb.child("displayName").setValue(auth.currentUser!!.providerData[0].displayName.toString())
+        FirebaseMessaging.getInstance().token.addOnCompleteListener OnCompleteListener@{ task ->
+            if (!task.isSuccessful) {
+                Log.w("XD", "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            val token = task.result
+            userdb.child("fcm_token").setValue(token.toString())
+        }
         mactivity.updateHeader(
             auth.currentUser!!.providerData[0].displayName.toString(),
             profile.email.toString()
