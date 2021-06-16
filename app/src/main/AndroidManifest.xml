@@ -32,7 +32,7 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="false"
-            android:stopWithTask="false"></service>>
+            android:stopWithTask="false"></service>
         <service
             android:name=".FirebaseMessagingService"
             android:exported="false"
