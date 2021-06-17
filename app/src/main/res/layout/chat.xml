@@ -9,12 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Home"
-            android:textSize="100px"
-            android:id="@+id/HomeTitle"
-            tools:ignore="MissingConstraints" />
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            tools:ignore="MissingConstraints"
+            app:startIconDrawable="@drawable/ic_search"
+            android:layout_margin="10dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="text"
+                android:maxLines="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Search">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -68,15 +68,15 @@ class HomeFragment : Fragment() {
                 R.id.page_1 -> {
                     childFragmentManager
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_out_left, R.anim.slide_in_left)
                         .replace(R.id.frame_layout,Chat())
-                        .setTransition(FragmentTransaction.TRANSIT_NONE)
                         .commit()
                 }
                 R.id.page_2 -> {
                     childFragmentManager
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_right)
                         .replace(R.id.frame_layout,Users())
-                        .setTransition(FragmentTransaction.TRANSIT_NONE)
                         .commit()
                 }
             }
