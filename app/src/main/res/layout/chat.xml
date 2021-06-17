@@ -10,18 +10,22 @@
         android:layout_height="match_parent"
         >
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             tools:ignore="MissingConstraints"
             app:startIconDrawable="@drawable/ic_search"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:clickable="true">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Search"
+                android:background="@drawable/rounded_edittext"
                 android:inputType="text"
                 android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:focusable="false"
+                android:clickable="true"
                 android:hint="Search">
 
             </com.google.android.material.textfield.TextInputEditText>

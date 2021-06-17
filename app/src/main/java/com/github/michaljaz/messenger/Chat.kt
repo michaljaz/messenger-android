@@ -1,10 +1,13 @@
 package com.github.michaljaz.messenger
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 
@@ -24,6 +27,8 @@ class Chat : Fragment() {
         return inflater.inflate(R.layout.chat, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        view.findViewById<TextInputEditText>(R.id.Search).setOnClickListener { v ->
+            Log.d("xd","xd")
+        }
     }
 }
