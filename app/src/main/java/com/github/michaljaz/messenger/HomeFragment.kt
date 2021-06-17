@@ -11,10 +11,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.messaging.FirebaseMessaging
 
+
 class HomeFragment : Fragment() {
     private lateinit var mactivity: MainActivity
     private lateinit var auth: FirebaseAuth
     private lateinit var db: DatabaseReference
+
     fun logout() {
         try{
             findNavController().navigate(R.id.logout)
@@ -46,16 +48,20 @@ class HomeFragment : Fragment() {
             val token = task.result
             userdb.child("fcm_token").setValue(token.toString())
         }
-        mactivity.updateHeader(
-            auth.currentUser!!.providerData[0].displayName.toString(),
-            profile.email.toString()
-        )
+        var photoUrl=""
         if(profile.providerId=="google"){
+            photoUrl=profile.photoUrl.toString()
             userdb.child("photoUrl").setValue(profile.photoUrl.toString())
         }else{
+            photoUrl=auth.currentUser!!.providerData[0].photoUrl.toString()
             userdb.child("photoUrl").setValue(auth.currentUser!!.providerData[0].photoUrl.toString())
         }
-//        Log.d("xd",profile.photoUrl.toString())
+        userdb.child("photoUrl").setValue(photoUrl)
+        mactivity.updateHeader(
+            auth.currentUser!!.providerData[0].displayName.toString(),
+            profile.email.toString(),
+            photoUrl
+        )
 
 
         childFragmentManager

@@ -2,6 +2,8 @@ package com.github.michaljaz.messenger
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +22,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +35,23 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle:ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
     private lateinit var db: DatabaseReference
+
+    fun getBitmapFromURL(src: String?): Bitmap? {
+        return try {
+            Log.e("src", src!!)
+            val url = URL(src)
+            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+            connection.doInput = true
+            connection.connect()
+            val input: InputStream = connection.getInputStream()
+            val myBitmap = BitmapFactory.decodeStream(input)
+            Log.e("Bitmap", "returned")
+            myBitmap
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +108,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateHeader(title:String,subtitle:String){
+    fun updateHeader(title:String,subtitle:String,photoUrl:String){
         try{
             val navView = findViewById<View>(R.id.side_navigation) as NavigationView
             navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=title
             navView.getHeaderView(0).findViewById<TextView>(R.id.subtitle_name).text=subtitle
+            Picasso
+                .get()
+                .load(photoUrl)
+                .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView));
         }catch(e:Exception){}
     }
 
