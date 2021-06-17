@@ -51,10 +51,8 @@ class HomeFragment : Fragment() {
         var photoUrl=""
         if(profile.providerId=="google"){
             photoUrl=profile.photoUrl.toString()
-            userdb.child("photoUrl").setValue(profile.photoUrl.toString())
         }else{
             photoUrl=auth.currentUser!!.providerData[0].photoUrl.toString()
-            userdb.child("photoUrl").setValue(auth.currentUser!!.providerData[0].photoUrl.toString())
         }
         userdb.child("photoUrl").setValue(photoUrl)
         mactivity.updateHeader(

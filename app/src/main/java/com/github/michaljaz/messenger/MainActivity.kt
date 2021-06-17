@@ -2,8 +2,7 @@ package com.github.michaljaz.messenger
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -23,35 +22,46 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
+import com.squareup.picasso.Transformation
 
 
+class RoundedTransformation(private val radius: Int, private val margin: Int) : Transformation {
+    override fun transform(source: Bitmap): Bitmap {
+        val paint = Paint()
+        paint.setAntiAlias(true)
+        paint.setShader(
+            BitmapShader(
+                source, Shader.TileMode.CLAMP,
+                Shader.TileMode.CLAMP
+            )
+        )
+        val output = Bitmap.createBitmap(
+            source.width, source.height,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(output)
+        canvas.drawRoundRect(
+            RectF(
+                margin.toFloat(), margin.toFloat(), (source.width - margin).toFloat(),
+                (source.height - margin).toFloat()
+            ), radius.toFloat(), radius.toFloat(), paint
+        )
+        if (source != output) {
+            source.recycle()
+        }
+        return output
+    }
+
+    override fun key(): String {
+        return "rounded(r=$radius, m=$margin)"
+    }
+}
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mNavDrawer:DrawerLayout
     private lateinit var toggle:ActionBarDrawerToggle
     private lateinit var auth: FirebaseAuth
     private lateinit var db: DatabaseReference
-
-    fun getBitmapFromURL(src: String?): Bitmap? {
-        return try {
-            Log.e("src", src!!)
-            val url = URL(src)
-            val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-            connection.doInput = true
-            connection.connect()
-            val input: InputStream = connection.getInputStream()
-            val myBitmap = BitmapFactory.decodeStream(input)
-            Log.e("Bitmap", "returned")
-            myBitmap
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,10 +123,16 @@ class MainActivity : AppCompatActivity() {
             val navView = findViewById<View>(R.id.side_navigation) as NavigationView
             navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=title
             navView.getHeaderView(0).findViewById<TextView>(R.id.subtitle_name).text=subtitle
-            Picasso
-                .get()
-                .load(photoUrl)
-                .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView));
+            if(photoUrl=="default"){
+                navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.ic_profile_user)
+            }else{
+                Picasso
+                    .get()
+                    .load(photoUrl)
+                    .transform(RoundedTransformation(100, 0))
+                    .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView));
+            }
+
         }catch(e:Exception){}
     }
 
