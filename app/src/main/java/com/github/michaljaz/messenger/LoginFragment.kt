@@ -163,13 +163,12 @@ class LoginFragment : Fragment() {
                             } catch (e: Exception) {
                             }
                         } else {
-                            Log.d("xd","signInWithCredential:failure"+task.exception)
+                            Toast.makeText(context, "signInWithCredential:failure"+task.exception, Toast.LENGTH_SHORT).show()
                         }
                     }
 
             } catch (e: ApiException) {
-                Log.d("xd","GOOGLE FAIL")
-                Log.d("xd","signInResult:failed code=" + e.statusCode)
+                Toast.makeText(context, "signInResult:failed code=" + e.statusCode, Toast.LENGTH_SHORT).show()
             }
         }
     }
