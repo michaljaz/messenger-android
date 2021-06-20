@@ -35,7 +35,7 @@ class RegisterFragment : Fragment() {
         }
 
         //Register button
-        view.findViewById<Button>(R.id.Register).setOnClickListener {
+        view.findViewById<Button>(R.id.Register).setOnClickListener { v ->
             if(m.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
@@ -57,8 +57,8 @@ class RegisterFragment : Fragment() {
                                             .setDisplayName(displayName)
                                             .setPhotoUri(Uri.parse("default"))
                                             .build()
-                                        m.auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener { itx->
-                                            m.hideKeyboard(it)
+                                        m.auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener {
+                                            m.hideKeyboard(v)
                                             findNavController().navigate(R.id.action_login)
                                         }
                                     } catch (e: Exception){}
