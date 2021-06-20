@@ -7,16 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.messaging.FirebaseMessaging
 
 
 class HomeFragment : Fragment() {
-    private lateinit var mactivity: MainActivity
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: DatabaseReference
+    private lateinit var m: MainActivity
 
     fun logout() {
         try{
@@ -28,19 +23,20 @@ class HomeFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.home_fragment, container, false)
-        mactivity = activity as MainActivity
-        auth = mactivity.getFirebase()
-        db = mactivity.getFirebaseDatabase()
+        m = activity as MainActivity
         setHasOptionsMenu(true)
-        mactivity.enableDrawer()
-        mactivity.sessionHelper(this)
-        val userdb = db.child("usersData").child(auth.currentUser!!.uid)
-        db.child("users").child(auth.currentUser!!.uid).setValue(true)
 
-        val profile=auth.currentUser!!.providerData[1]
+        //Enable drawer
+        m.enableDrawer()
+        m.sessionHelper(this)
+
+        //Update user data in firebase
+        val userdb = m.db.child("usersData").child(m.auth.currentUser!!.uid)
+        m.db.child("users").child(m.auth.currentUser!!.uid).setValue(true)
+        val profile=m.auth.currentUser!!.providerData[1]
         userdb.child("email").setValue(profile.email.toString())
         userdb.child("providerId").setValue(profile.providerId)
-        userdb.child("displayName").setValue(auth.currentUser!!.providerData[0].displayName.toString())
+        userdb.child("displayName").setValue(m.auth.currentUser!!.providerData[0].displayName.toString())
         FirebaseMessaging.getInstance().token.addOnCompleteListener OnCompleteListener@{ task ->
             if (!task.isSuccessful) {
                 Log.w("XD", "Fetching FCM registration token failed", task.exception)
@@ -49,19 +45,21 @@ class HomeFragment : Fragment() {
             val token = task.result
             userdb.child("fcm_token").setValue(token.toString())
         }
-        var photoUrl=""
-        if(profile.providerId=="google"){
-            photoUrl=profile.photoUrl.toString()
+        val photoUrl = if(profile.providerId=="google"){
+            profile.photoUrl.toString()
         }else{
-            photoUrl=auth.currentUser!!.providerData[0].photoUrl.toString()
+            m.auth.currentUser!!.providerData[0].photoUrl.toString()
         }
         userdb.child("photoUrl").setValue(photoUrl)
-        mactivity.updateHeader(
-            auth.currentUser!!.providerData[0].displayName.toString(),
+
+        //Update drawer header
+        m.updateHeader(
+            m.auth.currentUser!!.providerData[0].displayName.toString(),
             profile.email.toString(),
             photoUrl
         )
 
+        //Bottom navigation bar control
         childFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout,Chat())
@@ -94,13 +92,6 @@ class HomeFragment : Fragment() {
             }
             true
         }
-
         return view
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 }

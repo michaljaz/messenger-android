@@ -28,12 +28,10 @@ import com.squareup.picasso.Transformation
 class RoundedTransformation(private val radius: Int, private val margin: Int) : Transformation {
     override fun transform(source: Bitmap): Bitmap {
         val paint = Paint()
-        paint.setAntiAlias(true)
-        paint.setShader(
-            BitmapShader(
-                source, Shader.TileMode.CLAMP,
-                Shader.TileMode.CLAMP
-            )
+        paint.isAntiAlias = true
+        paint.shader = BitmapShader(
+            source, Shader.TileMode.CLAMP,
+            Shader.TileMode.CLAMP
         )
         val output = Bitmap.createBitmap(
             source.width, source.height,
@@ -58,21 +56,26 @@ class RoundedTransformation(private val radius: Int, private val margin: Int) : 
 }
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mNavDrawer:DrawerLayout
-    private lateinit var toggle:ActionBarDrawerToggle
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: DatabaseReference
+    lateinit var mNavDrawer:DrawerLayout
+    lateinit var toggle:ActionBarDrawerToggle
+    lateinit var auth: FirebaseAuth
+    lateinit var db: DatabaseReference
+    lateinit var home: HomeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.main)
+
+        //Custom toolbar
         val toolbar=findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //Setup firebase
         auth=FirebaseAuth.getInstance()
         db = Firebase.database.reference
 
+        //Setup nav drawer
         mNavDrawer=findViewById(R.id.drawer_layout)
         toggle=ActionBarDrawerToggle(
             this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         disableDrawer()
         toggle.syncState()
 
+        //Background service
         val intent = Intent(this,MyService::class.java)
         startService(intent)
     }
@@ -130,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                     .get()
                     .load(photoUrl)
                     .transform(RoundedTransformation(100, 0))
-                    .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView));
+                    .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView))
             }
 
         }catch(e:Exception){}
@@ -146,14 +150,6 @@ class MainActivity : AppCompatActivity() {
         mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
-    fun getFirebase(): FirebaseAuth {
-        return auth
-    }
-
-    fun getFirebaseDatabase(): DatabaseReference{
-        return db
-    }
-
     fun isOnline(): Boolean {
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
@@ -163,6 +159,10 @@ class MainActivity : AppCompatActivity() {
     fun hideKeyboard(v: View) {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(v.windowToken, 0)
+    }
+
+    fun setToolbarTitle(title:String){
+        supportActionBar?.title = title
     }
 
     override fun onBackPressed() {

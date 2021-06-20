@@ -27,18 +27,20 @@ private const val RC_SIGN_IN = 7
 
 class LoginFragment : Fragment() {
     private lateinit var callbackManager: CallbackManager
-    private lateinit var auth: FirebaseAuth
-    private lateinit var mactivity: MainActivity
+    private lateinit var m: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        mactivity=(activity as MainActivity)
-        mactivity.disableDrawer()
-        mactivity.supportActionBar?.setTitle("Messenger")
+        m=(activity as MainActivity)
 
-        auth=mactivity.getFirebase()
+        //block drawer
+        m.disableDrawer()
+
+        //set toolbar title
+        m.setToolbarTitle("Messenger")
+
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
@@ -46,7 +48,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         callbackManager=CallbackManager.Factory.create()
-        auth=mactivity.getFirebase()
 
         //redirect to register fragment
         view.findViewById<Button>(R.id.LogRegister).setOnClickListener {
@@ -55,7 +56,7 @@ class LoginFragment : Fragment() {
 
         //manual sign in
         view.findViewById<Button>(R.id.Login).setOnClickListener {
-            if(mactivity.isOnline()){
+            if(m.isOnline()){
                 val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
                 when {
@@ -66,11 +67,11 @@ class LoginFragment : Fragment() {
                         Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        auth.signInWithEmailAndPassword(email,password)
+                        m.auth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
                                     try {
-                                        mactivity.hideKeyboard(it)
+                                        m.hideKeyboard(it)
                                         findNavController().navigate(R.id.login)
                                     } catch (e: Exception){}
                                 }else{
@@ -89,10 +90,10 @@ class LoginFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(mactivity, gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(m, gso);
 
         view.findViewById<Button>(R.id.google_login).setOnClickListener {
-            if(mactivity.isOnline()){
+            if(m.isOnline()){
                 val signInIntent = mGoogleSignInClient.signInIntent
                 startActivityForResult(signInIntent,RC_SIGN_IN)
             }else{
@@ -103,14 +104,14 @@ class LoginFragment : Fragment() {
 
         // Facebook button
         view.findViewById<Button>(R.id.facebook_login).setOnClickListener {
-            if(mactivity.isOnline()){
+            if(m.isOnline()){
                 LoginManager.getInstance()
                     .logInWithReadPermissions(this, listOf("email", "public_profile"))
                 LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
                     override fun onSuccess(loginResult: LoginResult?) {
                         Log.d("TAG", "Success Login")
                         val credential=FacebookAuthProvider.getCredential(loginResult?.accessToken?.token.toString())
-                        auth.signInWithCredential(credential)
+                        m.auth.signInWithCredential(credential)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
                                     getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
@@ -136,7 +137,7 @@ class LoginFragment : Fragment() {
         }
 
         //Session check
-        if(auth.currentUser != null){
+        if(m.auth.currentUser != null){
             try {
                 findNavController().navigate(R.id.login)
             } catch (e: Exception){}
@@ -155,7 +156,7 @@ class LoginFragment : Fragment() {
             try {
                 val account = task.getResult(ApiException::class.java)!!
                 val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-                auth.signInWithCredential(credential)
+                m.auth.signInWithCredential(credential)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             try {
@@ -206,7 +207,7 @@ class LoginFragment : Fragment() {
 
                         Log.d("Facebook Profile Pic URL: ", facebookProfilePicURL)
                         val profile=UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(facebookProfilePicURL)).build()
-                        auth.currentUser!!.updateProfile(profile).addOnCompleteListener {
+                        m.auth.currentUser!!.updateProfile(profile).addOnCompleteListener {
                             try {
                                 findNavController().navigate(R.id.login)
                             } catch (e: Exception){}

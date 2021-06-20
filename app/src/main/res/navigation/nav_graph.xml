@@ -33,5 +33,17 @@
         <action
             android:id="@+id/logout"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/search_on"
+            app:destination="@id/search" />
+    </fragment>
+    <fragment
+        android:id="@+id/search"
+        android:name="com.github.michaljaz.messenger.Search"
+        android:label="search"
+        tools:layout="@layout/search" >
+        <action
+            android:id="@+id/search_off"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

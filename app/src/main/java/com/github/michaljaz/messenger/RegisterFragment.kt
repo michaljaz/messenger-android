@@ -3,7 +3,6 @@ package com.github.michaljaz.messenger
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +16,13 @@ import com.google.firebase.auth.UserProfileChangeRequest
 
 
 class RegisterFragment : Fragment() {
-    private lateinit var mactivity: MainActivity
-    private lateinit var auth: FirebaseAuth
+    private lateinit var m: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        mactivity = activity as MainActivity
-        auth=mactivity.getFirebase()
+        m = activity as MainActivity
         return inflater.inflate(R.layout.fragment_register, container, false)
     }
 
@@ -39,7 +36,7 @@ class RegisterFragment : Fragment() {
 
         //Register button
         view.findViewById<Button>(R.id.Register).setOnClickListener {
-            if(mactivity.isOnline()){
+            if(m.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
                 val displayName=view.findViewById<TextInputLayout>(R.id.DisplayName).editText?.text.toString().trim { it <= ' ' }
@@ -60,8 +57,8 @@ class RegisterFragment : Fragment() {
                                             .setDisplayName(displayName)
                                             .setPhotoUri(Uri.parse("default"))
                                             .build()
-                                        auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener { itx->
-                                            mactivity.hideKeyboard(it)
+                                        m.auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener { itx->
+                                            m.hideKeyboard(it)
                                             findNavController().navigate(R.id.action_login)
                                         }
                                     } catch (e: Exception){}
