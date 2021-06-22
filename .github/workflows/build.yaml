@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: ./gradlew bundle
       - uses: r0adkll/sign-android-release@v1
-        name: Sign app APK
+        name: Sign app AAB
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/bundle/release
