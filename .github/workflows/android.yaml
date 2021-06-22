@@ -8,6 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ./gradlew build
+      - run: ./gradlew bundle
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
         id: sign_app
