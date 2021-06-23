@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 
 
-class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayList<Int>) : BaseAdapter() {
+class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayList<String>) : BaseAdapter() {
     private val mContext: Context = context
     private val Title: ArrayList<String> = text1
-    private val imge: ArrayList<Int> = imageIds
+    private val imge: ArrayList<String> = imageIds
 
     override fun getCount(): Int {
         // TODO Auto-generated method stub
@@ -35,7 +36,11 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
         val i1: ImageView = row.findViewById(R.id.imgIcon) as ImageView
         val title: TextView = row.findViewById(R.id.txtTitle)
         title.text = Title[position]
-        i1.setImageResource(imge[position])
+        Picasso
+            .get()
+            .load(imge[position])
+            .transform(RoundedTransformation(100, 0))
+            .into(i1)
         return row
     }
 
