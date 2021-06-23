@@ -5,10 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Search">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Search"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +20,6 @@
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="false"
-            android:clickable="true"
             android:hint="Search">
 
         </com.google.android.material.textfield.TextInputEditText>

@@ -15,6 +15,7 @@ class Users : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.users, container, false)
         m=(activity as MainActivity)
+        m.allowBack=false
 
         //set Toolbar title
         m.setToolbarTitle("Users")

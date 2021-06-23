@@ -11,17 +11,13 @@ class Search : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.home_fragment, container, false)
+        val view=inflater.inflate(R.layout.search, container, false)
         m = activity as MainActivity
+        m.allowBack=true
 
+        //hide action bar
         m.supportActionBar!!.hide()
 
         return view
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 }

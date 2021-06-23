@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle:ActionBarDrawerToggle
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
-    lateinit var home: HomeFragment
+    var allowBack: Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +136,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Log.d("xd","disabled back press")
+        if(allowBack){
+            super.onBackPressed()
+        }else{
+            Log.d("xd","disabled back press")
+        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
