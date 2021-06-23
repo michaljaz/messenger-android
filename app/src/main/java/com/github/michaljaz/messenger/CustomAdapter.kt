@@ -1,6 +1,7 @@
 package com.github.michaljaz.messenger
 
 import android.content.Context
+import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +37,17 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
         val i1: ImageView = row.findViewById(R.id.imgIcon) as ImageView
         val title: TextView = row.findViewById(R.id.txtTitle)
         title.text = Title[position]
-        Picasso
-            .get()
-            .load(imge[position])
-            .transform(RoundedTransformation(100, 0))
-            .into(i1)
+        var image=imge[position]
+        if(image=="default"){
+            i1.setImageResource(R.drawable.ic_profile_user)
+        }else{
+            Picasso
+                .get()
+                .load(image)
+                .transform(RoundedTransformation(100, 0))
+                .into(i1)
+        }
+
         return row
     }
 
