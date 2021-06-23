@@ -25,16 +25,12 @@ class Users : Fragment() {
             m.db.child("users").get().addOnSuccessListener {
 
                 val array = ArrayList<String>()
+                val drawables = ArrayList<Int>()
                 for(ds in it.children) {
                     m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
                         array.add(itx.value.toString())
-                        list.adapter = context?.let { it1 ->
-                            ArrayAdapter<String>(
-                                it1,
-                                android.R.layout.simple_list_item_1,
-                                array
-                            )
-                        }
+                        drawables.add(R.drawable.ic_profile_user)
+                        list.adapter=CustomAdapter(requireContext(), array, drawables)
                     }
                 }
             }
