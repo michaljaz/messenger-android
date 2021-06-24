@@ -24,27 +24,29 @@ class Users : Fragment() {
 
         //get list of users from firebase
         val list = view.findViewById<ListView>(R.id.list)
-        try{
-            m.db.child("users").get().addOnSuccessListener {
-
-                val array = ArrayList<String>()
-                val drawables = ArrayList<String>()
-                for(ds in it.children) {
-                    m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
-                        m.db.child("usersData").child(ds.key.toString()).child("photoUrl").get().addOnSuccessListener { itx2 ->
-                            array.add(itx.value.toString())
-                            drawables.add(itx2.value.toString())
+        m.db.child("users").get().addOnSuccessListener {
+            val array = ArrayList<String>()
+            val drawables = ArrayList<String>()
+            for(ds in it.children) {
+                m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
+                    m.db.child("usersData").child(ds.key.toString()).child("photoUrl").get().addOnSuccessListener { itx2 ->
+                        array.add(itx.value.toString())
+                        drawables.add(itx2.value.toString())
+                        try{
                             list.adapter=CustomAdapter(requireContext(), array, drawables)
-                        }
+                        }catch(e:Exception){ }
                     }
                 }
             }
-        }catch(e:Exception){ }
+        }
+
+
         view.findViewById<ListView>(R.id.list).setOnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position)
             Log.d("xd", selectedItem as String)
-            findNavController().navigate(R.id.userChat_on)
-
+            try {
+                findNavController().navigate(R.id.userChat_on)
+            }catch(e:Exception){}
         }
         return view
     }
