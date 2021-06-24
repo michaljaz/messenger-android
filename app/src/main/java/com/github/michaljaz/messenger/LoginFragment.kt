@@ -34,6 +34,8 @@ class LoginFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         m=(activity as MainActivity)
+
+        //not allow to go back
         m.allowBack=false
 
         //block drawer

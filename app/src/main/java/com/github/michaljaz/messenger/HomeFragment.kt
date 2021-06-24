@@ -3,6 +3,7 @@ package com.github.michaljaz.messenger
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
@@ -24,11 +25,20 @@ class HomeFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.home_fragment, container, false)
         m = activity as MainActivity
+
+        //enable options menu
         setHasOptionsMenu(true)
+
+        //disable arrow
+        m.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        m.supportActionBar!!.setDisplayShowHomeEnabled(false)
 
         //Enable drawer
         m.enableDrawer()
         m.sessionHelper(this)
+        ActionBarDrawerToggle(
+            m,m.mNavDrawer,m.toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
+        ).syncState()
 
         //Update user data in firebase
         val userdb = m.db.child("usersData").child(m.auth.currentUser!!.uid)

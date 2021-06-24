@@ -30,15 +30,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var toggle:ActionBarDrawerToggle
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
+    lateinit var toolbar: Toolbar
     var allowBack: Boolean=false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.main)
 
         //Custom toolbar
-        val toolbar=findViewById<Toolbar>(R.id.toolbar)
+        toolbar=findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         //Setup firebase

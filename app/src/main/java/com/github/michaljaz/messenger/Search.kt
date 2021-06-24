@@ -18,6 +18,8 @@ class Search : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.search, container, false)
         m = activity as MainActivity
+
+        //allow to go back
         m.allowBack=true
 
         //hide action bar

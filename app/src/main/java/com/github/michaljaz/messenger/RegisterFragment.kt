@@ -23,6 +23,8 @@ class RegisterFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         m = activity as MainActivity
+
+        //allow to go back
         m.allowBack=true
 
         return inflater.inflate(R.layout.fragment_register, container, false)

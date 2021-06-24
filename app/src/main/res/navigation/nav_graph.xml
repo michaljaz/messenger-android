@@ -62,5 +62,9 @@
         android:id="@+id/userChat"
         android:name="com.github.michaljaz.messenger.UserChat"
         android:label="userchat"
-        tools:layout="@layout/userchat" />
+        tools:layout="@layout/userchat" >
+        <action
+            android:id="@+id/userchat_off"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>
