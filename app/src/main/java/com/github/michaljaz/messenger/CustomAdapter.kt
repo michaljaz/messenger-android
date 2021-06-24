@@ -21,9 +21,9 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
         return Title.size
     }
 
-    override fun getItem(arg0: Int): Nothing? {
+    override fun getItem(arg0: Int): String {
         // TODO Auto-generated method stub
-        return null
+        return Title[arg0]
     }
 
     override fun getItemId(position: Int): Long {
@@ -47,7 +47,6 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
                 .transform(RoundedTransformation(100, 0))
                 .into(i1)
         }
-
         return row
     }
 

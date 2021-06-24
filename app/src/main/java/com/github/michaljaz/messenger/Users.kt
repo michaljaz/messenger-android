@@ -1,10 +1,12 @@
 package com.github.michaljaz.messenger
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
 class Users : Fragment() {
     private lateinit var m: MainActivity
@@ -38,6 +40,12 @@ class Users : Fragment() {
                 }
             }
         }catch(e:Exception){ }
+        view.findViewById<ListView>(R.id.list).setOnItemClickListener { parent, _, position, _ ->
+            val selectedItem = parent.getItemAtPosition(position)
+            Log.d("xd", selectedItem as String)
+            findNavController().navigate(R.id.userChat_on)
+
+        }
         return view
     }
 }

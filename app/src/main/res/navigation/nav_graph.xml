@@ -45,6 +45,9 @@
             android:id="@+id/search_on"
             app:destination="@id/search"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/userChat_on"
+            app:destination="@id/userChat" />
     </fragment>
     <fragment
         android:id="@+id/search"
@@ -55,4 +58,9 @@
             android:id="@+id/search_off"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userChat"
+        android:name="com.github.michaljaz.messenger.UserChat"
+        android:label="userchat"
+        tools:layout="@layout/userchat" />
 </navigation>
