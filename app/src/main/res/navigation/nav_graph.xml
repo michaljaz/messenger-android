@@ -11,7 +11,11 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_register"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_in_left" />
         <action
             android:id="@+id/login"
             app:destination="@id/homeFragment" />
@@ -23,7 +27,11 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_login"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_out_left"
+            app:exitAnim="@anim/slide_in_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -35,7 +43,8 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/search_on"
-            app:destination="@id/search" />
+            app:destination="@id/search"
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment
         android:id="@+id/search"

@@ -72,7 +72,6 @@ class HomeFragment : Fragment() {
                     if(prev!=1){
                         childFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.slide_out_left, R.anim.slide_in_left)
                             .replace(R.id.frame_layout,Chat())
                             .commit()
                         prev=1
@@ -83,7 +82,6 @@ class HomeFragment : Fragment() {
                     if(prev!=2){
                         childFragmentManager
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_right)
                             .replace(R.id.frame_layout,Users())
                             .commit()
                         prev=2
