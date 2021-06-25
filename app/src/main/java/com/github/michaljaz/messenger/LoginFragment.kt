@@ -41,6 +41,9 @@ class LoginFragment : Fragment() {
         //block drawer
         m.disableDrawer()
 
+        //remove hamburger icon
+        m.toolbar.navigationIcon = null
+
         //set toolbar title
         m.setToolbarTitle("Messenger")
 
