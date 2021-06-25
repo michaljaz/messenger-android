@@ -36,9 +36,8 @@ class HomeFragment : Fragment() {
         //Enable drawer
         m.enableDrawer()
         m.sessionHelper(this)
-        ActionBarDrawerToggle(
-            m,m.mNavDrawer,m.toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
-        ).syncState()
+        m.mNavDrawer.addDrawerListener(m.toggle)
+        m.toggle.syncState()
 
         //Update user data in firebase
         val userdb = m.db.child("usersData").child(m.auth.currentUser!!.uid)
