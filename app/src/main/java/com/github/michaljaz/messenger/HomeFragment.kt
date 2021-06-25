@@ -33,9 +33,12 @@ class HomeFragment : Fragment() {
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         m.supportActionBar!!.setDisplayShowHomeEnabled(false)
 
-        //Enable drawer
+        //Enable drawers
         m.enableDrawer()
         m.sessionHelper(this)
+        m.toggle=ActionBarDrawerToggle(
+            m,m.mNavDrawer,m.toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
+        )
         m.mNavDrawer.addDrawerListener(m.toggle)
         m.toggle.syncState()
 
