@@ -22,9 +22,12 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
         return Title.size
     }
 
-    override fun getItem(arg0: Int): String {
+    override fun getItem(arg0: Int): ArrayList<String> {
         // TODO Auto-generated method stub
-        return userids[arg0]
+        var xd= ArrayList<String>()
+        xd.add(userids[arg0])
+        xd.add(Title[arg0])
+        return xd
     }
 
     override fun getItemId(position: Int): Long {

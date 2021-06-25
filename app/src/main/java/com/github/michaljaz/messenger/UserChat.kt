@@ -27,6 +27,9 @@ class UserChat : Fragment() {
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         m.supportActionBar!!.setDisplayShowHomeEnabled(true)
 
+        //set toolbar title user
+        m.setToolbarTitle(m.chatWith)
+
         //arrow click listener
         m.toolbar.setNavigationOnClickListener {
             try{
@@ -34,7 +37,6 @@ class UserChat : Fragment() {
             }catch(e:Exception){}
         }
 
-        m.setToolbarTitle("Chat")
         return view
     }
 }

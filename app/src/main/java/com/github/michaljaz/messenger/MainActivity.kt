@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
     lateinit var toolbar: Toolbar
+    var chatWith: String="null"
     var allowBack: Boolean=false
 
 
