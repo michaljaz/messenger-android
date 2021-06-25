@@ -11,10 +11,11 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 
 
-class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayList<String>) : BaseAdapter() {
+class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayList<String>, userids: ArrayList<String>) : BaseAdapter() {
     private val mContext: Context = context
     private val Title: ArrayList<String> = text1
     private val imge: ArrayList<String> = imageIds
+    private val userids: ArrayList<String> = userids
 
     override fun getCount(): Int {
         // TODO Auto-generated method stub
@@ -23,7 +24,7 @@ class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayL
 
     override fun getItem(arg0: Int): String {
         // TODO Auto-generated method stub
-        return Title[arg0]
+        return userids[arg0]
     }
 
     override fun getItemId(position: Int): Long {

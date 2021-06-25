@@ -29,13 +29,15 @@ class Users : Fragment() {
         m.db.child("users").get().addOnSuccessListener {
             val array = ArrayList<String>()
             val drawables = ArrayList<String>()
+            val userids = ArrayList<String>()
             for(ds in it.children) {
                 m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
                     m.db.child("usersData").child(ds.key.toString()).child("photoUrl").get().addOnSuccessListener { itx2 ->
                         array.add(itx.value.toString())
                         drawables.add(itx2.value.toString())
+                        userids.add(ds.key.toString())
                         try{
-                            list.adapter=CustomAdapter(requireContext(), array, drawables)
+                            list.adapter=CustomAdapter(requireContext(), array, drawables,userids)
                         }catch(e:Exception){ }
                     }
                 }

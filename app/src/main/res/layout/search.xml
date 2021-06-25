@@ -11,15 +11,17 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_arrow"/>
+        android:src="@drawable/ic_arrow"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
