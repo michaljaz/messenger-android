@@ -13,9 +13,11 @@
         android:layout_marginRight="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/NewMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,6 +36,8 @@
         android:src="@drawable/ic_right_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,8 +3,10 @@ package com.github.michaljaz.messenger
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputEditText
 
 
 class UserChat : Fragment() {
@@ -37,6 +39,24 @@ class UserChat : Fragment() {
             }catch(e:Exception){}
         }
 
+        //on click send
+        view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
+            sendMessage(view)
+        }
+
+        //on enter in textview
+        view.findViewById<TextInputEditText>(R.id.NewMessage).setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                sendMessage(view)
+                return@OnKeyListener true
+            }
+            false
+        })
         return view
+    }
+    private fun sendMessage(v:View) {
+        var message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
+        v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
+        Log.d("xd", "Sending message... $message")
     }
 }
