@@ -16,6 +16,9 @@ class Chat : Fragment() {
         val view=inflater.inflate(R.layout.chat, container, false)
         m = activity as MainActivity
 
+        //change menu
+        m.home.changeMenu("chats")
+
         //not allow to go back
         m.allowBack=false
 
@@ -25,8 +28,8 @@ class Chat : Fragment() {
         //show action bar
         m.supportActionBar!!.show()
 
+        //on click search
         view.findViewById<TextInputEditText>(R.id.Search).setOnClickListener {
-            Log.d("xd","xd")
             Navigation.findNavController(m,R.id.nav_host_fragment).navigate(R.id.search_on)
         }
 

@@ -13,7 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 class HomeFragment : Fragment() {
     private lateinit var m: MainActivity
-
+    private lateinit var menuString:String
     fun logout() {
         try{
             findNavController().navigate(R.id.logout)
@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.home_fragment, container, false)
         m = activity as MainActivity
+        m.home=this
 
         //enable options menu
         setHasOptionsMenu(true)
@@ -104,9 +105,19 @@ class HomeFragment : Fragment() {
         }
         return view
     }
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_main, menu);
 
-        super.onCreateOptionsMenu(menu, inflater)
+    fun changeMenu(menuS:String){
+        menuString=menuS
+        m.invalidateOptionsMenu();
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.clear()
+        val inflater: MenuInflater = m.menuInflater
+        if (menuString === "chats") {
+            inflater.inflate(R.menu.menu_main, menu)
+        } else if (menuString === "users") {
+            inflater.inflate(R.menu.users, menu)
+        }
     }
 }

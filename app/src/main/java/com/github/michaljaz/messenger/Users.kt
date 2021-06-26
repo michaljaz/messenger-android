@@ -18,6 +18,9 @@ class Users : Fragment() {
         val view=inflater.inflate(R.layout.users, container, false)
         m=(activity as MainActivity)
 
+        //change menu
+        m.home.changeMenu("users")
+
         //not allow to go back
         m.allowBack=false
 
