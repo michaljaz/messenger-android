@@ -2,7 +2,6 @@ package com.github.michaljaz.messenger
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.*
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
+        setContentView(R.layout.activity_main)
 
         //Custom toolbar
         toolbar=findViewById(R.id.toolbar)

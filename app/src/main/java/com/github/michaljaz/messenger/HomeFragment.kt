@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.home_fragment, container, false)
+        val view=inflater.inflate(R.layout.fragment_home, container, false)
         m = activity as MainActivity
         m.home=this
 
@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
         //Bottom navigation bar control
         childFragmentManager
             .beginTransaction()
-            .replace(R.id.frame_layout,Chat())
+            .replace(R.id.frame_layout,ChatsFrame())
             .setTransition(FragmentTransaction.TRANSIT_NONE)
             .commit()
         var prev=1
@@ -85,7 +85,7 @@ class HomeFragment : Fragment() {
                     if(prev!=1){
                         childFragmentManager
                             .beginTransaction()
-                            .replace(R.id.frame_layout,Chat())
+                            .replace(R.id.frame_layout,ChatsFrame())
                             .commit()
                         prev=1
                     }
@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
                     if(prev!=2){
                         childFragmentManager
                             .beginTransaction()
-                            .replace(R.id.frame_layout,Users())
+                            .replace(R.id.frame_layout,UsersFrame())
                             .commit()
                         prev=2
                     }
@@ -115,7 +115,7 @@ class HomeFragment : Fragment() {
         menu.clear()
         val inflater: MenuInflater = m.menuInflater
         if (menuString === "chats") {
-            inflater.inflate(R.menu.menu_main, menu)
+            inflater.inflate(R.menu.chats, menu)
         } else if (menuString === "users") {
             inflater.inflate(R.menu.users, menu)
         }

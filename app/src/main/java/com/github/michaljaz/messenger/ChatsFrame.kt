@@ -1,19 +1,20 @@
 package com.github.michaljaz.messenger
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 
-class Chat : Fragment() {
+class ChatsFrame : Fragment() {
     private lateinit var m: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.chat, container, false)
+        val view=inflater.inflate(R.layout.frame_chats, container, false)
         m = activity as MainActivity
 
         //change menu

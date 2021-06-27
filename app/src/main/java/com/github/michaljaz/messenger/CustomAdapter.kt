@@ -1,7 +1,6 @@
 package com.github.michaljaz.messenger
 
 import android.content.Context
-import android.icu.number.NumberFormatter.with
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

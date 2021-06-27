@@ -1,14 +1,15 @@
 package com.github.michaljaz.messenger
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 
-class Search : Fragment() {
+class SearchFragment : Fragment() {
     private lateinit var m: MainActivity
 
 
@@ -16,7 +17,7 @@ class Search : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.search, container, false)
+        val view=inflater.inflate(R.layout.fragment_search, container, false)
         m = activity as MainActivity
 
         //allow to go back

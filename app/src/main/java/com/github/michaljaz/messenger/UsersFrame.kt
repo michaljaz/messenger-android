@@ -2,20 +2,21 @@ package com.github.michaljaz.messenger
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.ArrayAdapter
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-class Users : Fragment() {
+class UsersFrame : Fragment() {
     private lateinit var m: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.users, container, false)
+        val view=inflater.inflate(R.layout.frame_users, container, false)
         m=(activity as MainActivity)
 
         //change menu
