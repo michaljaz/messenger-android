@@ -6,32 +6,15 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.github.michaljaz.messenger.LoginFragment"
+        android:name="com.github.michaljaz.messenger.ContinueFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_register"
-            app:destination="@id/registerFragment"
-            app:enterAnim="@anim/slide_out_right"
-            app:exitAnim="@anim/slide_in_right"
-            app:popEnterAnim="@anim/slide_out_left"
-            app:popExitAnim="@anim/slide_in_left" />
+        tools:layout="@layout/fragment_continue" >
         <action
             android:id="@+id/login"
             app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.github.michaljaz.messenger.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_login"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_out_left"
-            app:exitAnim="@anim/slide_in_left"
-            app:popEnterAnim="@anim/slide_out_right"
-            app:popExitAnim="@anim/slide_in_right" />
+            android:id="@+id/continue_with_email"
+            app:destination="@id/loginFragment4" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -66,5 +49,35 @@
         <action
             android:id="@+id/userchat_off"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.github.michaljaz.messenger.RegisterFragment"
+        android:label="fragment_register_email"
+        tools:layout="@layout/fragment_register_email" >
+        <action
+            android:id="@+id/register"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/already_have_account"
+            app:destination="@id/loginFragment4" />
+        <action
+            android:id="@+id/register_to_other"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment4"
+        android:name="com.github.michaljaz.messenger.LoginFragment"
+        android:label="fragment_login_email"
+        tools:layout="@layout/fragment_login_email" >
+        <action
+            android:id="@+id/create_new_account"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/signin"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/login_to_other"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

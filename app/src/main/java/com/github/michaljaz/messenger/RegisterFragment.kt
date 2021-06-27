@@ -23,23 +23,28 @@ class RegisterFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         m = activity as MainActivity
-
+        var view=inflater.inflate(R.layout.fragment_register_email, container, false)
         //allow to go back
         m.allowBack=true
 
-        return inflater.inflate(R.layout.fragment_register, container, false)
-    }
+        //add arrow to toolbar
+        m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        m.supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        //arrow click listener
+        m.toolbar.setNavigationOnClickListener {
+            try{
+                findNavController().navigate(R.id.register_to_other)
+            }catch(e:Exception){}
+        }
 
         //Already have account button
-        view.findViewById<Button>(R.id.RegLogin).setOnClickListener {
-            findNavController().navigate(R.id.action_login)
+        view.findViewById<Button>(R.id.AlreadyHaveAccount).setOnClickListener {
+            findNavController().navigate(R.id.already_have_account)
         }
 
         //Register button
-        view.findViewById<Button>(R.id.Register).setOnClickListener { v ->
+        view.findViewById<Button>(R.id.SignUp).setOnClickListener { v ->
             if(m.isOnline()){
                 val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
@@ -63,7 +68,7 @@ class RegisterFragment : Fragment() {
                                             .build()
                                         m.auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener {
                                             m.hideKeyboard(v)
-                                            findNavController().navigate(R.id.action_login)
+                                            findNavController().navigate(R.id.register)
                                         }
                                     } catch (e: Exception){}
                                 }else{
@@ -76,5 +81,7 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
         }
+
+        return view
     }
 }
