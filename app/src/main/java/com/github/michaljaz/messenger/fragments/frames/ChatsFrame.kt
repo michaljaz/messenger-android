@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.fragments.frames
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.activities.MainActivity
 import com.google.android.material.textfield.TextInputEditText
 
 class ChatsFrame : Fragment() {
@@ -31,7 +33,7 @@ class ChatsFrame : Fragment() {
 
         //on click search
         view.findViewById<TextInputEditText>(R.id.Search).setOnClickListener {
-            Navigation.findNavController(m,R.id.nav_host_fragment).navigate(R.id.search_on)
+            Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
 
         return view

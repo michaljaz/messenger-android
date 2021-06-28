@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
+import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
+import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.fragments.frames.UsersFrame
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -38,7 +42,9 @@ class HomeFragment : Fragment() {
         m.enableDrawer()
         m.sessionHelper(this)
         m.toggle=ActionBarDrawerToggle(
-            m,m.mNavDrawer,m.toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
+            m,m.mNavDrawer,m.toolbar,
+            R.string.app_name,
+            R.string.nav_app_bar_open_drawer_description
         )
         m.mNavDrawer.addDrawerListener(m.toggle)
         m.toggle.syncState()
@@ -75,7 +81,7 @@ class HomeFragment : Fragment() {
         //Bottom navigation bar control
         childFragmentManager
             .beginTransaction()
-            .replace(R.id.frame_layout,ChatsFrame())
+            .replace(R.id.frame_layout, ChatsFrame())
             .setTransition(FragmentTransaction.TRANSIT_NONE)
             .commit()
         var prev=1
@@ -85,7 +91,7 @@ class HomeFragment : Fragment() {
                     if(prev!=1){
                         childFragmentManager
                             .beginTransaction()
-                            .replace(R.id.frame_layout,ChatsFrame())
+                            .replace(R.id.frame_layout, ChatsFrame())
                             .commit()
                         prev=1
                     }
@@ -95,7 +101,7 @@ class HomeFragment : Fragment() {
                     if(prev!=2){
                         childFragmentManager
                             .beginTransaction()
-                            .replace(R.id.frame_layout,UsersFrame())
+                            .replace(R.id.frame_layout, UsersFrame())
                             .commit()
                         prev=2
                     }

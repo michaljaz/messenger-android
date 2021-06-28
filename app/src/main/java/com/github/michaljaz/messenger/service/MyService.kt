@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.service
 
 import android.app.Service
 import android.content.Intent

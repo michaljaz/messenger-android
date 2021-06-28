@@ -1,6 +1,5 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.fragments
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -10,22 +9,20 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.R
 import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 
 
-class RegisterFragment : Fragment() {
+class LoginFragment : Fragment() {
     private lateinit var m: MainActivity
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         m = activity as MainActivity
-        var view=inflater.inflate(R.layout.fragment_register_email, container, false)
-        //allow to go back
-        m.allowBack=true
+        var view=inflater.inflate(R.layout.fragment_login_email, container, false)
 
         //add arrow to toolbar
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -34,42 +31,34 @@ class RegisterFragment : Fragment() {
         //arrow click listener
         m.toolbar.setNavigationOnClickListener {
             try{
-                findNavController().navigate(R.id.register_to_other)
+                findNavController().navigate(R.id.login_to_other)
             }catch(e:Exception){}
         }
 
-        //Already have account button
-        view.findViewById<Button>(R.id.AlreadyHaveAccount).setOnClickListener {
-            findNavController().navigate(R.id.already_have_account)
+        //Create new account
+        view.findViewById<Button>(R.id.CreateNewAccount).setOnClickListener {
+            findNavController().navigate(R.id.create_new_account)
         }
 
-        //Register button
-        view.findViewById<Button>(R.id.SignUp).setOnClickListener { v ->
+        //manual sign in
+        view.findViewById<Button>(R.id.SignIn).setOnClickListener {
             if(m.isOnline()){
-                val username=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
+                val email=view.findViewById<TextInputLayout>(R.id.Email).editText?.text.toString().trim { it <= ' ' }
                 val password=view.findViewById<TextInputLayout>(R.id.Password).editText?.text.toString().trim { it <= ' ' }
-                val displayName=view.findViewById<TextInputLayout>(R.id.DisplayName).editText?.text.toString().trim { it <= ' ' }
-
                 when {
-                    TextUtils.isEmpty(username) -> {
+                    TextUtils.isEmpty(email) -> {
                         Toast.makeText(context,"Please enter email!", Toast.LENGTH_SHORT).show()
                     }
                     TextUtils.isEmpty(password) -> {
                         Toast.makeText(context,"Please enter password!", Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(username,password)
+                        m.auth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener { task ->
                                 if(task.isSuccessful){
                                     try {
-                                        val profileUpdates = UserProfileChangeRequest.Builder()
-                                            .setDisplayName(displayName)
-                                            .setPhotoUri(Uri.parse("default"))
-                                            .build()
-                                        m.auth.currentUser!!.updateProfile(profileUpdates).addOnCompleteListener {
-                                            m.hideKeyboard(v)
-                                            findNavController().navigate(R.id.register)
-                                        }
+                                        m.hideKeyboard(it)
+                                        findNavController().navigate(R.id.signin)
                                     } catch (e: Exception){}
                                 }else{
                                     Toast.makeText(context,task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()

@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.R
 import com.google.android.material.textfield.TextInputEditText
 
 class SearchFragment : Fragment() {

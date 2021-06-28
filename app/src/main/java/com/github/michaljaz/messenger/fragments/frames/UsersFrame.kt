@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.fragments.frames
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.adapters.CustomAdapter
 
 class UsersFrame : Fragment() {
     private lateinit var m: MainActivity
@@ -41,7 +44,7 @@ class UsersFrame : Fragment() {
                         drawables.add(itx2.value.toString())
                         userids.add(ds.key.toString())
                         try{
-                            list.adapter=CustomAdapter(requireContext(), array, drawables,userids)
+                            list.adapter= CustomAdapter(requireContext(), array, drawables,userids)
                         }catch(e:Exception){ }
                     }
                 }

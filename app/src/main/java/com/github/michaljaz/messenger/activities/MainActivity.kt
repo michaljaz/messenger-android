@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.activities
 
 import android.content.Context
 import android.content.Intent
@@ -15,6 +15,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import com.github.michaljaz.messenger.service.MyService
+import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.fragments.HomeFragment
+import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
     lateinit var toolbar: Toolbar
-    lateinit var home:HomeFragment
+    lateinit var home: HomeFragment
     var chatWith: String="null"
     var allowBack: Boolean=false
 
@@ -49,18 +53,18 @@ class MainActivity : AppCompatActivity() {
         //Setup nav drawer
         mNavDrawer=findViewById(R.id.drawer_layout)
         toggle=ActionBarDrawerToggle(
-            this,mNavDrawer,toolbar,R.string.app_name,R.string.nav_app_bar_open_drawer_description
+            this,mNavDrawer,toolbar, R.string.app_name, R.string.nav_app_bar_open_drawer_description
         )
         mNavDrawer.addDrawerListener(toggle)
         disableDrawer()
         toggle.syncState()
 
         //Background service
-        val intent = Intent(this,MyService::class.java)
+        val intent = Intent(this, MyService::class.java)
         startService(intent)
     }
 
-    fun sessionHelper(f:HomeFragment){
+    fun sessionHelper(f: HomeFragment){
         var clicked=false
         findViewById<NavigationView>(R.id.side_navigation).setNavigationItemSelectedListener { item ->
             if(!clicked) {

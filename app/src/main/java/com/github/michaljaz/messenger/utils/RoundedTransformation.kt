@@ -1,4 +1,4 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.utils
 
 import android.graphics.*
 import com.squareup.picasso.Transformation

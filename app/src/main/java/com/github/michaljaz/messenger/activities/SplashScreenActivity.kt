@@ -1,10 +1,11 @@
-package com.github.michaljaz.messenger
+package com.github.michaljaz.messenger.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.github.michaljaz.messenger.R
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
