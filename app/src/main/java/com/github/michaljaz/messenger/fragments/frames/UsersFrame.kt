@@ -55,6 +55,7 @@ class UsersFrame : Fragment() {
         view.findViewById<ListView>(R.id.list).setOnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as ArrayList<String>
             Log.d("xd", selectedItem[0])
+            m.chatWithUid=selectedItem[0]
             m.chatWith=selectedItem[1]
             try {
                 findNavController().navigate(R.id.userChat_on)

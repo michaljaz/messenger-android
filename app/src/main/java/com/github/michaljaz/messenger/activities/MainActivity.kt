@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar: Toolbar
     lateinit var home: HomeFragment
     var chatWith: String="null"
+    var chatWithUid: String="null"
     var allowBack: Boolean=false
 
 
