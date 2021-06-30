@@ -9,8 +9,6 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.volley.Request
-import com.android.volley.Response
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.R
 import com.google.android.material.textfield.TextInputEditText
@@ -19,7 +17,6 @@ import java.net.URI
 import java.net.URL
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result;
-import com.android.volley.toolbox.JsonObjectRequest
 
 
 class ChatFragment : Fragment() {
