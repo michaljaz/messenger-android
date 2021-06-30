@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class ChatsFrame : Fragment() {
     private lateinit var m: MainActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

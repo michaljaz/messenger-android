@@ -29,13 +29,13 @@ import com.google.firebase.auth.UserProfileChangeRequest
 class ContinueFragment : Fragment() {
     private lateinit var callbackManager: CallbackManager
     private lateinit var m: MainActivity
-    private val RC_SIGN_IN = 7
+    private val rcSignIn = 7
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
         m=(activity as MainActivity)
-        var view=inflater.inflate(R.layout.fragment_continue, container, false)
+        val view=inflater.inflate(R.layout.fragment_continue, container, false)
 
         //hide keyboard
         m.hideKeyboard(view)
@@ -67,12 +67,12 @@ class ContinueFragment : Fragment() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        val mGoogleSignInClient = GoogleSignIn.getClient(m, gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(m, gso)
 
         view.findViewById<Button>(R.id.google_login).setOnClickListener {
             if(m.isOnline()){
                 val signInIntent = mGoogleSignInClient.signInIntent
-                startActivityForResult(signInIntent,RC_SIGN_IN)
+                startActivityForResult(signInIntent,rcSignIn)
             }else{
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
@@ -129,7 +129,7 @@ class ContinueFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==RC_SIGN_IN){
+        if(requestCode==rcSignIn){
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)!!

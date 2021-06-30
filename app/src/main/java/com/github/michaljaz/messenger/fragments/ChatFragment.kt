@@ -1,23 +1,16 @@
 package com.github.michaljaz.messenger.fragments
 
-import android.app.DownloadManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.R
 import com.google.android.material.textfield.TextInputEditText
-import java.net.HttpURLConnection
-import java.net.URI
-import java.net.URL
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result;
-
+import com.github.kittinunf.result.Result
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
@@ -65,11 +58,11 @@ class ChatFragment : Fragment() {
         return view
     }
     private fun sendMessage(v:View) {
-        var message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
+        val message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
         v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
         Log.d("xd", "Sending message... $message")
         val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?uid=${m.chatWithUid}&title=Notification&body=$message"
-        url.httpGet().responseString { request, response, result ->
+        url.httpGet().responseString { _, _, result ->
             when (result) {
                 is Result.Failure -> {
                     val ex = result.getException()

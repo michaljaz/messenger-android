@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
 
     fun changeMenu(menuS:String){
         menuString=menuS
-        m.invalidateOptionsMenu();
+        m.invalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

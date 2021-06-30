@@ -1,5 +1,6 @@
 package com.github.michaljaz.messenger.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -12,37 +13,36 @@ import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.squareup.picasso.Picasso
 
 
-class CustomAdapter(context: Context, text1: ArrayList<String>, imageIds: ArrayList<String>, userids: ArrayList<String>) : BaseAdapter() {
-    private val mContext: Context = context
-    private val Title: ArrayList<String> = text1
-    private val imge: ArrayList<String> = imageIds
-    private val userids: ArrayList<String> = userids
+class CustomAdapter(
+    private val context: Context,
+    private val titles: ArrayList<String>,
+    private val imageIds: ArrayList<String>,
+    private val userids: ArrayList<String>
+) : BaseAdapter() {
 
     override fun getCount(): Int {
-        // TODO Auto-generated method stub
-        return Title.size
+        return titles.size
     }
 
     override fun getItem(arg0: Int): ArrayList<String> {
-        // TODO Auto-generated method stub
-        var xd= ArrayList<String>()
+        val xd= ArrayList<String>()
         xd.add(userids[arg0])
-        xd.add(Title[arg0])
+        xd.add(titles[arg0])
         return xd
     }
 
     override fun getItemId(position: Int): Long {
-        // TODO Auto-generated method stub
         return position.toLong()
     }
 
+    @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val row: View = inflater.inflate(R.layout.row, parent, false)
         val i1: ImageView = row.findViewById(R.id.imgIcon) as ImageView
         val title: TextView = row.findViewById(R.id.txtTitle)
-        title.text = Title[position]
-        var image=imge[position]
+        title.text = titles[position]
+        val image=imageIds[position]
         if(image=="default"){
             i1.setImageResource(R.drawable.ic_profile_user)
         }else{

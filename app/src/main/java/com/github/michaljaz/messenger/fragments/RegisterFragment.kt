@@ -25,7 +25,7 @@ class RegisterFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         m = activity as MainActivity
-        var view=inflater.inflate(R.layout.fragment_register_email, container, false)
+        val view=inflater.inflate(R.layout.fragment_register_email, container, false)
         //allow to go back
         m.allowBack=true
 

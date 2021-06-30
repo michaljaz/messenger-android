@@ -18,7 +18,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
-        var im=findViewById<ImageView>(R.id.SplashScreenImage)
+        val im=findViewById<ImageView>(R.id.SplashScreenImage)
         im.alpha=0f
         im.animate().setDuration(300).alpha(1f).withEndAction {
             val intent = Intent(this, MainActivity::class.java)

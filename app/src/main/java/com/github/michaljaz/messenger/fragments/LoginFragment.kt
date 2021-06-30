@@ -22,7 +22,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         m = activity as MainActivity
-        var view=inflater.inflate(R.layout.fragment_login_email, container, false)
+        val view=inflater.inflate(R.layout.fragment_login_email, container, false)
 
         //add arrow to toolbar
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
