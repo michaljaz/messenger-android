@@ -50,30 +50,40 @@ class HomeFragment : Fragment() {
         m.toggle.syncState()
 
         //Update user data in firebase
-        val userdb = m.db.child("usersData").child(m.auth.currentUser!!.uid)
-        m.db.child("users").child(m.auth.currentUser!!.uid).setValue(true)
-        val profile=m.auth.currentUser!!.providerData[1]
-        userdb.child("email").setValue(profile.email.toString())
-        userdb.child("providerId").setValue(profile.providerId)
-        userdb.child("displayName").setValue(m.auth.currentUser!!.providerData[0].displayName.toString())
-        FirebaseMessaging.getInstance().token.addOnCompleteListener OnCompleteListener@{ task ->
-            if (!task.isSuccessful) {
-                Log.w("XD", "Fetching FCM registration token failed", task.exception)
-                return@OnCompleteListener
-            }
-            val token = task.result
-            userdb.child("fcm_token").setValue(token.toString())
-        }
+        val user=m.auth.currentUser!!
+        val profile=user.providerData[1]
+
         val photoUrl = if(profile.providerId=="google"){
             profile.photoUrl.toString()
         }else{
-            m.auth.currentUser!!.providerData[0].photoUrl.toString()
+            user.providerData[0].photoUrl.toString()
         }
-        userdb.child("photoUrl").setValue(photoUrl)
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w("XD", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+            val token = task.result
+
+            val userData=mapOf(
+                "email" to profile.email.toString(),
+                "providerId" to profile.providerId,
+                "displayName" to user.providerData[0].displayName.toString(),
+                "photoUrl" to photoUrl,
+                "fcm_token" to token
+            )
+
+            val childUpdates = hashMapOf(
+                "/usersData/${user.uid}" to userData,
+                "/users/${user.uid}" to true
+            )
+            m.db.updateChildren(childUpdates)
+        }
 
         //Update drawer header
         m.updateHeader(
-            m.auth.currentUser!!.providerData[0].displayName.toString(),
+            user.providerData[0].displayName.toString(),
             profile.email.toString(),
             photoUrl
         )
