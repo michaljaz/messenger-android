@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/blue">
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="12dp"
         android:paddingTop="5dp"
         android:src="@drawable/ic_profile_user"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,28 +22,27 @@
         android:id="@+id/title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:text="FullName"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         tools:ignore="MissingConstraints" />
+
     <TextView
-        android:textColor="#A5A5A5"
         android:id="@+id/subtitle_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
+        android:paddingBottom="12dp"
         android:text="Email"
         android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="#A5A5A5"
         android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_name"
-        tools:ignore="MissingConstraints"
-        android:paddingBottom="12dp"/>
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
