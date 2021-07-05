@@ -12,7 +12,7 @@ android {
         applicationId "com.github.michaljaz.messenger"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode Integer.valueOf(System.getenv('VERSION_CODE') ?: 0)
+        versionCode Integer.valueOf(System.getenv('VERSION_CODE') ?: 1)
         versionName "${System.getenv('VERSION_NAME')}"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

@@ -13,24 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: ./gradlew bundle
+        env:
+          VERSION_CODE: ${{ github.event.inputs.versionCode }}
+          VERSION_NAME: ${{ github.event.inputs.versionName }}
       - uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '14'
-      - run: ./gradlew build
-        env:
-          VERSION_CODE: ${{ github.event.inputs.versionCode }}
-          VERSION_NAME: ${{ github.event.inputs.versionName }}
       - uses: r0adkll/sign-android-release@v1
-        name: Sign app APK
+        name: Sign app AAB
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk/release
+          releaseDirectory: app/build/outputs/bundle/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - uses: actions/upload-artifact@v2
         with:
-          name: Signed APK
+          name: Signed AAB
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
