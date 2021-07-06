@@ -4,12 +4,14 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.michaljaz.messenger.activities.MainActivity
@@ -20,9 +22,14 @@ import com.github.kittinunf.result.Result
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.squareup.picasso.Picasso
+import org.w3c.dom.Text
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
+    private lateinit var list: ListView
+    private  var texts= ArrayList<String>()
+    private var isMe= ArrayList<Boolean>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,9 +75,14 @@ class ChatFragment : Fragment() {
         //fix size
         for (i in 0 until m.toolbar.childCount) {
             val it=m.toolbar.getChildAt(i)
-            if (it is ImageButton) {
-                it.scaleX = 1f
-                it.scaleY = 1f
+            if (it is ImageView) {
+                if(it is ImageButton){
+                    it.scaleX = 1f
+                    it.scaleY = 1f
+                }else{
+                    it.scaleX = 0.7f
+                    it.scaleY = 0.7f
+                }
             }
             if (it is TextView){
                 it.textSize = 20F
@@ -92,17 +104,28 @@ class ChatFragment : Fragment() {
         })
 
         //test messages adapter
-        val list = view.findViewById<ListView>(R.id.list)
-        val texts = ArrayList<String>()
-        texts.add("hello!")
-        texts.add("hi!")
-        val isMe = ArrayList<Boolean>()
-        isMe.add(true)
-        isMe.add(false)
-        list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)
-
+        list = view.findViewById(R.id.list)
+        loop()
         return view
     }
+    private fun loop(){
+        Handler().postDelayed(
+            {
+                addMessage("Hello",Math.random()<0.5)
+                updateList()
+                loop()
+            },
+            1000 // value in milliseconds
+        )
+    }
+    private fun addMessage(message:String,isme:Boolean){
+        texts.add(message)
+        isMe.add(isme)
+    }
+    private fun updateList(){
+        list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)
+    }
+
     private fun sendMessage(v:View) {
         val message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
         v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
