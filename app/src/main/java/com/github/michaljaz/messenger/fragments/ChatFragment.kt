@@ -88,8 +88,11 @@ class ChatFragment : Fragment() {
                 }
             }
         }
-        m.db.child("/usersData/${m.chatWithUid}/chats/${m.auth.currentUser!!.uid}").setValue(true)
-        m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
+        try{
+            m.db.child("/usersData/${m.chatWithUid}/chats/${m.auth.currentUser!!.uid}").setValue(true)
+            m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
+        }catch(e:Exception){}
+
         val ref = if(m.chatWithUid>m.auth.currentUser!!.uid){
             m.db.child("/chats/${m.auth.currentUser!!.uid}/${m.chatWithUid}")
         }else{

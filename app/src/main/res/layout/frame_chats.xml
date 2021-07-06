@@ -9,26 +9,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            tools:ignore="MissingConstraints"
-            app:startIconDrawable="@drawable/ic_search"
             android:layout_margin="10dp"
-            android:clickable="true">
+            android:clickable="true"
+            app:startIconDrawable="@drawable/ic_search"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="10dp">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Search"
-                android:background="@drawable/rounded_edittext"
-                android:inputType="text"
-                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:focusable="false"
+                android:background="@drawable/rounded_edittext"
                 android:clickable="true"
-                android:hint="Search">
+                android:focusable="false"
+                android:hint="Search"
+                android:inputType="text"
+                android:maxLines="1">
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:divider="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"></ListView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
