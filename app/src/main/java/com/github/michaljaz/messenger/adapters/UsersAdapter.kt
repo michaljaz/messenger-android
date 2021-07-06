@@ -28,6 +28,7 @@ class UsersAdapter(
         val xd= ArrayList<String>()
         xd.add(userIds[arg0])
         xd.add(displayNames[arg0])
+        xd.add(photoUrls[arg0])
         return xd
     }
 

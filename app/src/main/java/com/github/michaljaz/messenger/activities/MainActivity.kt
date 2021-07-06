@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var home: HomeFragment
     var chatWith: String="null"
     var chatWithUid: String="null"
+    var chatWithPhoto: String="null"
     var allowBack: Boolean=false
 
 

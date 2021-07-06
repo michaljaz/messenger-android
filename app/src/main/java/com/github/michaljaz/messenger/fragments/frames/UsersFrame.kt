@@ -56,6 +56,7 @@ class UsersFrame : Fragment() {
             val selectedItem = parent.getItemAtPosition(position) as ArrayList<String>
             m.chatWithUid=selectedItem[0]
             m.chatWith=selectedItem[1]
+            m.chatWithPhoto=selectedItem[2]
             try {
                 findNavController().navigate(R.id.userChat_on)
             }catch(e:Exception){}

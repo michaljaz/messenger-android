@@ -1,5 +1,8 @@
 package com.github.michaljaz.messenger.fragments
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,6 +18,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
+import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.squareup.picasso.Picasso
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
@@ -35,6 +40,19 @@ class ChatFragment : Fragment() {
         //add arrow to toolbar
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         m.supportActionBar!!.setDisplayShowHomeEnabled(true)
+
+        Picasso.get()
+            .load(m.chatWithPhoto)
+            .transform(RoundedTransformation(100, 0))
+            .into(object : com.squareup.picasso.Target {
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    val d: Drawable = BitmapDrawable(resources, bitmap)
+                    m.toolbar.logo = d
+                }
+
+                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+            })
 
         //set toolbar title user
         m.setToolbarTitle(m.chatWith)
@@ -81,8 +99,7 @@ class ChatFragment : Fragment() {
         val isMe = ArrayList<Boolean>()
         isMe.add(true)
         isMe.add(false)
-        val friendPhotoUrl = "default"
-        list.adapter=MessagesAdapter(requireContext(),texts,isMe,friendPhotoUrl)
+        list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)
 
         return view
     }
