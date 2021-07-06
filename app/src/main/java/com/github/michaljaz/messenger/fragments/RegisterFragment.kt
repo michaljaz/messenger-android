@@ -37,6 +37,7 @@ class RegisterFragment : Fragment() {
         m.toolbar.setNavigationOnClickListener {
             try{
                 findNavController().navigate(R.id.register_to_other)
+                m.hideKeyboard(view)
             }catch(e:Exception){}
         }
 

@@ -14,7 +14,9 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/continue_with_email"
-            app:destination="@id/loginFragment4" />
+            app:destination="@id/loginFragment4"
+            app:enterAnim="@anim/slide_out_right"
+            app:exitAnim="@anim/slide_in_right" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -60,10 +62,13 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/already_have_account"
-            app:destination="@id/loginFragment4" />
+            app:destination="@id/loginFragment4"
+            app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/register_to_other"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_out_left"
+            app:exitAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment4"
@@ -72,12 +77,15 @@
         tools:layout="@layout/fragment_login_email" >
         <action
             android:id="@+id/create_new_account"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/signin"
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/login_to_other"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_out_left"
+            app:exitAnim="@anim/slide_in_left" />
     </fragment>
 </navigation>

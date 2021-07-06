@@ -41,6 +41,7 @@ class ChatFragment : Fragment() {
         m.toolbar.setNavigationOnClickListener {
             try{
                 findNavController().navigate(R.id.userchat_off)
+                m.hideKeyboard(view)
             }catch(e:Exception){}
         }
 

@@ -32,6 +32,7 @@ class LoginFragment : Fragment() {
         m.toolbar.setNavigationOnClickListener {
             try{
                 findNavController().navigate(R.id.login_to_other)
+                m.hideKeyboard(view)
             }catch(e:Exception){}
         }
 

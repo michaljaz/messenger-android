@@ -37,9 +37,6 @@ class ContinueFragment : Fragment() {
         m=(activity as MainActivity)
         val view=inflater.inflate(R.layout.fragment_continue, container, false)
 
-        //hide keyboard
-        m.hideKeyboard(view)
-
         //not allow to go back
         m.allowBack=false
 
