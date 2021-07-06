@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
-import com.github.michaljaz.messenger.adapters.CustomAdapter
+import com.github.michaljaz.messenger.adapters.UsersAdapter
 
 class UsersFrame : Fragment() {
     private lateinit var m: MainActivity
@@ -34,17 +34,17 @@ class UsersFrame : Fragment() {
         //get list of users from firebase
         val list = view.findViewById<ListView>(R.id.list)
         m.db.child("users").get().addOnSuccessListener {
-            val array = ArrayList<String>()
-            val drawables = ArrayList<String>()
-            val userids = ArrayList<String>()
+            val displayNames = ArrayList<String>()
+            val photoUrls = ArrayList<String>()
+            val userIds = ArrayList<String>()
             for(ds in it.children) {
                 m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
                     m.db.child("usersData").child(ds.key.toString()).child("photoUrl").get().addOnSuccessListener { itx2 ->
-                        array.add(itx.value.toString())
-                        drawables.add(itx2.value.toString())
-                        userids.add(ds.key.toString())
+                        displayNames.add(itx.value.toString())
+                        photoUrls.add(itx2.value.toString())
+                        userIds.add(ds.key.toString())
                         try{
-                            list.adapter= CustomAdapter(requireContext(), array, drawables,userids)
+                            list.adapter= UsersAdapter(requireContext(), displayNames, photoUrls, userIds)
                         }catch(e:Exception){ }
                     }
                 }
@@ -54,7 +54,6 @@ class UsersFrame : Fragment() {
 
         view.findViewById<ListView>(R.id.list).setOnItemClickListener { parent, _, position, _ ->
             val selectedItem = parent.getItemAtPosition(position) as ArrayList<String>
-            Log.d("xd", selectedItem[0])
             m.chatWithUid=selectedItem[0]
             m.chatWith=selectedItem[1]
             try {

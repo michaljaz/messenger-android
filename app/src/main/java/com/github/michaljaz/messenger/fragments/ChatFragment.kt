@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import com.github.michaljaz.messenger.R
 import com.google.android.material.textfield.TextInputEditText
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
+import com.github.michaljaz.messenger.adapters.MessagesAdapter
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
@@ -70,6 +72,18 @@ class ChatFragment : Fragment() {
             }
             false
         })
+
+        //test messages adapter
+        val list = view.findViewById<ListView>(R.id.list)
+        val texts = ArrayList<String>()
+        texts.add("hello!")
+        texts.add("hi!")
+        val isMe = ArrayList<Boolean>()
+        isMe.add(true)
+        isMe.add(false)
+        val friendPhotoUrl = "default"
+        list.adapter=MessagesAdapter(requireContext(),texts,isMe,friendPhotoUrl)
+
         return view
     }
     private fun sendMessage(v:View) {
