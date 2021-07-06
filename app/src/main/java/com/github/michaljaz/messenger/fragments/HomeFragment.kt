@@ -72,36 +72,19 @@ class HomeFragment : Fragment() {
                 Log.w("XD", "Fetching FCM registration token failed", task.exception)
                 return@addOnCompleteListener
             }
-            val token = task.result
-
-            val userData=mapOf(
-                "email" to profile.email.toString(),
-                "providerId" to profile.providerId,
-                "displayName" to user.providerData[0].displayName.toString(),
-                "photoUrl" to photoUrl,
-                "fcm_token" to token
-            )
 
             val childUpdates = hashMapOf(
-                "/usersData/${user.uid}" to userData,
+                "/usersData/${user.uid}/email" to profile.email.toString(),
+                "/usersData/${user.uid}/providerId" to profile.providerId,
+                "/usersData/${user.uid}/displayName" to user.providerData[0].displayName.toString(),
+                "/usersData/${user.uid}/photoUrl" to photoUrl,
+                "/usersData/${user.uid}/fcm_token" to task.result,
                 "/users/${user.uid}" to true
             )
-            m.db.updateChildren(childUpdates)
+            m.db.updateChildren(childUpdates as Map<String, Any>)
         }
 
-        //update hamburger to user icon
-        Picasso.get()
-            .load(photoUrl)
-            .transform(RoundedTransformation(100, 0))
-            .into(object : com.squareup.picasso.Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
-                    val d: Drawable = BitmapDrawable(resources, bitmap)
-                    m.toolbar.navigationIcon = d
-                }
-
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-            })
+        //fix size
         for (i in 0 until m.toolbar.childCount) {
             val it=m.toolbar.getChildAt(i)
             if (it is ImageButton) {
