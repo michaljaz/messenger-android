@@ -48,6 +48,16 @@ class MessagesAdapter(
             isMe[position+1]
         }
         if(isMe[position]){
+            val up = if(position==0){
+                false
+            }else{
+                isMe[position-1]
+            }
+            val down=if(position==isMe.lastIndex){
+                false
+            }else{
+                isMe[position+1]
+            }
             row = inflater.inflate(R.layout.row_message_my, parent, false)
             val message=row.findViewById<TextView>(R.id.message)
             message.text=texts[position]
@@ -64,6 +74,16 @@ class MessagesAdapter(
                 message.setBackgroundResource(R.drawable.my_bubble_shape)
             }
         }else{
+            val up = if(position==0){
+                false
+            }else{
+                !isMe[position-1]
+            }
+            val down=if(position==isMe.lastIndex){
+                false
+            }else{
+                !isMe[position+1]
+            }
             row = inflater.inflate(R.layout.row_message_friend, parent, false)
             val message=row.findViewById<TextView>(R.id.message)
             message.text=texts[position]
@@ -79,16 +99,16 @@ class MessagesAdapter(
                         .into(i)
                 }
             }
-            if(!up && !down){
+            if(up && down){
                 message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
             }
-            if(!up && down){
+            if(up && !down){
                 message.setBackgroundResource(R.drawable.friend_bubble_shape_up)
             }
-            if(up && !down){
+            if(!up && down){
                 message.setBackgroundResource(R.drawable.friend_bubble_shape_down)
             }
-            if(up && down){
+            if(!up && !down){
                 message.setBackgroundResource(R.drawable.friend_bubble_shape)
             }
 
