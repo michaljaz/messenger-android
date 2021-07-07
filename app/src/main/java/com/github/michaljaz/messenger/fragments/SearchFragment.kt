@@ -14,7 +14,6 @@ import com.google.android.material.textfield.TextInputEditText
 class SearchFragment : Fragment() {
     private lateinit var m: MainActivity
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,13 +31,18 @@ class SearchFragment : Fragment() {
         m.disableDrawer()
 
         //request search focus
-        view.findViewById<TextInputEditText>(R.id.Search).requestFocus()
-        m.showKeyboard()
+        if(m.searchKeyboard){
+            view.findViewById<TextInputEditText>(R.id.Search).isFocusableInTouchMode = true
+            view.findViewById<TextInputEditText>(R.id.Search).requestFocus()
+            m.showKeyboard()
+            m.searchKeyboard=false
+        }
+
 
         //back arrow
         view.findViewById<ImageView>(R.id.imageView3).setOnClickListener {
-            m.hideKeyboard(view)
             findNavController().navigate(R.id.search_off)
+            m.hideKeyboard(view)
         }
         return view
     }

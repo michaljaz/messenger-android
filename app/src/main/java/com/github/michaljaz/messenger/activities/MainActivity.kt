@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     var chatWithUid: String="null"
     var chatWithPhoto: String="null"
     var allowBack: Boolean=false
+    var searchKeyboard: Boolean=true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
