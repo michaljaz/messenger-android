@@ -1,8 +1,12 @@
 package com.github.michaljaz.messenger.fragments
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
@@ -12,8 +16,10 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
 import com.github.michaljaz.messenger.fragments.frames.UsersFrame
+import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.messaging.FirebaseMessaging
+import com.squareup.picasso.Picasso
 
 
 class HomeFragment : Fragment() {
@@ -77,13 +83,31 @@ class HomeFragment : Fragment() {
             m.db.updateChildren(childUpdates as Map<String, Any>)
         }
 
-        //fix size
+
+        //update hamburger to user icon
+        if(photoUrl=="default"){
+            m.toolbar.setNavigationIcon(R.drawable.ic_profile_user)
+        }else{
+            Picasso.get()
+                .load(photoUrl)
+                .transform(RoundedTransformation(100, 0))
+                .into(object : com.squareup.picasso.Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        val d: Drawable = BitmapDrawable(resources, bitmap)
+                        m.toolbar.navigationIcon = d
+                    }
+
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                })
+        }
+
         for (i in 0 until m.toolbar.childCount) {
             val it=m.toolbar.getChildAt(i)
-//            if (it is ImageButton) {
-//                it.scaleX = 0.75f
-//                it.scaleY = 0.75f
-//            }
+            if (it is ImageButton) {
+                it.scaleX = 0.75f
+                it.scaleY = 0.75f
+            }
             if (it is TextView){
                 it.textSize = 25F
             }

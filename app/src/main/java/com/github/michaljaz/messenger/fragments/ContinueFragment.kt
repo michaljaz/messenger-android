@@ -8,8 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.facebook.*
@@ -42,6 +41,18 @@ class ContinueFragment : Fragment() {
 
         //block drawer
         m.disableDrawer()
+
+        //fix size
+        for (i in 0 until m.toolbar.childCount) {
+            val it=m.toolbar.getChildAt(i)
+            if (it is ImageView) {
+                it.scaleX = 1f
+                it.scaleY = 1f
+            }
+            if (it is TextView){
+                it.textSize = 20F
+            }
+        }
 
         //remove hamburger icon
         m.toolbar.navigationIcon = null

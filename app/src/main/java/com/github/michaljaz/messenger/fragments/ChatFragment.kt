@@ -65,18 +65,22 @@ class ChatFragment : Fragment() {
         m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         m.supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        Picasso.get()
-            .load(m.chatWithPhoto)
-            .transform(RoundedTransformation(100, 0))
-            .into(object : com.squareup.picasso.Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    val d: Drawable = BitmapDrawable(resources, bitmap)
-                    m.toolbar.logo = d
-                }
+        if(m.chatWithPhoto=="default"){
+            m.toolbar.setLogo(R.drawable.ic_profile_user)
+        }else{
+            Picasso.get()
+                .load(m.chatWithPhoto)
+                .transform(RoundedTransformation(100, 0))
+                .into(object : com.squareup.picasso.Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        val d: Drawable = BitmapDrawable(resources, bitmap)
+                        m.toolbar.logo = d
+                    }
 
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-            })
+                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                })
+        }
 
         //set toolbar title user
         m.setToolbarTitle(m.chatWith)
@@ -155,31 +159,33 @@ class ChatFragment : Fragment() {
 
     private fun sendMessage(v:View) {
         val message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
-        v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
-        Log.d("xd", "Sending message... $message")
-        val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?uid=${m.chatWithUid}&title=Notification&body=$message"
-        url.httpGet().responseString { _, _, result ->
-            when (result) {
-                is Result.Failure -> {
-                    val ex = result.getException()
-                    Log.d("xd",ex.toString())
-                }
-                is Result.Success -> {
-                    val data = result.get()
-                    Log.d("xd",data)
+        if(message.toString()!=""){
+            v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
+            Log.d("xd", "Sending message... $message")
+            val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?uid=${m.chatWithUid}&title=Notification&body=$message"
+            url.httpGet().responseString { _, _, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        val ex = result.getException()
+                        Log.d("xd",ex.toString())
+                    }
+                    is Result.Success -> {
+                        val data = result.get()
+                        Log.d("xd",data)
+                    }
                 }
             }
-        }
-        try{
-            m.db.child("/usersData/${m.chatWithUid}/chats/${m.auth.currentUser!!.uid}").setValue(true)
-            m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
-        }catch(e:Exception){}
+            try{
+                m.db.child("/usersData/${m.chatWithUid}/chats/${m.auth.currentUser!!.uid}").setValue(true)
+                m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
+            }catch(e:Exception){}
 
-        val key=ref.child("messages").push().key
-        ref.child("messages/${key}").setValue(mapOf(
-            "data" to message.toString(),
-            "timestamp" to System.currentTimeMillis().toString(),
-            "sender" to m.auth.currentUser!!.uid
-        ))
+            val key=ref.child("messages").push().key
+            ref.child("messages/${key}").setValue(mapOf(
+                "data" to message.toString(),
+                "timestamp" to System.currentTimeMillis().toString(),
+                "sender" to m.auth.currentUser!!.uid
+            ))
+        }
     }
 }
