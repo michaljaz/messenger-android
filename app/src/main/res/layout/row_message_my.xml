@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp">
+    android:padding="3dp">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,8 +17,11 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="15sp"
-        android:padding="15dp"
+        android:text="HELLO WORLD"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
         android:layout_gravity="right"
+        android:layout_marginRight="10dp"
         android:gravity="right"
         android:background="@drawable/my_bubble_shape" />
 

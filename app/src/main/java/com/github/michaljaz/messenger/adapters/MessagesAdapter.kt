@@ -37,22 +37,61 @@ class MessagesAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val row: View
+        val up = if(position==0){
+            false
+        }else{
+            isMe[position-1]
+        }
+        val down=if(position==isMe.lastIndex){
+            false
+        }else{
+            isMe[position+1]
+        }
         if(isMe[position]){
             row = inflater.inflate(R.layout.row_message_my, parent, false)
-            row.findViewById<TextView>(R.id.message).text=texts[position]
+            val message=row.findViewById<TextView>(R.id.message)
+            message.text=texts[position]
+            if(up && down){
+                message.setBackgroundResource(R.drawable.my_bubble_shape_middle)
+            }
+            if(up && !down){
+                message.setBackgroundResource(R.drawable.my_bubble_shape_up)
+            }
+            if(!up && down){
+                message.setBackgroundResource(R.drawable.my_bubble_shape_down)
+            }
+            if(!up && !down){
+                message.setBackgroundResource(R.drawable.my_bubble_shape)
+            }
         }else{
             row = inflater.inflate(R.layout.row_message_friend, parent, false)
-            row.findViewById<TextView>(R.id.message).text=texts[position]
+            val message=row.findViewById<TextView>(R.id.message)
+            message.text=texts[position]
             val i = row.findViewById<ImageView>(R.id.imgIcon)
-            if(friendPhotoUrl=="default"){
-                i.setImageResource(R.drawable.ic_profile_user)
-            }else{
-                Picasso
-                    .get()
-                    .load(friendPhotoUrl)
-                    .transform(RoundedTransformation(100, 0))
-                    .into(i)
+            if(!(position>0 && !isMe[position-1])){
+                if(friendPhotoUrl=="default"){
+                    i.setImageResource(R.drawable.ic_profile_user)
+                }else{
+                    Picasso
+                        .get()
+                        .load(friendPhotoUrl)
+                        .transform(RoundedTransformation(100, 0))
+                        .into(i)
+                }
             }
+            if(!up && !down){
+                message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
+            }
+            if(!up && down){
+                message.setBackgroundResource(R.drawable.friend_bubble_shape_up)
+            }
+            if(up && !down){
+                message.setBackgroundResource(R.drawable.friend_bubble_shape_down)
+            }
+            if(up && down){
+                message.setBackgroundResource(R.drawable.friend_bubble_shape)
+            }
+
 
         }
         return row
