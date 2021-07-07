@@ -34,9 +34,10 @@ class SearchFragment : Fragment() {
         if(m.searchKeyboard){
             view.findViewById<TextInputEditText>(R.id.Search).isFocusableInTouchMode = true
             view.findViewById<TextInputEditText>(R.id.Search).requestFocus()
-            m.showKeyboard()
+
             m.searchKeyboard=false
         }
+        m.showKeyboard()
 
 
         //back arrow
