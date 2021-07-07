@@ -21,14 +21,21 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
+
+import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
     private lateinit var list: ListView
     private  var texts= ArrayList<String>()
     private var isMe= ArrayList<Boolean>()
+    private lateinit var ref:DatabaseReference
 
 
     override fun onCreateView(
@@ -37,6 +44,16 @@ class ChatFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
+
+        //ref
+        ref = (if(m.chatWithUid>m.auth.currentUser!!.uid){
+            m.db.child("/chats/${m.auth.currentUser!!.uid}/${m.chatWithUid}")
+        }else{
+            m.db.child("/chats/${m.chatWithUid}/${m.auth.currentUser!!.uid}")
+        })
+
+
+
 
         //not allow to go back
         m.allowBack=true
@@ -105,22 +122,32 @@ class ChatFragment : Fragment() {
 
         //test messages adapter
         list = view.findViewById(R.id.list)
-        loop()
+        ref.child("messages").addChildEventListener(object: ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val message=snapshot.value as Map<String,String>
+                Log.d("xd",message["data"].toString())
+                addMessage(message["data"].toString(),message["sender"].toString()==m.auth.currentUser!!.uid)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
         return view
-    }
-    private fun loop(){
-        Handler().postDelayed(
-            {
-                addMessage("Hello",Math.random()<0.5)
-                updateList()
-                loop()
-            },
-            1000 // value in milliseconds
-        )
     }
     private fun addMessage(message:String,isme:Boolean){
         texts.add(message)
         isMe.add(isme)
+        updateList()
     }
     private fun updateList(){
         list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)
@@ -148,11 +175,6 @@ class ChatFragment : Fragment() {
             m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
         }catch(e:Exception){}
 
-        val ref = if(m.chatWithUid>m.auth.currentUser!!.uid){
-            m.db.child("/chats/${m.auth.currentUser!!.uid}/${m.chatWithUid}")
-        }else{
-            m.db.child("/chats/${m.chatWithUid}/${m.auth.currentUser!!.uid}")
-        }
         val key=ref.child("messages").push().key
         ref.child("messages/${key}").setValue(mapOf(
             "data" to message.toString(),
