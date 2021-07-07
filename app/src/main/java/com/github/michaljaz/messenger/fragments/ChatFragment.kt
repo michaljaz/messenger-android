@@ -4,31 +4,26 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
-import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.github.michaljaz.messenger.activities.MainActivity
-import com.github.michaljaz.messenger.R
-import com.google.android.material.textfield.TextInputEditText
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
+import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.squareup.picasso.Picasso
-import org.w3c.dom.Text
-
-import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
@@ -151,7 +146,10 @@ class ChatFragment : Fragment() {
     private fun addMessage(message:String,isme:Boolean){
         texts.add(message)
         isMe.add(isme)
+        val state = list.onSaveInstanceState()
         updateList()
+        list.onRestoreInstanceState(state)
+        list.smoothScrollToPosition(list.adapter.count)
     }
     private fun updateList(){
         list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)

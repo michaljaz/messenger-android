@@ -29,7 +29,8 @@
         android:layout_marginRight="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:clickable="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/NewMessage"
@@ -39,7 +40,9 @@
             android:hint="Aa"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="20dp"></com.google.android.material.textfield.TextInputEditText>
+            android:textSize="20dp"
+            android:clickable="true"
+            ></com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
 
 
