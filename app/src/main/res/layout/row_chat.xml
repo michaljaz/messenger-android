@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:orientation="horizontal"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:padding="10dp">
+
+<ImageView android:id="@+id/imgIcon"
+    android:src="@drawable/ic_profile_user"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentBottom="true"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/DisplayName"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:textSize="23dp"
+            android:text="USER DISPLAY NAME"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/LastMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:text="lastMessage"
+            android:textSize="13dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DisplayName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
