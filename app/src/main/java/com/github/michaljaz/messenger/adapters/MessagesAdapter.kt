@@ -79,7 +79,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape)
             }
 
-            if(!(position>0 && !mMessages[position-1].isMe)){
+            if(!up){
                 if(friendPhotoUrl=="default"){
                     viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
                 }else{
@@ -89,6 +89,8 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
                         .transform(RoundedTransformation(100, 0))
                         .into(viewHolder.icon)
                 }
+            }else{
+                viewHolder.icon.setImageResource(0)
             }
         }
 
