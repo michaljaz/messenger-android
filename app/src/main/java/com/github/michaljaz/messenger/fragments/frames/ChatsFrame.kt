@@ -1,14 +1,18 @@
 package com.github.michaljaz.messenger.fragments.frames
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
 import com.google.android.material.textfield.TextInputEditText
 
@@ -39,21 +43,16 @@ class ChatsFrame : Fragment() {
             Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
 
-        val list = view.findViewById<ListView>(R.id.list)
-        val displayNames = ArrayList<String>()
-        displayNames.add("John")
-        displayNames.add("Richard")
-        val photoUrls = ArrayList<String>()
-        photoUrls.add("default")
-        photoUrls.add("default")
-        val userIds = ArrayList<String>()
-        userIds.add("default")
-        userIds.add("default")
-        val lastMessages = ArrayList<String>()
-        lastMessages.add("m1")
-        lastMessages.add("m2")
-        list.adapter= ChatsAdapter(requireContext(),displayNames,photoUrls,userIds,lastMessages)
+        val list = view.findViewById<RecyclerView>(R.id.list)
 
+        val chats = ArrayList<Chat>()
+        chats.add(Chat("John","default","xd","m"))
+        chats.add(Chat("Richard","default","xd","m2"))
+        chats.add(Chat("BOB","default","x","m"))
+        val adapter=ChatsAdapter(chats)
+
+        list.adapter = adapter
+        list.layoutManager = LinearLayoutManager(context)
         return view
     }
 }

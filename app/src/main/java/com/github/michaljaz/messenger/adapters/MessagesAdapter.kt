@@ -37,16 +37,6 @@ class MessagesAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val row: View
-        val up = if(position==0){
-            false
-        }else{
-            isMe[position-1]
-        }
-        val down=if(position==isMe.lastIndex){
-            false
-        }else{
-            isMe[position+1]
-        }
         if(isMe[position]){
             val up = if(position==0){
                 false

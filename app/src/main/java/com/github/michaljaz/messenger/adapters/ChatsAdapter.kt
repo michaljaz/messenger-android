@@ -1,60 +1,51 @@
 package com.github.michaljaz.messenger.adapters
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.squareup.picasso.Picasso
 
+class Chat(
+    val displayName: String,
+    val photoUrl: String,
+    val userId: String,
+    val lastMessage: String)
 
-class ChatsAdapter(
-    private val context: Context,
-    private val displayNames: ArrayList<String>,
-    private val photoUrls: ArrayList<String>,
-    private val userIds: ArrayList<String>,
-    private val lastMessages: ArrayList<String>
-) : BaseAdapter() {
-
-    override fun getCount(): Int {
-        return displayNames.size
+class ChatsAdapter (private val mChats: List<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
+{
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val displayName: TextView = itemView.findViewById(R.id.DisplayName)
+        val lastMessage: TextView = itemView.findViewById(R.id.LastMessage)
+        val icon: ImageView = itemView.findViewById(R.id.imgIcon)
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ViewHolder {
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val contactView = inflater.inflate(R.layout.row_chat, parent, false)
+        return ViewHolder(contactView)
     }
 
-    override fun getItem(arg0: Int): ArrayList<String> {
-        val xd= ArrayList<String>()
-        xd.add(userIds[arg0])
-        xd.add(displayNames[arg0])
-        xd.add(photoUrls[arg0])
-        return xd
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
-    @SuppressLint("ViewHolder")
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val row: View = inflater.inflate(R.layout.row_chat, parent, false)
-        val i1: ImageView = row.findViewById(R.id.imgIcon) as ImageView
-        row.findViewById<TextView>(R.id.DisplayName).text=displayNames[position]
-        row.findViewById<TextView>(R.id.LastMessage).text=lastMessages[position]
-        val image=photoUrls[position]
-        if(image=="default"){
-            i1.setImageResource(R.drawable.ic_profile_user)
+    override fun onBindViewHolder(viewHolder: ChatsAdapter.ViewHolder, position: Int) {
+        val chat: Chat = mChats[position]
+        viewHolder.displayName.text=chat.displayName
+        viewHolder.lastMessage.text=chat.lastMessage
+        if(chat.photoUrl=="default"){
+            viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
         }else{
             Picasso
                 .get()
-                .load(image)
+                .load(chat.photoUrl)
                 .transform(RoundedTransformation(100, 0))
-                .into(i1)
+                .into(viewHolder.icon)
         }
-        return row
     }
 
+    override fun getItemCount(): Int {
+        return mChats.size
+    }
 }
