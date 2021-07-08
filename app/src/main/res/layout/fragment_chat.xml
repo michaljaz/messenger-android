@@ -7,8 +7,7 @@
     tools:context=".fragments.ChatFragment"
     android:layout_margin="5dp">
 
-    <ListView
-        android:scrollingCache="true"
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -16,9 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:stackFromBottom="true"
-        android:divider="@null">
-    </ListView>
+        android:stackFromBottom="true">
+    </androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"

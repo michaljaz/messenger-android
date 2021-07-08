@@ -16,7 +16,7 @@ class Chat(
     val userId: String,
     val lastMessage: String)
 
-class ChatsAdapter (private val mChats: List<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
+class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
 {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val displayName: TextView = itemView.findViewById(R.id.DisplayName)
@@ -26,8 +26,8 @@ class ChatsAdapter (private val mChats: List<Chat>) : RecyclerView.Adapter<Chats
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        val contactView = inflater.inflate(R.layout.row_chat, parent, false)
-        return ViewHolder(contactView)
+        val chatView = inflater.inflate(R.layout.row_chat, parent, false)
+        return ViewHolder(chatView)
     }
 
     override fun onBindViewHolder(viewHolder: ChatsAdapter.ViewHolder, position: Int) {

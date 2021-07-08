@@ -12,10 +12,13 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.adapters.Message
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.textfield.TextInputEditText
@@ -27,10 +30,9 @@ import com.squareup.picasso.Picasso
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
-    private lateinit var list: ListView
-    private  var texts= ArrayList<String>()
-    private var isMe= ArrayList<Boolean>()
+    private lateinit var list: RecyclerView
     private lateinit var ref:DatabaseReference
+    private var messages = ArrayList<Message>()
 
 
     override fun onCreateView(
@@ -46,9 +48,6 @@ class ChatFragment : Fragment() {
         }else{
             m.db.child("/chats/${m.chatWithUid}/${m.auth.currentUser!!.uid}")
         })
-
-
-
 
         //not allow to go back
         m.allowBack=true
@@ -121,6 +120,7 @@ class ChatFragment : Fragment() {
 
         //test messages adapter
         list = view.findViewById(R.id.list)
+        list.layoutManager = LinearLayoutManager(context)
         ref.child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<String,String>
@@ -144,15 +144,14 @@ class ChatFragment : Fragment() {
         return view
     }
     private fun addMessage(message:String,isme:Boolean){
-        texts.add(message)
-        isMe.add(isme)
-        val state = list.onSaveInstanceState()
-        updateList()
-        list.onRestoreInstanceState(state)
-        list.smoothScrollToPosition(list.adapter.count)
-    }
-    private fun updateList(){
-        list.adapter=MessagesAdapter(requireContext(),texts,isMe,m.chatWithPhoto)
+        messages.add(Message(message,isme))
+        if(list.adapter==null){
+            list.adapter=MessagesAdapter(messages,m.chatWithPhoto)
+        }else{
+            (list.adapter as MessagesAdapter).notifyDataSetChanged()
+            list.smoothScrollToPosition(messages.size - 1)
+        }
+
     }
 
     private fun sendMessage(v:View) {
