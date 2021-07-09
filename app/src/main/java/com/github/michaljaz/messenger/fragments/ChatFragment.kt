@@ -159,7 +159,7 @@ class ChatFragment : Fragment() {
         if(message.toString()!=""){
             v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
             Log.d("xd", "Sending message... $message")
-            val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?uid=${m.chatWithUid}&title=Notification&body=$message"
+            val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?to=${m.chatWithUid}&from=${m.auth.currentUser!!.uid}&body=$message"
             url.httpGet().responseString { _, _, result ->
                 when (result) {
                     is Result.Failure -> {
