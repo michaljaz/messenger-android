@@ -49,9 +49,8 @@ class ChatsFrame : Fragment() {
         }
 
         list = view.findViewById(R.id.list)
-
+        list.layoutManager = LinearLayoutManager(context)
         val chatsUserIds = mutableMapOf<String,Boolean>()
-
         m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats").addChildEventListener(object : ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("ADDED",snapshot.key.toString())
@@ -73,7 +72,6 @@ class ChatsFrame : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         })
-        list.layoutManager = LinearLayoutManager(context)
 
         return view
     }

@@ -20,6 +20,9 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.FirebaseApp
+import com.google.firebase.appcheck.FirebaseAppCheck
+import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -48,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         //Custom toolbar
         toolbar=findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        //firebase app check
+        FirebaseApp.initializeApp(/*context=*/ this)
+        val firebaseAppCheck = FirebaseAppCheck.getInstance()
+        firebaseAppCheck.installAppCheckProviderFactory(
+            SafetyNetAppCheckProviderFactory.getInstance())
 
         //Setup firebase
         auth=FirebaseAuth.getInstance()
