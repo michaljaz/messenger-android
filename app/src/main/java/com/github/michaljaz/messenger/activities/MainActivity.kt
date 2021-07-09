@@ -76,6 +76,14 @@ class MainActivity : AppCompatActivity() {
         startService(intent)
     }
 
+    fun getChatRef(userid:String): DatabaseReference {
+        return if(userid>auth.currentUser!!.uid){
+            db.child("/chats/${auth.currentUser!!.uid}/${userid}")
+        }else{
+            db.child("/chats/${userid}/${auth.currentUser!!.uid}")
+        }
+    }
+
     fun sessionHelper(f: HomeFragment){
         var clicked=false
         findViewById<NavigationView>(R.id.side_navigation).setNavigationItemSelectedListener { item ->

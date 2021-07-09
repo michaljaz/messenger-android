@@ -81,17 +81,19 @@ class ChatsFrame : Fragment() {
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
-                    chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),k,"lastMessage"))
-                    try{
-                        list.adapter=ChatsAdapter(chats)
-                        (list.adapter as ChatsAdapter).onItemClick= {
-                            Log.d("xd",it.displayName)
-                            m.chatWithUid=it.userId
-                            m.chatWith=it.displayName
-                            m.chatWithPhoto=it.photoUrl
-                            findNavController().navigate(R.id.userChat_on)
-                        }
-                    }catch(e:Exception){ }
+                    m.getChatRef(k).child("lastMessage").get().addOnSuccessListener { lastMessage->
+                        chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),k,lastMessage.value.toString()))
+                        try{
+                            list.adapter=ChatsAdapter(chats)
+                            (list.adapter as ChatsAdapter).onItemClick= {
+                                Log.d("xd",it.displayName)
+                                m.chatWithUid=it.userId
+                                m.chatWith=it.displayName
+                                m.chatWithPhoto=it.photoUrl
+                                findNavController().navigate(R.id.userChat_on)
+                            }
+                        }catch(e:Exception){ }
+                    }
                 }
             }
         }

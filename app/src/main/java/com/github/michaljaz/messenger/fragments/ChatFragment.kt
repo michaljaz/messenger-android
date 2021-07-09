@@ -42,13 +42,6 @@ class ChatFragment : Fragment() {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
 
-        //ref
-        ref = (if(m.chatWithUid>m.auth.currentUser!!.uid){
-            m.db.child("/chats/${m.auth.currentUser!!.uid}/${m.chatWithUid}")
-        }else{
-            m.db.child("/chats/${m.chatWithUid}/${m.auth.currentUser!!.uid}")
-        })
-
         //not allow to go back
         m.allowBack=true
 
@@ -121,7 +114,7 @@ class ChatFragment : Fragment() {
         //test messages adapter
         list = view.findViewById(R.id.list)
         list.layoutManager = LinearLayoutManager(context)
-        ref.child("messages").addChildEventListener(object: ChildEventListener{
+        m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<String,String>
                 Log.d("xd",message["data"].toString())
@@ -177,8 +170,10 @@ class ChatFragment : Fragment() {
                 m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
             }catch(e:Exception){}
 
-            val key=ref.child("messages").push().key
-            ref.child("messages/${key}").setValue(mapOf(
+            m.getChatRef(m.chatWithUid).child("lastMessage").setValue("${m.auth.currentUser!!.displayName}: $message")
+
+            val key=m.getChatRef(m.chatWithUid).child("messages").push().key
+            m.getChatRef(m.chatWithUid).child("messages/${key}").setValue(mapOf(
                 "data" to message.toString(),
                 "timestamp" to System.currentTimeMillis().toString(),
                 "sender" to m.auth.currentUser!!.uid
