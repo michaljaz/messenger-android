@@ -18,10 +18,16 @@ class Chat(
 
 class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
 {
+    var onItemClick: ((Chat)->Unit) ?= null
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val displayName: TextView = itemView.findViewById(R.id.DisplayName)
         val lastMessage: TextView = itemView.findViewById(R.id.LastMessage)
         val icon: ImageView = itemView.findViewById(R.id.imgIcon)
+        init{
+            itemView.setOnClickListener {
+                onItemClick?.invoke(mChats[adapterPosition])
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ViewHolder {
         val context = parent.context

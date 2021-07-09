@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
@@ -47,7 +48,7 @@ class ChatsFrame : Fragment() {
             Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
 
-        list = view.findViewById<RecyclerView>(R.id.list)
+        list = view.findViewById(R.id.list)
 
         val chatsUserIds = mutableMapOf<String,Boolean>()
 
@@ -73,6 +74,7 @@ class ChatsFrame : Fragment() {
             }
         })
         list.layoutManager = LinearLayoutManager(context)
+
         return view
     }
 
@@ -81,9 +83,16 @@ class ChatsFrame : Fragment() {
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
-                    chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),"xd","lastMessage"))
+                    chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),k,"lastMessage"))
                     try{
                         list.adapter=ChatsAdapter(chats)
+                        (list.adapter as ChatsAdapter).onItemClick= {
+                            Log.d("xd",it.displayName)
+                            m.chatWithUid=it.userId
+                            m.chatWith=it.displayName
+                            m.chatWithPhoto=it.photoUrl
+                            findNavController().navigate(R.id.userChat_on)
+                        }
                     }catch(e:Exception){ }
                 }
             }
