@@ -14,11 +14,15 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
+import com.github.michaljaz.messenger.adapters.UsersAdapter
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 
 class ChatsFrame : Fragment() {
     private lateinit var m: MainActivity
-
+    private lateinit var list: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,16 +47,46 @@ class ChatsFrame : Fragment() {
             Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
+        list = view.findViewById<RecyclerView>(R.id.list)
 
-        val chats = ArrayList<Chat>()
-        chats.add(Chat("John","default","xd","m"))
-        chats.add(Chat("Richard","default","xd","m2"))
-        chats.add(Chat("BOB","default","x","m"))
-        val adapter=ChatsAdapter(chats)
+        val chatsUserIds = mutableMapOf<String,Boolean>()
 
-        list.adapter = adapter
+        m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats").addChildEventListener(object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                Log.d("ADDED",snapshot.key.toString())
+                chatsUserIds[snapshot.key.toString()]=true
+                updateChats(chatsUserIds)
+            }
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                Log.d("DELETED",snapshot.key.toString())
+                chatsUserIds.remove(snapshot.key.toString())
+                updateChats(chatsUserIds)
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
         list.layoutManager = LinearLayoutManager(context)
         return view
+    }
+
+    fun updateChats(chatUserIds:MutableMap<String,Boolean>){
+        val chats = ArrayList<Chat>()
+        for ((k, _) in chatUserIds) {
+            m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
+                m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
+                    chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),"xd","lastMessage"))
+                    try{
+                        list.adapter=ChatsAdapter(chats)
+                    }catch(e:Exception){ }
+                }
+            }
+        }
     }
 }
