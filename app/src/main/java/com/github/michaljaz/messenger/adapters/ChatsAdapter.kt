@@ -19,7 +19,9 @@ class Chat(
 class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
 {
     var onItemClick: ((Chat)->Unit) ?= null
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var onItemLongClick: ((Chat)->Unit) ?= null
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val displayName: TextView = itemView.findViewById(R.id.DisplayName)
         val lastMessage: TextView = itemView.findViewById(R.id.LastMessage)
         val icon: ImageView = itemView.findViewById(R.id.imgIcon)
@@ -27,6 +29,11 @@ class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<
             itemView.setOnClickListener {
                 onItemClick?.invoke(mChats[adapterPosition])
             }
+            itemView.setOnLongClickListener {
+                onItemLongClick?.invoke(mChats[adapterPosition])
+                true
+            }
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ViewHolder {

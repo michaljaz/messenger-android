@@ -100,6 +100,7 @@ class ChatFragment : Fragment() {
             sendMessage(view)
         }
 
+
         //on enter in textview
         view.findViewById<TextInputEditText>(R.id.NewMessage).setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {

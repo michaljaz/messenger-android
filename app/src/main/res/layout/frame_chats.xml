@@ -28,7 +28,9 @@
                 android:focusable="false"
                 android:hint="@string/search_hint"
                 android:inputType="text"
-                android:maxLines="1">
+                android:maxLines="1"
+                android:textSize="20sp"
+                android:cursorVisible="false">
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>

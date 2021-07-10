@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -91,6 +92,9 @@ class ChatsFrame : Fragment() {
                                 m.chatWith=it.displayName
                                 m.chatWithPhoto=it.photoUrl
                                 findNavController().navigate(R.id.userChat_on)
+                            }
+                            (list.adapter as ChatsAdapter).onItemLongClick= {
+                                Toast.makeText(context,"LONG CLICKED",Toast.LENGTH_LONG).show()
                             }
                         }catch(e:Exception){ }
                     }
