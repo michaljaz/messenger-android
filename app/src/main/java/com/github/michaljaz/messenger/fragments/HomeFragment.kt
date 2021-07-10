@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,6 +19,7 @@ import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
 import com.github.michaljaz.messenger.fragments.frames.UsersFrame
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.messaging.FirebaseMessaging
 import com.squareup.picasso.Picasso
 

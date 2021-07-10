@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +21,7 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var db: DatabaseReference
     lateinit var toolbar: Toolbar
     lateinit var home: HomeFragment
-    lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    lateinit var dialog:BottomSheetDialog
     var chatWith: String="null"
     var chatWithUid: String="null"
     var chatWithPhoto: String="null"
@@ -50,26 +52,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheet))
-        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-//                        findViewById<TextView>(R.id.textBottom).text = "xd"
-                        //textFull.visibility = View.VISIBLE
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-//                        findViewById<TextView>(R.id.textBottom).text = "xd"
-                        //textFull.visibility = View.GONE
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        })
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        dialog = BottomSheetDialog(this)
+        val v = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        dialog.setCancelable(true)
+        dialog.setContentView(v)
 
         //Custom toolbar
         toolbar=findViewById(R.id.toolbar)

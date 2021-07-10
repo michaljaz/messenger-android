@@ -95,7 +95,7 @@ class ChatsFrame : Fragment() {
                                 findNavController().navigate(R.id.userChat_on)
                             }
                             (list.adapter as ChatsAdapter).onItemLongClick= {
-                                m.bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                                m.dialog.show()
                             }
                         }catch(e:Exception){ }
                     }
