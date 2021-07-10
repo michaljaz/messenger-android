@@ -16,8 +16,7 @@
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email"
-            >
+            android:hint="@string/field_email">
 
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
@@ -33,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
-            android:hint="Password">
+            android:hint="@string/field_password">
 
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
@@ -41,16 +40,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"
-        android:text="Sign in"
+        android:text="@string/sign_in"
         android:id="@+id/SignIn"
         app:layout_constraintTop_toBottomOf='@id/Password'
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnusedAttribute" />
     <TextView
         android:id="@+id/OR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OR"
+        android:text="@string/or"
         android:layout_centerInParent="true"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf='@id/SignIn'
@@ -62,9 +62,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/red"
-        android:text="create new account"
+        android:text="@string/create_new_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OR" />
+        app:layout_constraintTop_toBottomOf="@+id/OR"
+        tools:ignore="UnusedAttribute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

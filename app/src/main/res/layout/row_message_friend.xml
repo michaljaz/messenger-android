@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="50dp"
-    android:padding="3dp">
+    android:padding="3dp"
+    tools:ignore="UseCompoundDrawables">
 
     <ImageView android:id="@+id/imgIcon"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginRight="7dp"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp"
+        tools:ignore="ContentDescription,RtlHardcoded" />
 
     <TextView
         android:paddingHorizontal="15dp"
@@ -25,6 +26,7 @@
         android:textColor="@color/white"
         android:textSize="15sp"
         android:paddingVertical="10dp"
-        android:background="@drawable/friend_bubble_shape_up" />
+        android:background="@drawable/friend_bubble_shape_up"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

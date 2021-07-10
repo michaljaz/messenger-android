@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="70dp"
@@ -10,16 +11,16 @@
     android:focusable="true"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:paddingBottom="1dp">
+    android:paddingBottom="1dp"
+    tools:ignore="RtlHardcoded,RtlSymmetry,UnusedAttribute">
 
     <ImageView android:id="@+id/imgIcon"
         android:src="@drawable/ic_profile_user"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="15dp" />
+        android:layout_marginRight="15dp"
+        tools:ignore="ContentDescription" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,8 +29,8 @@
             android:id="@+id/DisplayName"
             android:layout_width="match_parent"
             android:layout_height="27dp"
-            android:textSize="20dp"
-            android:text="USER DISPLAY NAME"
+            android:textSize="20sp"
+            android:text="@string/field_full_name"
             android:textStyle="bold"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +43,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
             android:text="lastMessage"
-            android:textSize="13dp"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DisplayName" />
+            app:layout_constraintTop_toBottomOf="@+id/DisplayName"
+            tools:ignore="HardcodedText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

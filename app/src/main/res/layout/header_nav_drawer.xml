@@ -16,14 +16,15 @@
         android:src="@drawable/ic_profile_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/title_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="FullName"
+        android:text="@string/field_full_name"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,10 +38,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:paddingBottom="12dp"
-        android:text="Email"
+        android:text="@string/field_email"
         android:textAppearance="?attr/textAppearanceBody2"
         android:textColor="#A5A5A5"
-        android:textSize="15dp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_name"

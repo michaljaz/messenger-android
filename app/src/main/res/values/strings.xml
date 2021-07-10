@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">Messenger</string>
+    <string name="search_hint">Search</string>
+    <string name="message_hint">Aa</string>
+    <string name="select_login_option">Select a login option</string>
+
+    <string name="continue_with_email">continue with email</string>
+    <string name="continue_with_google">continue with google</string>
+    <string name="continue_with_facebook">continue with facebook</string>
+
+    <string name="field_email">Email</string>
+    <string name="field_password">Password</string>
+    <string name="field_full_name">Full Name</string>
+
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_new_account">create new account</string>
+    <string name="already_have_account">already have account</string>
+    <string name="or">OR</string>
+
     <string name="facebook_app_id">217871846601777</string>
     <string name="fb_login_protocol_scheme">fb217871846601777</string>
 </resources>

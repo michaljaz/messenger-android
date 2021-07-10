@@ -143,14 +143,14 @@ class ContinueFragment : Fragment() {
                 val account = task.getResult(ApiException::class.java)!!
                 val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                 m.auth.signInWithCredential(credential)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                    .addOnCompleteListener { t ->
+                        if (t.isSuccessful) {
                             try {
                                 findNavController().navigate(R.id.login)
                             } catch (e: Exception) {
                             }
                         } else {
-                            Toast.makeText(context, "signInWithCredential:failure"+task.exception, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "signInWithCredential:failure"+t.exception, Toast.LENGTH_SHORT).show()
                         }
                     }
 

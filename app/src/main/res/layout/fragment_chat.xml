@@ -28,19 +28,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
-        android:clickable="true">
+        android:clickable="true"
+        android:focusable="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/NewMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_edittext"
-            android:hint="Aa"
+            android:hint="@string/message_hint"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:clickable="true"
-            ></com.google.android.material.textfield.TextInputEditText>
+            android:focusable="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -49,11 +50,12 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="15dp"
-        android:src="@drawable/ic_right_arrow"
+        android:src="@drawable/ic_like"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
-        />
+        android:focusable="true"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

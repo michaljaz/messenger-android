@@ -8,8 +8,8 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,13 +25,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.squareup.picasso.Picasso
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
     private lateinit var list: RecyclerView
-    private lateinit var ref:DatabaseReference
     private var messages = ArrayList<Message>()
 
 
@@ -111,12 +109,21 @@ class ChatFragment : Fragment() {
             false
         })
 
+        //dynamic like and arrow icon
+        view.findViewById<TextInputEditText>(R.id.NewMessage).doAfterTextChanged {
+            if(view.findViewById<TextInputEditText>(R.id.NewMessage).text.toString()==""){
+                view.findViewById<ImageView>(R.id.imageView2).setImageResource(R.drawable.ic_like)
+            }else{
+                view.findViewById<ImageView>(R.id.imageView2).setImageResource(R.drawable.ic_right_arrow)
+            }
+        }
+
         //test messages adapter
         list = view.findViewById(R.id.list)
         list.layoutManager = LinearLayoutManager(context)
         m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val message=snapshot.value as Map<String,String>
+                val message=snapshot.value as Map<*, *>
                 Log.d("xd",message["data"].toString())
                 addMessage(message["data"].toString(),message["sender"].toString()==m.auth.currentUser!!.uid)
             }
@@ -136,8 +143,8 @@ class ChatFragment : Fragment() {
         })
         return view
     }
-    private fun addMessage(message:String,isme:Boolean){
-        messages.add(Message(message,isme))
+    private fun addMessage(message:String,isMe:Boolean){
+        messages.add(Message(message,isMe))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto)
         }else{
