@@ -17,6 +17,7 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
 import com.github.michaljaz.messenger.adapters.UsersAdapter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -94,7 +95,7 @@ class ChatsFrame : Fragment() {
                                 findNavController().navigate(R.id.userChat_on)
                             }
                             (list.adapter as ChatsAdapter).onItemLongClick= {
-                                Toast.makeText(context,"LONG CLICKED",Toast.LENGTH_LONG).show()
+                                m.bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                             }
                         }catch(e:Exception){ }
                     }

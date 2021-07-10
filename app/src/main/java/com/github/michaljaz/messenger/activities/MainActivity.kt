@@ -19,6 +19,7 @@ import com.github.michaljaz.messenger.service.MyService
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var db: DatabaseReference
     lateinit var toolbar: Toolbar
     lateinit var home: HomeFragment
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
     var chatWith: String="null"
     var chatWithUid: String="null"
     var chatWithPhoto: String="null"
@@ -47,6 +49,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheet))
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+//                        findViewById<TextView>(R.id.textBottom).text = "xd"
+                        //textFull.visibility = View.VISIBLE
+                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+//                        findViewById<TextView>(R.id.textBottom).text = "xd"
+                        //textFull.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
         //Custom toolbar
         toolbar=findViewById(R.id.toolbar)
@@ -172,8 +195,6 @@ class MainActivity : AppCompatActivity() {
         }else{
             Log.d("xd","disabled back press")
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

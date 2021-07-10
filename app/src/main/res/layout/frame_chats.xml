@@ -29,7 +29,7 @@
                 android:hint="@string/search_hint"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:cursorVisible="false">
 
             </com.google.android.material.textfield.TextInputEditText>

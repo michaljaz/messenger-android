@@ -32,6 +32,22 @@ class ChatFragment : Fragment() {
     private lateinit var list: RecyclerView
     private var messages = ArrayList<Message>()
 
+    fun loadHamburger(){
+        Picasso.get()
+            .load(m.chatWithPhoto)
+            .transform(RoundedTransformation(100, 0))
+            .into(object : com.squareup.picasso.Target {
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                    val d: Drawable = BitmapDrawable(resources, bitmap)
+                    m.toolbar.logo = d
+                }
+
+                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+                    loadHamburger()
+                }
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+            })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,18 +69,8 @@ class ChatFragment : Fragment() {
         if(m.chatWithPhoto=="default"){
             m.toolbar.setLogo(R.drawable.ic_profile_user)
         }else{
-            Picasso.get()
-                .load(m.chatWithPhoto)
-                .transform(RoundedTransformation(100, 0))
-                .into(object : com.squareup.picasso.Target {
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        val d: Drawable = BitmapDrawable(resources, bitmap)
-                        m.toolbar.logo = d
-                    }
+            loadHamburger()
 
-                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-                })
         }
 
         //set toolbar title user
