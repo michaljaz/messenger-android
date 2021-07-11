@@ -59,12 +59,14 @@ class ChatsFrame : Fragment() {
         //show action bar
         m.supportActionBar!!.show()
 
-        //on click search
-        view.findViewById<TextInputEditText>(R.id.Search).setOnClickListener {
-            Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
-        }
+
 
         list = view.findViewById(R.id.list)
+
+        val chatsInit = ArrayList<Chat>()
+        chatsInit.add(Chat("","","empty","",""))
+        list.adapter=ChatsAdapter(chatsInit)
+
         list.layoutManager = LinearLayoutManager(context)
         val chatsUserIds = mutableMapOf<String,Boolean>()
         m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats").addChildEventListener(object : ChildEventListener{
@@ -89,11 +91,17 @@ class ChatsFrame : Fragment() {
             }
         })
 
+        //on click search
+        (list.adapter as ChatsAdapter).onSearchClick={
+            Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
+        }
+
         return view
     }
 
     fun updateChats(chatUserIds:MutableMap<String,Boolean>){
         val chats = ArrayList<Chat>()
+        chats.add(Chat("","","empty","",""))
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
@@ -107,7 +115,14 @@ class ChatsFrame : Fragment() {
                                 lastMessageTimeStamp.value.toString()
                             ))
                             chats.sortWith { lhs, rhs ->
-                                if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
+                                if(lhs.userId=="empty"){
+                                    -1
+                                }else if(rhs.userId=="empty"){
+                                    1
+                                }else{
+                                    if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
+                                }
+
                             }
                             try{
                                 list.adapter=ChatsAdapter(chats)
@@ -120,6 +135,9 @@ class ChatsFrame : Fragment() {
                                 }
                                 (list.adapter as ChatsAdapter).onItemLongClick= {
                                     m.dialog.show()
+                                }
+                                (list.adapter as ChatsAdapter).onSearchClick={
+                                    Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
                                 }
                             }catch(e:Exception){ }
                         }
