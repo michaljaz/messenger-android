@@ -1,37 +1,51 @@
 package com.github.michaljaz.messenger.fragments.frames
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
-import com.github.michaljaz.messenger.adapters.UsersAdapter
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 
+
 class ChatsFrame : Fragment() {
     private lateinit var m: MainActivity
     private lateinit var list: RecyclerView
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.frame_chats, container, false)
         m = activity as MainActivity
+
+        mSwipeRefreshLayout=view.findViewById(R.id.swipe_refresh)
+        mSwipeRefreshLayout.setOnRefreshListener {
+            val handler = Handler()
+            handler.postDelayed( {
+                if (mSwipeRefreshLayout.isRefreshing) {
+                    mSwipeRefreshLayout.isRefreshing = false
+                }
+            }, 1000)
+        }
 
         //change menu
         m.home.changeMenu("chats")
