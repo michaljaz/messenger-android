@@ -3,71 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="0dp">
+    android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="30dp">
-        <ImageView
-            android:id="@+id/archive_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_archive_filled_box"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:textColor="@color/black"
-            android:id="@+id/archive"
-            android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/list"
+            android:divider="@null"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Archive"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/archive_icon"
-            app:layout_constraintTop_toTopOf="@id/archive_icon" />
-        <ImageView
-            android:id="@+id/delete_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_delete"
-            app:layout_constraintStart_toStartOf="@id/archive_icon"
-            app:layout_constraintTop_toBottomOf="@id/archive_icon" />
-        <TextView
-            android:textColor="@color/black"
-            android:id="@+id/delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Delete"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/delete_icon"
-            app:layout_constraintTop_toTopOf="@id/delete_icon" />
-        <ImageView
-            android:id="@+id/mute_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_disable_alarm"
-            app:layout_constraintStart_toStartOf="@id/delete_icon"
-            app:layout_constraintTop_toBottomOf="@id/delete_icon" />
-        <TextView
-            android:textColor="@color/black"
-            android:id="@+id/mute"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Mute"
-            android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@+id/mute_icon"
-            app:layout_constraintTop_toTopOf="@id/mute_icon" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

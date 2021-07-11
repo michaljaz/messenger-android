@@ -11,13 +11,17 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.michaljaz.messenger.service.MyService
 import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.adapters.Option
+import com.github.michaljaz.messenger.adapters.OptionsAdapter
 import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -54,6 +58,12 @@ class MainActivity : AppCompatActivity() {
 
         dialog = BottomSheetDialog(this)
         val v = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val list = v.findViewById<ListView>(R.id.list)
+        val options=ArrayList<Option>()
+        options.add(Option(R.drawable.ic_archive_filled_box,"Archive"))
+        options.add(Option(R.drawable.ic_delete,"Delete"))
+        options.add(Option(R.drawable.ic_disable_alarm,"Mute notifications"))
+        list.adapter=OptionsAdapter(this,options)
         dialog.setCancelable(true)
         dialog.setContentView(v)
 

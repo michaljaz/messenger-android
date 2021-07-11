@@ -12,22 +12,21 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.squareup.picasso.Picasso
 
-class User(
-    val displayName: String,
-    val photoUrl: String,
-    val userId:String)
+class Option(
+    val icon: Int,
+    val text: String)
 
-class UsersAdapter(
+class OptionsAdapter(
     private val context: Context,
-    private val mUsers:ArrayList<User>
+    private val mOptions: ArrayList<Option>,
 ) : BaseAdapter() {
 
     override fun getCount(): Int {
-        return mUsers.size
+        return mOptions.size
     }
 
-    override fun getItem(position: Int): User{
-        return mUsers[position]
+    override fun getItem(position: Int): Option {
+        return mOptions[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -37,20 +36,11 @@ class UsersAdapter(
     @SuppressLint("ViewHolder")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val row: View = inflater.inflate(R.layout.row_user, parent, false)
+        val row: View = inflater.inflate(R.layout.row_option, parent, false)
         val i1: ImageView = row.findViewById(R.id.imgIcon) as ImageView
         val title: TextView = row.findViewById(R.id.txtTitle)
-        title.text = mUsers[position].displayName
-        val image=mUsers[position].photoUrl
-        if(image=="default"){
-            i1.setImageResource(R.drawable.ic_profile_user)
-        }else{
-            Picasso
-                .get()
-                .load(image)
-                .transform(RoundedTransformation(100, 0))
-                .into(i1)
-        }
+        title.text = mOptions[position].text
+        i1.setImageResource(mOptions[position].icon)
         return row
     }
 

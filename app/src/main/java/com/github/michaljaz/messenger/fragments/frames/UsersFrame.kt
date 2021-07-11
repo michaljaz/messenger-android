@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
+import com.github.michaljaz.messenger.adapters.User
 import com.github.michaljaz.messenger.adapters.UsersAdapter
 
 class UsersFrame : Fragment() {
@@ -34,17 +35,13 @@ class UsersFrame : Fragment() {
         //get list of users from firebase
         val list = view.findViewById<ListView>(R.id.list)
         m.db.child("users").get().addOnSuccessListener {
-            val displayNames = ArrayList<String>()
-            val photoUrls = ArrayList<String>()
-            val userIds = ArrayList<String>()
+            val users=ArrayList<User>()
             for(ds in it.children) {
                 m.db.child("usersData").child(ds.key.toString()).child("displayName").get().addOnSuccessListener { itx ->
                     m.db.child("usersData").child(ds.key.toString()).child("photoUrl").get().addOnSuccessListener { itx2 ->
-                        displayNames.add(itx.value.toString())
-                        photoUrls.add(itx2.value.toString())
-                        userIds.add(ds.key.toString())
+                        users.add(User(itx.value.toString(),itx2.value.toString(),ds.key.toString()))
                         try{
-                            list.adapter= UsersAdapter(requireContext(), displayNames, photoUrls, userIds)
+                            list.adapter= UsersAdapter(requireContext(), users)
                         }catch(e:Exception){ }
                     }
                 }
@@ -53,10 +50,10 @@ class UsersFrame : Fragment() {
 
 
         view.findViewById<ListView>(R.id.list).setOnItemClickListener { parent, _, position, _ ->
-            val selectedItem = parent.getItemAtPosition(position) as ArrayList<String>
-            m.chatWithUid=selectedItem[0]
-            m.chatWith=selectedItem[1]
-            m.chatWithPhoto=selectedItem[2]
+            val user = parent.getItemAtPosition(position) as User
+            m.chatWithUid=user.userId
+            m.chatWith=user.displayName
+            m.chatWithPhoto=user.photoUrl
             try {
                 findNavController().navigate(R.id.userChat_on)
             }catch(e:Exception){}
