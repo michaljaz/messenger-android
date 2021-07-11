@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
     var allowBack: Boolean=false
     var searchKeyboard: Boolean=true
 
+    override fun onPause() {
+        dialog.cancel()
+        super.onPause()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
