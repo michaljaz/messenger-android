@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.View
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     var chatWithPhoto: String="null"
     var allowBack: Boolean=false
     var searchKeyboard: Boolean=true
+    var statusDelay: Long=5000
 
     override fun onPause() {
         dialog.cancel()
@@ -60,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //dialog
         dialog = BottomSheetDialog(this)
         val v = layoutInflater.inflate(R.layout.bottom_sheet, null)
         val list = v.findViewById<ListView>(R.id.list)
@@ -97,6 +100,16 @@ class MainActivity : AppCompatActivity() {
         //Background service
         val intent = Intent(this, MyService::class.java)
         startService(intent)
+
+        loop()
+    }
+
+    private fun loop(){
+        db.child("/usersData/${auth.currentUser!!.uid}/status").setValue(System.currentTimeMillis().toString())
+        val handler = Handler()
+        handler.postDelayed( {
+            loop()
+        }, statusDelay)
     }
 
     fun getChatRef(userid:String): DatabaseReference {
