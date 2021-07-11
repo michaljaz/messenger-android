@@ -12,35 +12,24 @@
         android:layout_height="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_arrow"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription,RtlHardcoded" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:background="@null"
+        android:hint="@string/search_hint"
+        android:id="@+id/Search"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlHardcoded">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:hint="@string/search_hint"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="20sp">
-
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

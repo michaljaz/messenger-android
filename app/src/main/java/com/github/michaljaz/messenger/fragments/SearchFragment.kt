@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -32,8 +33,8 @@ class SearchFragment : Fragment() {
 
         //request search focus
         if(m.searchKeyboard){
-            view.findViewById<TextInputEditText>(R.id.Search).isFocusableInTouchMode = true
-            view.findViewById<TextInputEditText>(R.id.Search).requestFocus()
+            view.findViewById<EditText>(R.id.Search).isFocusableInTouchMode = true
+            view.findViewById<EditText>(R.id.Search).requestFocus()
 
             m.searchKeyboard=false
         }
