@@ -105,7 +105,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loop(){
-        db.child("/usersData/${auth.currentUser!!.uid}/status").setValue(System.currentTimeMillis().toString())
+        if(auth.currentUser!=null){
+            db.child("/usersData/${auth.currentUser!!.uid}/status").setValue(System.currentTimeMillis().toString())
+        }
         val handler = Handler()
         handler.postDelayed( {
             loop()
