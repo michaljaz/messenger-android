@@ -184,12 +184,14 @@ class ChatFragment : Fragment() {
                 m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats/${m.chatWithUid}").setValue(true)
             }catch(e:Exception){}
 
+            val timestamp=System.currentTimeMillis().toString()
             m.getChatRef(m.chatWithUid).child("lastMessage").setValue("${m.auth.currentUser!!.displayName}: $message")
+            m.getChatRef(m.chatWithUid).child("lastMessageTimeStamp").setValue(timestamp)
 
             val key=m.getChatRef(m.chatWithUid).child("messages").push().key
             m.getChatRef(m.chatWithUid).child("messages/${key}").setValue(mapOf(
                 "data" to message.toString(),
-                "timestamp" to System.currentTimeMillis().toString(),
+                "timestamp" to timestamp,
                 "sender" to m.auth.currentUser!!.uid
             ))
         }

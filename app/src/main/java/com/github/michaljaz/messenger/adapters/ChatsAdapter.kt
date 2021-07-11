@@ -14,7 +14,8 @@ class Chat(
     val displayName: String,
     val photoUrl: String,
     val userId: String,
-    val lastMessage: String)
+    val lastMessage: String,
+    val lastMessageTimeStamp: String)
 
 class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
 {

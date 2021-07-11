@@ -84,20 +84,31 @@ class ChatsFrame : Fragment() {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
                     m.getChatRef(k).child("lastMessage").get().addOnSuccessListener { lastMessage->
-                        chats.add(Chat(displayName.value.toString(),photoUrl.value.toString(),k,lastMessage.value.toString()))
-                        try{
-                            list.adapter=ChatsAdapter(chats)
-                            (list.adapter as ChatsAdapter).onItemClick= {
-                                Log.d("xd",it.displayName)
-                                m.chatWithUid=it.userId
-                                m.chatWith=it.displayName
-                                m.chatWithPhoto=it.photoUrl
-                                findNavController().navigate(R.id.userChat_on)
+                        m.getChatRef(k).child("lastMessageTimeStamp").get().addOnSuccessListener { lastMessageTimeStamp->
+                            chats.add(Chat(
+                                displayName.value.toString(),
+                                photoUrl.value.toString(),
+                                k,
+                                lastMessage.value.toString(),
+                                lastMessageTimeStamp.value.toString()
+                            ))
+                            chats.sortWith { lhs, rhs ->
+                                if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
                             }
-                            (list.adapter as ChatsAdapter).onItemLongClick= {
-                                m.dialog.show()
-                            }
-                        }catch(e:Exception){ }
+                            try{
+                                list.adapter=ChatsAdapter(chats)
+                                (list.adapter as ChatsAdapter).onItemClick= {
+                                    Log.d("xd",it.displayName)
+                                    m.chatWithUid=it.userId
+                                    m.chatWith=it.displayName
+                                    m.chatWithPhoto=it.photoUrl
+                                    findNavController().navigate(R.id.userChat_on)
+                                }
+                                (list.adapter as ChatsAdapter).onItemLongClick= {
+                                    m.dialog.show()
+                                }
+                            }catch(e:Exception){ }
+                        }
                     }
                 }
             }
