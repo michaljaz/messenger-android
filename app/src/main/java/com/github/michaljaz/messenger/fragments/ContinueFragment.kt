@@ -36,6 +36,9 @@ class ContinueFragment : Fragment() {
         m=(activity as MainActivity)
         val view=inflater.inflate(R.layout.fragment_continue, container, false)
 
+        //show action bar
+        m.supportActionBar!!.show()
+
         //not allow to go back
         m.allowBack=false
 

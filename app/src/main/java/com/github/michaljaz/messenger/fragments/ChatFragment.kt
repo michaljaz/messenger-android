@@ -3,6 +3,8 @@ package com.github.michaljaz.messenger.fragments
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -22,6 +24,7 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Message
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -33,21 +36,11 @@ class ChatFragment : Fragment() {
     private lateinit var list: RecyclerView
     private var messages = ArrayList<Message>()
 
-    fun loadHamburger(){
+    private fun loadUserIcon(v:View){
         Picasso.get()
             .load(m.chatWithPhoto)
             .transform(RoundedTransformation(100, 0))
-            .into(object : com.squareup.picasso.Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                    val d: Drawable = BitmapDrawable(resources, bitmap)
-                    m.toolbar.logo = d
-                }
-
-                override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                    loadHamburger()
-                }
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-            })
+            .into(v.findViewById<ImageView>(R.id.userIcon))
     }
 
     override fun onCreateView(
@@ -57,31 +50,28 @@ class ChatFragment : Fragment() {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
 
-        //show action bar
-        m.supportActionBar!!.show()
-
         //not allow to go back
         m.allowBack=true
+
+        //update elevation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.findViewById<AppBarLayout>(R.id.appBar).elevation = 4f
+        }
 
         //disable drawer
         m.disableDrawer()
 
-        //add arrow to toolbar
-        m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        m.supportActionBar!!.setDisplayShowHomeEnabled(true)
-
-        if(m.chatWithPhoto=="default"){
-            m.toolbar.setLogo(R.drawable.ic_profile_user)
-        }else{
-            loadHamburger()
-
+        //update user icon
+        if(m.chatWithPhoto!="default"){
+            loadUserIcon(view)
         }
 
-        //set toolbar title user
+        view.findViewById<TextView>(R.id.toolbarTitle).text=m.chatWith
+
+        //listen back arrow click
         m.setToolbarTitle(m.chatWith)
 
-        //arrow click listener
-        m.toolbar.setNavigationOnClickListener {
+        view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
                 findNavController().navigate(R.id.userchat_off)
                 m.hideKeyboard(view)

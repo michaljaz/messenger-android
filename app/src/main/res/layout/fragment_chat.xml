@@ -6,7 +6,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChatFragment"
     android:layout_margin="5dp">
-
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.Toolbar
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:elevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/backIcon"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:src="@drawable/ic_arrow"/>
+            <ImageView
+                android:paddingLeft="17dp"
+                android:id="@+id/userIcon"
+                android:layout_width="55dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_profile_user"/>
+            <TextView
+                android:id="@+id/toolbarTitle"
+                android:paddingLeft="13dp"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:text="DisplayName"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
@@ -14,7 +50,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
         android:stackFromBottom="true">
     </androidx.recyclerview.widget.RecyclerView>
 
