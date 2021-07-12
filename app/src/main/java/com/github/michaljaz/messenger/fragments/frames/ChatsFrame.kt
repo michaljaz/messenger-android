@@ -1,13 +1,15 @@
 package com.github.michaljaz.messenger.fragments.frames
 
 import android.annotation.SuppressLint
-import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -18,7 +20,7 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
-import com.google.android.material.textfield.TextInputEditText
+import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -37,6 +39,10 @@ class ChatsFrame : Fragment() {
         val view=inflater.inflate(R.layout.frame_chats, container, false)
         m = activity as MainActivity
 
+        val home=(parentFragment as HomeFragment)
+
+        home.appbar.findViewById<TextView>(R.id.toolbarTitle).text="Chats"
+
         mSwipeRefreshLayout=view.findViewById(R.id.swipe_refresh)
         mSwipeRefreshLayout.setOnRefreshListener {
             val handler = Handler()
@@ -47,21 +53,27 @@ class ChatsFrame : Fragment() {
             }, 1000)
         }
 
-        //change menu
-        m.home.changeMenu("chats")
 
         //not allow to go back
         m.allowBack=false
 
-        //set toolbar title
-        m.setToolbarTitle("Chats")
-
-        //show action bar
-        m.supportActionBar!!.show()
-
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            home.appbar.elevation = 0f
+        }
 
         list = view.findViewById(R.id.list)
+        list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if(!recyclerView.canScrollVertically(-1)) {
+                    home.appbar.elevation = 0f
+                } else {
+                    home.appbar.elevation = 4f
+                }
+            }
+        })
 
         val chatsInit = ArrayList<Chat>()
         chatsInit.add(Chat("","","empty","",""))

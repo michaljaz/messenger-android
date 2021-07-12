@@ -33,9 +33,8 @@ class SearchFragment : Fragment() {
 
         //request search focus
         if(m.searchKeyboard){
-            view.findViewById<EditText>(R.id.Search).isFocusableInTouchMode = true
             view.findViewById<EditText>(R.id.Search).requestFocus()
-
+            view.findViewById<EditText>(R.id.Search).isFocusableInTouchMode = true
             m.searchKeyboard=false
         }
         m.showKeyboard()

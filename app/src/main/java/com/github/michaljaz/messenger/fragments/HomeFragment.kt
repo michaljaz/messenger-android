@@ -3,13 +3,18 @@ package com.github.michaljaz.messenger.fragments
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.findNavController
@@ -18,6 +23,7 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
 import com.github.michaljaz.messenger.fragments.frames.UsersFrame
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.messaging.FirebaseMessaging
@@ -26,7 +32,8 @@ import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
     private lateinit var m: MainActivity
-    private lateinit var menuString:String
+    lateinit var appbar: AppBarLayout
+
     fun logout() {
         try{
             findNavController().navigate(R.id.logout)
@@ -38,14 +45,12 @@ class HomeFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_home, container, false)
         m = activity as MainActivity
-        m.home=this
 
-        //enable options menu
-        setHasOptionsMenu(true)
+        //setup appbar
+        appbar=view.findViewById(R.id.appBar)
 
-        //disable arrow
-        m.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        m.supportActionBar!!.setDisplayShowHomeEnabled(false)
+        //hide action bar
+        m.supportActionBar!!.hide()
 
         //Enable drawers
         m.enableDrawer()
@@ -57,6 +62,9 @@ class HomeFragment : Fragment() {
         )
         m.mNavDrawer.addDrawerListener(m.toggle)
         m.toggle.syncState()
+        appbar.findViewById<ImageView>(R.id.userIcon).setOnClickListener {
+            m.mNavDrawer.openDrawer(GravityCompat.START)
+        }
 
         //Update user data in firebase
         val user=m.auth.currentUser!!
@@ -86,22 +94,15 @@ class HomeFragment : Fragment() {
         }
 
 
-        //update hamburger to user icon
+        //update user icon
+        val userIcon=view.findViewById<ImageView>(R.id.userIcon)
         if(photoUrl=="default"){
-            m.toolbar.setNavigationIcon(R.drawable.ic_profile_user)
+            userIcon.setImageResource(R.drawable.ic_profile_user)
         }else{
             Picasso.get()
                 .load(photoUrl)
                 .transform(RoundedTransformation(100, 0))
-                .into(object : com.squareup.picasso.Target {
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        val d: Drawable = BitmapDrawable(resources, bitmap)
-                        m.toolbar.navigationIcon = d
-                    }
-
-                    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {}
-                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-                })
+                .into(userIcon)
         }
 
         for (i in 0 until m.toolbar.childCount) {
@@ -154,20 +155,5 @@ class HomeFragment : Fragment() {
             true
         }
         return view
-    }
-
-    fun changeMenu(menuS:String){
-        menuString=menuS
-        m.invalidateOptionsMenu()
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.clear()
-        val inflater: MenuInflater = m.menuInflater
-        if (menuString === "chats") {
-            inflater.inflate(R.menu.chats, menu)
-        } else if (menuString === "users") {
-            inflater.inflate(R.menu.users, menu)
-        }
     }
 }

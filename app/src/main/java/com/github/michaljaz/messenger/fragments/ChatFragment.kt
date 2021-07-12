@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -55,6 +56,9 @@ class ChatFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
+
+        //show action bar
+        m.supportActionBar!!.show()
 
         //not allow to go back
         m.allowBack=true
