@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ChatFragment"
-    android:layout_margin="5dp">
+    tools:context=".fragments.ChatFragment">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
@@ -24,7 +23,10 @@
                 android:id="@+id/backIcon"
                 android:layout_width="23dp"
                 android:layout_height="23dp"
-                android:src="@drawable/ic_arrow"/>
+                android:src="@drawable/ic_arrow"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"/>
             <ImageView
                 android:paddingLeft="17dp"
                 android:id="@+id/userIcon"

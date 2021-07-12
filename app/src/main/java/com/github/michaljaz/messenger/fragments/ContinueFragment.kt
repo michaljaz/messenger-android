@@ -3,6 +3,7 @@ package com.github.michaljaz.messenger.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.github.michaljaz.messenger.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -36,11 +38,11 @@ class ContinueFragment : Fragment() {
         m=(activity as MainActivity)
         val view=inflater.inflate(R.layout.fragment_continue, container, false)
 
-        //show action bar
-        m.supportActionBar!!.show()
-
         //not allow to go back
         m.allowBack=false
+
+        //hide action bar
+        m.supportActionBar!!.hide()
 
         //block drawer
         m.disableDrawer()

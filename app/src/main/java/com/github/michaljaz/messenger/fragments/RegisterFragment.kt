@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -29,14 +30,10 @@ class RegisterFragment : Fragment() {
         //allow to go back
         m.allowBack=true
 
-        //add arrow to toolbar
-        m.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        m.supportActionBar!!.setDisplayShowHomeEnabled(true)
-
         //arrow click listener
-        m.toolbar.setNavigationOnClickListener {
+        view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
-                findNavController().navigate(R.id.register_to_other)
+                findNavController().navigate(R.id.login_to_other)
                 m.hideKeyboard(view)
             }catch(e:Exception){}
         }

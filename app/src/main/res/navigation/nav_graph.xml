@@ -32,7 +32,8 @@
             app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/userChat_on"
-            app:destination="@id/userChat" />
+            app:destination="@id/userChat"
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment
         android:id="@+id/search"
@@ -62,8 +63,7 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/already_have_account"
-            app:destination="@id/loginFragment4"
-            app:enterAnim="@anim/fragment_open_enter" />
+            app:destination="@id/loginFragment4" />
         <action
             android:id="@+id/register_to_other"
             app:destination="@id/loginFragment"
@@ -77,8 +77,7 @@
         tools:layout="@layout/fragment_login_email" >
         <action
             android:id="@+id/create_new_account"
-            app:destination="@id/registerFragment"
-            app:enterAnim="@anim/fragment_open_enter" />
+            app:destination="@id/registerFragment" />
         <action
             android:id="@+id/signin"
             app:destination="@id/homeFragment" />
