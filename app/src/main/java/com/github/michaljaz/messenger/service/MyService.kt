@@ -18,7 +18,6 @@ class MyService : Service() {
         super.onCreate()
     }
     override fun onTaskRemoved(rootIntent: Intent?) {
-        Toast.makeText(this, "Logged in", Toast.LENGTH_LONG).show()
         showLog("onTaskRemoved called")
         super.onTaskRemoved(rootIntent)
         this.stopSelf()

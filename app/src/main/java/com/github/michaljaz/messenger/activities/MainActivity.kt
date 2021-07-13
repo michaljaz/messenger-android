@@ -78,6 +78,9 @@ class MainActivity : AppCompatActivity() {
         toolbar=findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //firebase offline
+        Firebase.database.setPersistenceEnabled(true)
+
         //firebase app check
         FirebaseApp.initializeApp(/*context=*/ this)
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
@@ -87,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         //Setup firebase
         auth=FirebaseAuth.getInstance()
         db = Firebase.database.reference
+
 
         //Setup nav drawer
         mNavDrawer=findViewById(R.id.drawer_layout)
