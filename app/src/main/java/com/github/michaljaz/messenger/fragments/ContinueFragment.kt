@@ -41,34 +41,13 @@ class ContinueFragment : Fragment() {
         //not allow to go back
         m.allowBack=false
 
-        //hide action bar
-        m.supportActionBar!!.hide()
-
         //block drawer
         m.disableDrawer()
-
-        //fix size
-        for (i in 0 until m.toolbar.childCount) {
-            val it=m.toolbar.getChildAt(i)
-            if (it is ImageView) {
-                it.scaleX = 1f
-                it.scaleY = 1f
-            }
-            if (it is TextView){
-                it.textSize = 20F
-            }
-        }
-
-        //remove hamburger icon
-        m.toolbar.navigationIcon = null
 
         //set toolbar title
         m.setToolbarTitle("Messenger")
 
         callbackManager=CallbackManager.Factory.create()
-
-        m.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-        m.supportActionBar!!.setDisplayShowHomeEnabled(false)
 
         //redirect to manual login
         view.findViewById<Button>(R.id.manual_login).setOnClickListener {

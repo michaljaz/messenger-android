@@ -25,9 +25,6 @@ class SearchFragment : Fragment() {
         //allow to go back
         m.allowBack=true
 
-        //hide action bar
-        m.supportActionBar!!.hide()
-
         //disable drawer
         m.disableDrawer()
 

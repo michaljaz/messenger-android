@@ -78,23 +78,6 @@ class ChatFragment : Fragment() {
             }catch(e:Exception){}
         }
 
-        //fix size
-        for (i in 0 until m.toolbar.childCount) {
-            val it=m.toolbar.getChildAt(i)
-            if (it is ImageView) {
-                if(it is ImageButton){
-                    it.scaleX = 1f
-                    it.scaleY = 1f
-                }else{
-                    it.scaleX = 0.7f
-                    it.scaleY = 0.7f
-                }
-            }
-            if (it is TextView){
-                it.textSize = 20F
-            }
-        }
-
         //on click send
         view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
             sendMessage(view)

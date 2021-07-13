@@ -49,19 +49,10 @@ class HomeFragment : Fragment() {
         //setup appbar
         appbar=view.findViewById(R.id.appBar)
 
-        //hide action bar
-        m.supportActionBar!!.hide()
 
         //Enable drawers
         m.enableDrawer()
         m.sessionHelper(this)
-        m.toggle=ActionBarDrawerToggle(
-            m,m.mNavDrawer,m.toolbar,
-            R.string.app_name,
-            R.string.nav_app_bar_open_drawer_description
-        )
-        m.mNavDrawer.addDrawerListener(m.toggle)
-        m.toggle.syncState()
         appbar.findViewById<ImageView>(R.id.userIcon).setOnClickListener {
             m.mNavDrawer.openDrawer(GravityCompat.START)
         }
@@ -103,17 +94,6 @@ class HomeFragment : Fragment() {
                 .load(photoUrl)
                 .transform(RoundedTransformation(100, 0))
                 .into(userIcon)
-        }
-
-        for (i in 0 until m.toolbar.childCount) {
-            val it=m.toolbar.getChildAt(i)
-            if (it is ImageButton) {
-                it.scaleX = 0.75f
-                it.scaleY = 0.75f
-            }
-            if (it is TextView){
-                it.textSize = 25F
-            }
         }
 
         //Update drawer header

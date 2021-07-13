@@ -40,10 +40,8 @@ import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
     lateinit var mNavDrawer:DrawerLayout
-    lateinit var toggle:ActionBarDrawerToggle
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
-    lateinit var toolbar: Toolbar
     lateinit var home: HomeFragment
     lateinit var dialog:BottomSheetDialog
     var chatWith: String="null"
@@ -74,10 +72,6 @@ class MainActivity : AppCompatActivity() {
         dialog.setCancelable(true)
         dialog.setContentView(v)
 
-        //Custom toolbar
-        toolbar=findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
         //firebase offline
         Firebase.database.setPersistenceEnabled(true)
 
@@ -94,12 +88,7 @@ class MainActivity : AppCompatActivity() {
 
         //Setup nav drawer
         mNavDrawer=findViewById(R.id.drawer_layout)
-        toggle=ActionBarDrawerToggle(
-            this,mNavDrawer,toolbar, R.string.app_name, R.string.nav_app_bar_open_drawer_description
-        )
-        mNavDrawer.addDrawerListener(toggle)
         disableDrawer()
-        toggle.syncState()
 
         //Background service
         val intent = Intent(this, MyService::class.java)
@@ -178,12 +167,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun enableDrawer() {
-        toggle.isDrawerIndicatorEnabled = true
         mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     fun disableDrawer() {
-        toggle.isDrawerIndicatorEnabled = false
         mNavDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
     }
 
