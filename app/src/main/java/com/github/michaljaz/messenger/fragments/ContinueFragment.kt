@@ -44,9 +44,6 @@ class ContinueFragment : Fragment() {
         //block drawer
         m.disableDrawer()
 
-        //set toolbar title
-        m.setToolbarTitle("Messenger")
-
         callbackManager=CallbackManager.Factory.create()
 
         //redirect to manual login

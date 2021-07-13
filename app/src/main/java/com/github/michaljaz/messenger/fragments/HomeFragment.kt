@@ -49,7 +49,6 @@ class HomeFragment : Fragment() {
         //setup appbar
         appbar=view.findViewById(R.id.appBar)
 
-
         //Enable drawers
         m.enableDrawer()
         m.sessionHelper(this)

@@ -68,9 +68,6 @@ class ChatFragment : Fragment() {
 
         view.findViewById<TextView>(R.id.toolbarTitle).text=m.chatWith
 
-        //listen back arrow click
-        m.setToolbarTitle(m.chatWith)
-
         view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
                 findNavController().navigate(R.id.userchat_off)
@@ -82,7 +79,6 @@ class ChatFragment : Fragment() {
         view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
             sendMessage(view)
         }
-
 
         //on enter in textview
         view.findViewById<TextInputEditText>(R.id.NewMessage).setOnKeyListener(View.OnKeyListener { _, keyCode, event ->

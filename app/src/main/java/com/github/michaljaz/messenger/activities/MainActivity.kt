@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var mNavDrawer:DrawerLayout
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
-    lateinit var home: HomeFragment
     lateinit var dialog:BottomSheetDialog
     var chatWith: String="null"
     var chatWithUid: String="null"
@@ -189,10 +188,6 @@ class MainActivity : AppCompatActivity() {
     fun showKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-    }
-
-    fun setToolbarTitle(title:String){
-        supportActionBar?.title = title
     }
 
     override fun onBackPressed() {

@@ -57,10 +57,12 @@ class ChatsFrame : Fragment() {
         //not allow to go back
         m.allowBack=false
 
+        //toolbar elevation
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             home.appbar.elevation = 0f
         }
 
+        //toolbar elevation connected with recycler view list
         list = view.findViewById(R.id.list)
         list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -75,11 +77,13 @@ class ChatsFrame : Fragment() {
             }
         })
 
+        //initialize chats recycler view
         val chatsInit = ArrayList<Chat>()
         chatsInit.add(Chat("","","empty","",""))
         list.adapter=ChatsAdapter(chatsInit)
-
         list.layoutManager = LinearLayoutManager(context)
+
+        //listen user chats
         val chatsUserIds = mutableMapOf<String,Boolean>()
         m.db.child("/usersData/${m.auth.currentUser!!.uid}/chats").addChildEventListener(object : ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
