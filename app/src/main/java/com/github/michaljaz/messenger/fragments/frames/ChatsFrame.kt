@@ -80,7 +80,7 @@ class ChatsFrame : Fragment() {
         //initialize chats recycler view
         val chatsInit = ArrayList<Chat>()
         chatsInit.add(Chat("","","empty","",""))
-        list.adapter=ChatsAdapter(chatsInit)
+        list.adapter=ChatsAdapter(requireContext(),chatsInit)
         list.layoutManager = LinearLayoutManager(context)
 
         //listen user chats
@@ -141,7 +141,7 @@ class ChatsFrame : Fragment() {
 
                             }
                             try{
-                                list.adapter=ChatsAdapter(chats)
+                                list.adapter=ChatsAdapter(requireContext(),chats)
                                 (list.adapter as ChatsAdapter).onItemClick= {
                                     Log.d("xd",it.displayName)
                                     m.chatWithUid=it.userId

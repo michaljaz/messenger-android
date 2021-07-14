@@ -1,15 +1,19 @@
 package com.github.michaljaz.messenger.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
+
 
 class Chat(
     val displayName: String,
@@ -18,7 +22,7 @@ class Chat(
     val lastMessage: String,
     val lastMessageTimeStamp: String)
 
-class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     var onItemClick: ((Chat)->Unit) ?= null
     var onItemLongClick: ((Chat)->Unit) ?= null
@@ -40,7 +44,8 @@ class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<
     }
 
     inner class StartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val search: TextInputEditText = itemView.findViewById(R.id.Search)
+        private val search: TextInputEditText = itemView.findViewById(R.id.Search)
+        val list: RecyclerView=itemView.findViewById(R.id.horizontalList)
         init {
             search.setOnClickListener {
                 onSearchClick?.invoke()
@@ -77,7 +82,16 @@ class ChatsAdapter (private val mChats: ArrayList<Chat>) : RecyclerView.Adapter<
                     .into(viewHolder.icon)
             }
         }else if(viewHolder is StartViewHolder){
-
+            val onlineUsers=ArrayList<OnlineUser>()
+            onlineUsers.add(OnlineUser("Steve Jobs","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            onlineUsers.add(OnlineUser("John Doe","default"))
+            viewHolder.list.adapter=OnlineUsersAdapter(onlineUsers)
+            viewHolder.list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
 
     }
