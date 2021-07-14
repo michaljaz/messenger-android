@@ -68,7 +68,6 @@ class ChatsFrame : Fragment() {
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 if(!recyclerView.canScrollVertically(-1)) {
                     home.appbar.elevation = 0f
                 } else {
@@ -79,7 +78,8 @@ class ChatsFrame : Fragment() {
 
         //initialize chats recycler view
         val chatsInit = ArrayList<Chat>()
-        chatsInit.add(Chat("","","empty","",""))
+        chatsInit.add(Chat("","","search","",""))
+        chatsInit.add(Chat("","","online","",""))
         list.adapter=ChatsAdapter(requireContext(),chatsInit)
         list.layoutManager = LinearLayoutManager(context)
 
@@ -118,6 +118,7 @@ class ChatsFrame : Fragment() {
     fun updateChats(chatUserIds:MutableMap<String,Boolean>){
         val chats = ArrayList<Chat>()
         chats.add(Chat("","","empty","",""))
+        chats.add(Chat("","","online","",""))
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
@@ -134,6 +135,10 @@ class ChatsFrame : Fragment() {
                                 if(lhs.userId=="empty"){
                                     -1
                                 }else if(rhs.userId=="empty"){
+                                    1
+                                }else if(lhs.userId=="online") {
+                                    -1
+                                }else if(rhs.userId=="online") {
                                     1
                                 }else{
                                     if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0

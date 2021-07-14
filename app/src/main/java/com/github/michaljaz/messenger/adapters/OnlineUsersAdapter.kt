@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
-import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
 
 class OnlineUser(
@@ -26,7 +25,7 @@ class OnlineUsersAdapter (private val mOnlineUsers: ArrayList<OnlineUser>) : Rec
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        return ViewHolder(inflater.inflate(R.layout.row_online_user, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.row_chats_online_user, parent, false))
     }
     override fun getItemViewType(position: Int): Int {
         return if(position==0){ 0 }else{ 1 }

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
@@ -43,28 +42,33 @@ class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : 
         }
     }
 
-    inner class StartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private val search: TextInputEditText = itemView.findViewById(R.id.Search)
-        val list: RecyclerView=itemView.findViewById(R.id.horizontalList)
+
         init {
             search.setOnClickListener {
                 onSearchClick?.invoke()
             }
         }
+    }
 
+    inner class OnlineUsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val list: RecyclerView=itemView.findViewById(R.id.horizontalList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         return if(viewType==0){
-            StartViewHolder(inflater.inflate(R.layout.row_chats_start, parent, false))
+            SearchViewHolder(inflater.inflate(R.layout.row_chats_search, parent, false))
+        }else if(viewType==1){
+            OnlineUsersViewHolder(inflater.inflate(R.layout.row_chats_online, parent, false))
         }else{
             ViewHolder(inflater.inflate(R.layout.row_chat, parent, false))
         }
     }
     override fun getItemViewType(position: Int): Int {
-        return if(position==0){ 0 }else{ 1 }
+        return if(position==0){ 0 }else if(position==1){ 1 }else{2}
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -81,7 +85,7 @@ class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : 
                     .transform(RoundedTransformation(100, 0))
                     .into(viewHolder.icon)
             }
-        }else if(viewHolder is StartViewHolder){
+        }else if(viewHolder is OnlineUsersViewHolder){
             val onlineUsers=ArrayList<OnlineUser>()
             onlineUsers.add(OnlineUser("Steve Jobs","default"))
             onlineUsers.add(OnlineUser("John Doe","default"))

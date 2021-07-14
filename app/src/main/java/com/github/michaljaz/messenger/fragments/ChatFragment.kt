@@ -53,11 +53,6 @@ class ChatFragment : Fragment() {
         //not allow to go back
         m.allowBack=true
 
-        //update elevation
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.findViewById<AppBarLayout>(R.id.appBar).elevation = 4f
-        }
-
         //disable drawer
         m.disableDrawer()
 
