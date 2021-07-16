@@ -38,6 +38,10 @@ class ChatFragment : Fragment() {
             .load(m.chatWithPhoto)
             .transform(RoundedTransformation(100, 0))
             .into(v.findViewById<ImageView>(R.id.userIcon))
+        Picasso.get()
+            .load(m.chatWithPhoto)
+            .transform(RoundedTransformation(100, 0))
+            .into(v.findViewById<ImageView>(R.id.intro_icon))
     }
 
     override fun onCreateView(
@@ -59,7 +63,9 @@ class ChatFragment : Fragment() {
         }
 
         view.findViewById<TextView>(R.id.toolbarTitle).text=m.chatWith
+        view.findViewById<TextView>(R.id.intro_name).text=m.chatWith
 
+        //go back
         view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
                 findNavController().navigate(R.id.userchat_off)
@@ -92,7 +98,10 @@ class ChatFragment : Fragment() {
 
         //test messages adapter
         list = view.findViewById(R.id.list)
-        list.layoutManager = LinearLayoutManager(context)
+        val llm=LinearLayoutManager(context)
+        llm.stackFromEnd = true
+        list.layoutManager = llm
+
         m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>
@@ -111,7 +120,6 @@ class ChatFragment : Fragment() {
 
             override fun onCancelled(error: DatabaseError) {
             }
-
         })
         return view
     }
