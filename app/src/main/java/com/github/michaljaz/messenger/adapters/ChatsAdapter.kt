@@ -45,7 +45,7 @@ class ChatsDiffCallback(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldChat: Chat = mOldChatsList[oldItemPosition]
         val newChat: Chat = mNewChatsList[newItemPosition]
-        return oldChat.userId == newChat.userId
+        return oldChat == newChat
     }
 }
 
