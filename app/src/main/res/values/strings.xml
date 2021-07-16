@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Messenger</string>
     <string name="search_hint">Search</string>
-    <string name="message_hint">Aa</string>
+    <string name="message_hint">Enter message...</string>
     <string name="select_login_option">Select a login option</string>
 
     <string name="continue_with_email">continue with email</string>

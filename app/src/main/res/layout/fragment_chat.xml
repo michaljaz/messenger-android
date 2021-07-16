@@ -49,51 +49,40 @@
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+        app:layout_constraintBottom_toTopOf="@id/messageField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         android:stackFromBottom="true">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:id="@+id/messageField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
-        android:clickable="true"
-        android:focusable="true">
-
-        <com.google.android.material.textfield.TextInputEditText
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <EditText
+            android:paddingLeft="20dp"
             android:id="@+id/NewMessage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_marginRight="50dp"
+            android:layout_height="50dp"
             android:background="@drawable/rounded_edittext"
-            android:hint="@string/message_hint"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="20sp"
+            android:hint="@string/message_hint"/>
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="-40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:focusable="true"
+            android:src="@drawable/ic_like"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
 
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="15dp"
-        android:src="@drawable/ic_like"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:focusable="true"
-        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

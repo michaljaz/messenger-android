@@ -8,10 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toolbar
+import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -76,7 +73,7 @@ class ChatFragment : Fragment() {
         }
 
         //on enter in textview
-        view.findViewById<TextInputEditText>(R.id.NewMessage).setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
+        view.findViewById<EditText>(R.id.NewMessage).setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 sendMessage(view)
                 return@OnKeyListener true
@@ -85,8 +82,8 @@ class ChatFragment : Fragment() {
         })
 
         //dynamic like and arrow icon
-        view.findViewById<TextInputEditText>(R.id.NewMessage).doAfterTextChanged {
-            if(view.findViewById<TextInputEditText>(R.id.NewMessage).text.toString()==""){
+        view.findViewById<EditText>(R.id.NewMessage).doAfterTextChanged {
+            if(view.findViewById<EditText>(R.id.NewMessage).text.toString()==""){
                 view.findViewById<ImageView>(R.id.imageView2).setImageResource(R.drawable.ic_like)
             }else{
                 view.findViewById<ImageView>(R.id.imageView2).setImageResource(R.drawable.ic_right_arrow)
@@ -130,9 +127,9 @@ class ChatFragment : Fragment() {
     }
 
     private fun sendMessage(v:View) {
-        val message=v.findViewById<TextInputEditText>(R.id.NewMessage).text
+        val message=v.findViewById<EditText>(R.id.NewMessage).text
         if(message.toString()!=""){
-            v.findViewById<TextInputEditText>(R.id.NewMessage).setText("")
+            v.findViewById<EditText>(R.id.NewMessage).setText("")
             Log.d("xd", "Sending message... $message")
             val url="https://us-central1-messenger-e3854.cloudfunctions.net/notify?to=${m.chatWithUid}&from=${m.auth.currentUser!!.uid}&body=$message"
             url.httpGet().responseString { _, _, result ->
