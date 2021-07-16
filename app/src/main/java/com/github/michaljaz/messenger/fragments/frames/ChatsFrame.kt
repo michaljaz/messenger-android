@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -20,7 +21,10 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.ChatsAdapter
+import com.github.michaljaz.messenger.adapters.OnlineUser
+import com.github.michaljaz.messenger.adapters.OnlineUsersAdapter
 import com.github.michaljaz.messenger.fragments.HomeFragment
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -57,35 +61,42 @@ class ChatsFrame : Fragment() {
         //not allow to go back
         m.allowBack=false
 
-        //toolbar elevation
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            home.appbar.elevation = 0f
-        }
-
         //toolbar elevation connected with recycler view list
         list = view.findViewById(R.id.list)
-        list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(!recyclerView.canScrollVertically(-1)) {
-                    home.appbar.elevation = 0f
-                } else {
+        val nested=view.findViewById<NestedScrollView>(R.id.nestedScroll)
+        nested.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, _, _, _ ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(nested.canScrollVertically(-1)){
                     home.appbar.elevation = 4f
+                }else{
+                    home.appbar.elevation = 0f
                 }
             }
         })
+//        list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+//            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if(!recyclerView.canScrollVertically(-1)) {
+//                    home.appbar.elevation = 0f
+//                } else {
+//                    home.appbar.elevation = 4f
+//                }
+//            }
+//        })
 
         //initialize chats recycler view
         list.layoutManager = LinearLayoutManager(context)
         if(m.cacheChats.size==0){
             val chatsInit = ArrayList<Chat>()
-            chatsInit.add(Chat("","","search","",""))
-            chatsInit.add(Chat("","","online","",""))
-            list.adapter=ChatsAdapter(requireContext(),chatsInit)
+            list.adapter=ChatsAdapter(chatsInit)
             m.cacheChats=chatsInit
         }else{
-            list.adapter=ChatsAdapter(requireContext(),m.cacheChats)
+            list.adapter=ChatsAdapter(m.cacheChats)
+        }
+        //toolbar elevation
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            home.appbar.elevation = 0f
         }
 
 
@@ -125,17 +136,29 @@ class ChatsFrame : Fragment() {
         (list.adapter as ChatsAdapter).onItemLongClick= {
             m.dialog.show()
         }
-        (list.adapter as ChatsAdapter).onSearchClick={
+        val search: TextInputEditText = view.findViewById(R.id.Search)
+        search.setOnClickListener {
             Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
+
+        //setup online users rv
+        val hlist: RecyclerView=view.findViewById(R.id.horizontalList)
+        val onlineUsers=ArrayList<OnlineUser>()
+        onlineUsers.add(OnlineUser("Steve Jobs","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        onlineUsers.add(OnlineUser("John Doe","default"))
+        hlist.adapter= OnlineUsersAdapter(onlineUsers)
+        hlist.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         return view
     }
 
     fun updateChats(chatUserIds:MutableMap<String,Boolean>){
         val chats = ArrayList<Chat>()
-        chats.add(Chat("","","empty","",""))
-        chats.add(Chat("","","online","",""))
         var counter=0
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
@@ -152,17 +175,7 @@ class ChatsFrame : Fragment() {
                             ))
                             if(counter==chatUserIds.size){
                                 chats.sortWith { lhs, rhs ->
-                                    if(lhs.userId=="empty"){
-                                        -1
-                                    }else if(rhs.userId=="empty"){
-                                        1
-                                    }else if(lhs.userId=="online") {
-                                        -1
-                                    }else if(rhs.userId=="online") {
-                                        1
-                                    }else{
-                                        if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
-                                    }
+                                    if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
 
                                 }
                                 try{

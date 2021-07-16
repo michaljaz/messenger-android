@@ -47,13 +47,17 @@ class ChatsDiffCallback(
         val newChat: Chat = mNewChatsList[newItemPosition]
         return oldChat == newChat
     }
+
+    @Nullable
+    override fun getChangePayload(oldPosition: Int, newPosition: Int): Any? {
+        return super.getChangePayload(oldPosition, newPosition)
+    }
 }
 
-class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+class ChatsAdapter (val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAdapter.ViewHolder>()
 {
     var onItemClick: ((Chat)->Unit) ?= null
     var onItemLongClick: ((Chat)->Unit) ?= null
-    var onSearchClick: (()->Unit) ?= null
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val displayName: TextView = itemView.findViewById(R.id.DisplayName)
@@ -70,60 +74,27 @@ class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : 
         }
     }
 
-    inner class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        private val search: TextInputEditText = itemView.findViewById(R.id.Search)
-
-        init {
-            search.setOnClickListener {
-                onSearchClick?.invoke()
-            }
-        }
-    }
-
-    inner class OnlineUsersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val list: RecyclerView=itemView.findViewById(R.id.horizontalList)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        return if(viewType==0){
-            SearchViewHolder(inflater.inflate(R.layout.row_chats_search, parent, false))
-        }else if(viewType==1){
-            OnlineUsersViewHolder(inflater.inflate(R.layout.row_chats_online, parent, false))
-        }else{
-            ViewHolder(inflater.inflate(R.layout.row_chat, parent, false))
-        }
+        return ViewHolder(inflater.inflate(R.layout.row_chat, parent, false))
     }
     override fun getItemViewType(position: Int): Int {
         return if(position==0){ 0 }else if(position==1){ 1 }else{2}
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if(viewHolder is ViewHolder){
-            val chat: Chat = mChats[position]
-            viewHolder.displayName.text=chat.displayName
-            viewHolder.lastMessage.text=chat.lastMessage
-            if(chat.photoUrl=="default"){
-                viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
-            }else{
-                Picasso
-                    .get()
-                    .load(chat.photoUrl)
-                    .transform(RoundedTransformation(100, 0))
-                    .into(viewHolder.icon)
-            }
-        }else if(viewHolder is OnlineUsersViewHolder){
-            val onlineUsers=ArrayList<OnlineUser>()
-            onlineUsers.add(OnlineUser("Steve Jobs","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            onlineUsers.add(OnlineUser("John Doe","default"))
-            viewHolder.list.adapter=OnlineUsersAdapter(onlineUsers)
-            viewHolder.list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    override fun onBindViewHolder(viewHolder: ChatsAdapter.ViewHolder, position: Int) {
+        val chat: Chat = mChats[position]
+        viewHolder.displayName.text=chat.displayName
+        viewHolder.lastMessage.text=chat.lastMessage
+        if(chat.photoUrl=="default"){
+            viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
+        }else{
+            Picasso
+                .get()
+                .load(chat.photoUrl)
+                .transform(RoundedTransformation(100, 0))
+                .into(viewHolder.icon)
         }
     }
     fun updateListItems(chats:ArrayList<Chat>){
