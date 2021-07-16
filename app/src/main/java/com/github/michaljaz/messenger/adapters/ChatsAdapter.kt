@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.Nullable
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
@@ -20,6 +22,38 @@ class Chat(
     val userId: String,
     val lastMessage: String,
     val lastMessageTimeStamp: String)
+
+class ChatsDiffCallback(
+    private val mOldChatsList: List<Chat>,
+    private val mNewChatsList: List<Chat>
+) :
+    DiffUtil.Callback() {
+    override fun getOldListSize(): Int {
+        return mOldChatsList.size
+    }
+
+    override fun getNewListSize(): Int {
+        return mNewChatsList.size
+    }
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldChat: Chat = mOldChatsList[oldItemPosition]
+        val newChat: Chat = mNewChatsList[newItemPosition]
+        return oldChat.userId == newChat.userId
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldChat: Chat = mOldChatsList[oldItemPosition]
+        val newChat: Chat = mNewChatsList[newItemPosition]
+        return oldChat.userId == newChat.userId
+    }
+
+    @Nullable
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+        // Implement method if you're going to use ItemAnimator
+        return super.getChangePayload(oldItemPosition, newItemPosition)
+    }
+}
 
 class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
@@ -97,7 +131,14 @@ class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : 
             viewHolder.list.adapter=OnlineUsersAdapter(onlineUsers)
             viewHolder.list.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
+    }
+    fun updateListItems(chats:ArrayList<Chat>){
+        val diffCallback = ChatsDiffCallback(mChats, chats)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
 
+        mChats.clear()
+        mChats.addAll(chats)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount(): Int {

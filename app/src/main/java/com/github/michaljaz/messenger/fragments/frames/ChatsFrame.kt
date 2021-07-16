@@ -107,7 +107,17 @@ class ChatsFrame : Fragment() {
             }
         })
 
-        //on click search
+        //handle clicks
+        (list.adapter as ChatsAdapter).onItemClick= {
+            Log.d("xd",it.displayName)
+            m.chatWithUid=it.userId
+            m.chatWith=it.displayName
+            m.chatWithPhoto=it.photoUrl
+            findNavController().navigate(R.id.userChat_on)
+        }
+        (list.adapter as ChatsAdapter).onItemLongClick= {
+            m.dialog.show()
+        }
         (list.adapter as ChatsAdapter).onSearchClick={
             Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
         }
@@ -146,20 +156,7 @@ class ChatsFrame : Fragment() {
 
                             }
                             try{
-                                list.adapter=ChatsAdapter(requireContext(),chats)
-                                (list.adapter as ChatsAdapter).onItemClick= {
-                                    Log.d("xd",it.displayName)
-                                    m.chatWithUid=it.userId
-                                    m.chatWith=it.displayName
-                                    m.chatWithPhoto=it.photoUrl
-                                    findNavController().navigate(R.id.userChat_on)
-                                }
-                                (list.adapter as ChatsAdapter).onItemLongClick= {
-                                    m.dialog.show()
-                                }
-                                (list.adapter as ChatsAdapter).onSearchClick={
-                                    Navigation.findNavController(m, R.id.nav_host_fragment).navigate(R.id.search_on)
-                                }
+                                (list.adapter as ChatsAdapter).updateListItems(chats)
                             }catch(e:Exception){ }
                         }
                     }
