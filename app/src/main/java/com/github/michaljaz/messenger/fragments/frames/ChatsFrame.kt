@@ -82,15 +82,12 @@ class ChatsFrame : Fragment() {
 
         //initialize chats recycler view
         list.layoutManager = LinearLayoutManager(context)
-        if(m.cacheChats.size==0){
-            val chatsInit = ArrayList<Chat>()
-            list.adapter=ChatsAdapter(chatsInit)
-            m.cacheChats=chatsInit
+        val cacheChats=m.getCacheChats()
+        if(cacheChats!=null){
+            list.adapter=ChatsAdapter(cacheChats)
         }else{
-            list.adapter=ChatsAdapter(m.cacheChats)
+            list.adapter=ChatsAdapter(ArrayList())
         }
-
-
 
         //listen user chats
         val chatsUserIds = mutableMapOf<String,Boolean>()
@@ -171,7 +168,7 @@ class ChatsFrame : Fragment() {
                                 }
                                 try{
                                     (list.adapter as ChatsAdapter).updateListItems(chats)
-                                    m.cacheChats=chats
+                                    m.setCacheChats(chats)
                                 }catch(e:Exception){ }
                             }
                         }

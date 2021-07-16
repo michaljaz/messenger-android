@@ -20,7 +20,7 @@ class SplashScreenActivity : AppCompatActivity() {
         // to send a message with a delayed time.
         val im=findViewById<ImageView>(R.id.SplashScreenImage)
         im.alpha=0f
-        im.animate().setDuration(300).alpha(1f).withEndAction {
+        im.animate().setDuration(100).alpha(1f).withEndAction {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
