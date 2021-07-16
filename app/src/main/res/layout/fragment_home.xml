@@ -15,10 +15,10 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:background="@color/white"

@@ -34,6 +34,7 @@ class ChatsFrame : Fragment() {
     private lateinit var m: MainActivity
     private lateinit var list: RecyclerView
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var home:HomeFragment
 
     @SuppressLint("ResourceAsColor")
     override fun onCreateView(
@@ -43,7 +44,7 @@ class ChatsFrame : Fragment() {
         val view=inflater.inflate(R.layout.frame_chats, container, false)
         m = activity as MainActivity
 
-        val home=(parentFragment as HomeFragment)
+        home=(parentFragment as HomeFragment)
 
         home.appbar.findViewById<TextView>(R.id.toolbarTitle).text="Chats"
 
@@ -73,17 +74,11 @@ class ChatsFrame : Fragment() {
                 }
             }
         })
-//        list.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-//            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if(!recyclerView.canScrollVertically(-1)) {
-//                    home.appbar.elevation = 0f
-//                } else {
-//                    home.appbar.elevation = 4f
-//                }
-//            }
-//        })
+
+        //hide elevation loop
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            home.appbar.elevation = 0f
+        }
 
         //initialize chats recycler view
         list.layoutManager = LinearLayoutManager(context)
@@ -93,10 +88,6 @@ class ChatsFrame : Fragment() {
             m.cacheChats=chatsInit
         }else{
             list.adapter=ChatsAdapter(m.cacheChats)
-        }
-        //toolbar elevation
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            home.appbar.elevation = 0f
         }
 
 
