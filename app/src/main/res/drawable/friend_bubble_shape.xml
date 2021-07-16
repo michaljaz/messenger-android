@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <corners android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:bottomLeftRadius="10dp"
-        android:topRightRadius="10dp" />
+    <corners android:bottomRightRadius="@dimen/bubble_radius_round"
+        android:topLeftRadius="@dimen/bubble_radius_round"
+        android:bottomLeftRadius="@dimen/bubble_radius_round"
+        android:topRightRadius="@dimen/bubble_radius_round" />
     <solid android:color="@color/green"/>
 </shape>

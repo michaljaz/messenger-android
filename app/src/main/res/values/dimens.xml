@@ -1,3 +1,4 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="bubble_radius_round">15dp</dimen>
+    <dimen name="bubble_radius">5dp</dimen>
 </resources>
