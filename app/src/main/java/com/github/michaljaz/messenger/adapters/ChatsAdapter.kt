@@ -47,12 +47,6 @@ class ChatsDiffCallback(
         val newChat: Chat = mNewChatsList[newItemPosition]
         return oldChat.userId == newChat.userId
     }
-
-    @Nullable
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        // Implement method if you're going to use ItemAnimator
-        return super.getChangePayload(oldItemPosition, newItemPosition)
-    }
 }
 
 class ChatsAdapter (private val context:Context, val mChats: ArrayList<Chat>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()

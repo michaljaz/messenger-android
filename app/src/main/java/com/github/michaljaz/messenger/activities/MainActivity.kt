@@ -21,6 +21,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.drawerlayout.widget.DrawerLayout
 import com.github.michaljaz.messenger.service.MyService
 import com.github.michaljaz.messenger.R
+import com.github.michaljaz.messenger.adapters.Chat
 import com.github.michaljaz.messenger.adapters.Option
 import com.github.michaljaz.messenger.adapters.OptionsAdapter
 import com.github.michaljaz.messenger.fragments.HomeFragment
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     var allowBack: Boolean=false
     var searchKeyboard: Boolean=true
     var statusDelay: Long=5000
+    var cacheChats=ArrayList<Chat>()
 
     override fun onPause() {
         dialog.cancel()

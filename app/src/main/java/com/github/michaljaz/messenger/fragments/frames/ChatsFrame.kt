@@ -77,11 +77,18 @@ class ChatsFrame : Fragment() {
         })
 
         //initialize chats recycler view
-        val chatsInit = ArrayList<Chat>()
-        chatsInit.add(Chat("","","search","",""))
-        chatsInit.add(Chat("","","online","",""))
-        list.adapter=ChatsAdapter(requireContext(),chatsInit)
         list.layoutManager = LinearLayoutManager(context)
+        if(m.cacheChats.size==0){
+            val chatsInit = ArrayList<Chat>()
+            chatsInit.add(Chat("","","search","",""))
+            chatsInit.add(Chat("","","online","",""))
+            list.adapter=ChatsAdapter(requireContext(),chatsInit)
+            m.cacheChats=chatsInit
+        }else{
+            list.adapter=ChatsAdapter(requireContext(),m.cacheChats)
+        }
+
+
 
         //listen user chats
         val chatsUserIds = mutableMapOf<String,Boolean>()
@@ -129,11 +136,13 @@ class ChatsFrame : Fragment() {
         val chats = ArrayList<Chat>()
         chats.add(Chat("","","empty","",""))
         chats.add(Chat("","","online","",""))
+        var counter=0
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
                     m.getChatRef(k).child("lastMessage").get().addOnSuccessListener { lastMessage->
                         m.getChatRef(k).child("lastMessageTimeStamp").get().addOnSuccessListener { lastMessageTimeStamp->
+                            counter++
                             chats.add(Chat(
                                 displayName.value.toString(),
                                 photoUrl.value.toString(),
@@ -141,23 +150,26 @@ class ChatsFrame : Fragment() {
                                 lastMessage.value.toString(),
                                 lastMessageTimeStamp.value.toString()
                             ))
-                            chats.sortWith { lhs, rhs ->
-                                if(lhs.userId=="empty"){
-                                    -1
-                                }else if(rhs.userId=="empty"){
-                                    1
-                                }else if(lhs.userId=="online") {
-                                    -1
-                                }else if(rhs.userId=="online") {
-                                    1
-                                }else{
-                                    if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
-                                }
+                            if(counter==chatUserIds.size){
+                                chats.sortWith { lhs, rhs ->
+                                    if(lhs.userId=="empty"){
+                                        -1
+                                    }else if(rhs.userId=="empty"){
+                                        1
+                                    }else if(lhs.userId=="online") {
+                                        -1
+                                    }else if(rhs.userId=="online") {
+                                        1
+                                    }else{
+                                        if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
+                                    }
 
+                                }
+                                try{
+                                    (list.adapter as ChatsAdapter).updateListItems(chats)
+                                    m.cacheChats=chats
+                                }catch(e:Exception){ }
                             }
-                            try{
-                                (list.adapter as ChatsAdapter).updateListItems(chats)
-                            }catch(e:Exception){ }
                         }
                     }
                 }
