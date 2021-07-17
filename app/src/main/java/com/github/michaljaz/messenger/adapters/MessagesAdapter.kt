@@ -78,7 +78,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
-            val up=if(position==0){false}else{!mMessages[position-1].isMe}
+            val up=if(position==1){false}else{!mMessages[position-1].isMe}
             val down=if(position==mMessages.lastIndex){false}else{!mMessages[position+1].isMe}
 
             if(up && down){
