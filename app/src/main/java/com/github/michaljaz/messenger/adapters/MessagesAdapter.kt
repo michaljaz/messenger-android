@@ -14,7 +14,7 @@ class Message(
     val text: String,
     val isMe: Boolean)
 
-class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String,private val friendName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
@@ -23,20 +23,35 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     open inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
     }
+    inner class IntroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val icon:ImageView=itemView.findViewById(R.id.intro_icon)
+        val name:TextView=itemView.findViewById(R.id.intro_name)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
-        return if(viewType==0){
-            val v=inflater.inflate(R.layout.row_message_my, parent, false)
-            MyViewHolder(v)
-        }else{
-            val v=inflater.inflate(R.layout.row_message_friend, parent, false)
-            FriendViewHolder(v)
+        return when (viewType) {
+            0 -> {
+                val v=inflater.inflate(R.layout.row_chat_intro, parent, false)
+                IntroViewHolder(v)
+            }
+            1 -> {
+                val v=inflater.inflate(R.layout.row_message_my, parent, false)
+                MyViewHolder(v)
+            }
+            else -> {
+                val v=inflater.inflate(R.layout.row_message_friend, parent, false)
+                FriendViewHolder(v)
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(mMessages[position].isMe){ 0 }else{ 1 }
+        return when {
+            position==0 -> { 0 }
+            mMessages[position].isMe -> { 1 }
+            else -> { 2 }
+        }
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -92,6 +107,17 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             }else{
                 viewHolder.icon.setImageResource(0)
             }
+        }else if(viewHolder is IntroViewHolder){
+            if(friendPhotoUrl=="default"){
+                viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
+            }else{
+                Picasso
+                    .get()
+                    .load(friendPhotoUrl)
+                    .transform(RoundedTransformation(100, 0))
+                    .into(viewHolder.icon)
+            }
+            viewHolder.name.text=friendName
         }
 
     }

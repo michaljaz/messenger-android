@@ -33,19 +33,14 @@ class ChatFragment : Fragment() {
     private lateinit var list: RecyclerView
     private var messages = ArrayList<Message>()
 
-    private fun loadUserIcon(v:View){
-        Picasso.get()
-            .load(m.chatWithPhoto)
-            .transform(RoundedTransformation(100, 0))
-            .into(v.findViewById<ImageView>(R.id.userIcon))
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
+
+        messages.add(Message("intro",false))
 
         //not allow to go back
         m.allowBack=true
@@ -55,7 +50,10 @@ class ChatFragment : Fragment() {
 
         //update user icon
         if(m.chatWithPhoto!="default"){
-            loadUserIcon(view)
+            Picasso.get()
+                .load(m.chatWithPhoto)
+                .transform(RoundedTransformation(100, 0))
+                .into(view.findViewById<ImageView>(R.id.userIcon))
         }
 
         view.findViewById<TextView>(R.id.toolbarTitle).text=m.chatWith
@@ -118,7 +116,7 @@ class ChatFragment : Fragment() {
     private fun addMessage(message:String,isMe:Boolean){
         messages.add(Message(message,isMe))
         if(list.adapter==null){
-            list.adapter=MessagesAdapter(messages,m.chatWithPhoto)
+            list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
         }else{
             (list.adapter as MessagesAdapter).notifyDataSetChanged()
             list.smoothScrollToPosition(messages.size - 1)
