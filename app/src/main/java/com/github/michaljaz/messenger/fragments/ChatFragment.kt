@@ -1,8 +1,10 @@
 package com.github.michaljaz.messenger.fragments
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.Image
 import android.os.Build
@@ -147,14 +149,21 @@ class ChatFragment : Fragment() {
         })
         return view
     }
-    private fun addMessage(message:String,isMe:Boolean){
+    @SuppressLint("ResourceAsColor")
+    private fun addMessage(message:String, isMe:Boolean){
         messages.add(Message(message,isMe))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
             (list.adapter as MessagesAdapter).onFriendLongClick={
                 val dialog = Dialog(m)
                 val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
+                v.findViewById<ImageView>(R.id.like).setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialog.setCancelable(true)
                 dialog.setContentView(v)
+                dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.transparent))
                 dialog.show()
             }
         }else{
