@@ -21,6 +21,8 @@
         tools:ignore="ContentDescription,RtlHardcoded" />
 
     <EditText
+        android:maxLines="1"
+        android:inputType="text"
         android:background="@null"
         android:hint="@string/search_hint"
         android:id="@+id/Search"
