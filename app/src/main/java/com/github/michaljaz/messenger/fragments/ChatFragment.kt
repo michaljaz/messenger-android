@@ -1,5 +1,6 @@
 package com.github.michaljaz.messenger.fragments
 
+import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -150,6 +151,12 @@ class ChatFragment : Fragment() {
         messages.add(Message(message,isMe))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
+            (list.adapter as MessagesAdapter).onFriendLongClick={
+                val dialog = Dialog(m)
+                val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
+                dialog.setContentView(v)
+                dialog.show()
+            }
         }else{
             (list.adapter as MessagesAdapter).notifyDataSetChanged()
             list.smoothScrollToPosition(messages.size - 1)
