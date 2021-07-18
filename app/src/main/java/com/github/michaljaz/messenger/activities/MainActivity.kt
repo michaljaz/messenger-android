@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
         //dialog
         dialog = BottomSheetDialog(this)
-        val v = layoutInflater.inflate(R.layout.bottom_sheet, null)
+        val v = layoutInflater.inflate(R.layout.sheet_bottom, null)
         val list = v.findViewById<ListView>(R.id.list)
         val options=ArrayList<Option>()
         options.add(Option(R.drawable.ic_archive_filled_box,"Archive"))

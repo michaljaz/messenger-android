@@ -1,5 +1,6 @@
 package com.github.michaljaz.messenger.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val icon:ImageView=itemView.findViewById(R.id.imgIcon)
         init {
             message.setOnLongClickListener {
+
                 message.background.alpha=200
                 true
             }
@@ -30,6 +32,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val message:TextView=itemView.findViewById(R.id.message)
         init {
             message.setOnLongClickListener {
+                Log.d("xd", adapterPosition.toString())
                 message.background.alpha=200
                 true
             }
