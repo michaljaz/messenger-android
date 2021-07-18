@@ -6,9 +6,11 @@ import android.graphics.drawable.Drawable
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -31,7 +33,30 @@ import com.squareup.picasso.Picasso
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
     private lateinit var list: RecyclerView
+    private lateinit var friendIcon: ImageView
+    private lateinit var friendName: TextView
     private var messages = ArrayList<Message>()
+
+    private fun hideFriend(){
+        friendIcon.animate().setDuration(100).alpha(0f)
+        friendName.animate().setDuration(100).alpha(0f)
+    }
+    private fun showFriend(){
+        friendIcon.animate().setDuration(100).alpha(1f)
+        friendName.animate().setDuration(100).alpha(1f)
+    }
+
+    private fun friendLoop(llm:LinearLayoutManager){
+        if(llm.findFirstVisibleItemPosition()==0){
+            hideFriend()
+        }else{
+            showFriend()
+        }
+        val handler = Handler()
+        handler.postDelayed( {
+            friendLoop(llm)
+        }, 100)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +64,9 @@ class ChatFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
+
+        friendIcon=view.findViewById(R.id.userIcon)
+        friendName=view.findViewById(R.id.toolbarTitle)
 
         messages.add(Message("intro",false))
 
@@ -53,10 +81,10 @@ class ChatFragment : Fragment() {
             Picasso.get()
                 .load(m.chatWithPhoto)
                 .transform(RoundedTransformation(100, 0))
-                .into(view.findViewById<ImageView>(R.id.userIcon))
+                .into(friendIcon)
         }
 
-        view.findViewById<TextView>(R.id.toolbarTitle).text=m.chatWith
+        friendName.text=m.chatWith
 
         view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
@@ -93,6 +121,9 @@ class ChatFragment : Fragment() {
         val llm=LinearLayoutManager(context)
         llm.stackFromEnd = true
         list.layoutManager = llm
+
+        friendLoop(llm)
+
         m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>
