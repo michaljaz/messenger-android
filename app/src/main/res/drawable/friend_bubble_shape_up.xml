@@ -5,5 +5,5 @@
         android:bottomLeftRadius="@dimen/bubble_radius_round"
         android:topRightRadius="@dimen/bubble_radius_round"
         android:topLeftRadius="@dimen/bubble_radius"/>
-    <solid android:color="@color/green"/>
+    <solid android:color="@color/friend_message_bubble"/>
 </shape>

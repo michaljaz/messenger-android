@@ -90,7 +90,9 @@ class ChatFragment : Fragment() {
 
         //test messages adapter
         list = view.findViewById(R.id.list)
-        list.layoutManager = LinearLayoutManager(context)
+        val llm=LinearLayoutManager(context)
+        llm.stackFromEnd = true
+        list.layoutManager = llm
         m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>

@@ -19,9 +19,21 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
         val icon:ImageView=itemView.findViewById(R.id.imgIcon)
+        init {
+            message.setOnLongClickListener {
+                message.background.alpha=200
+                true
+            }
+        }
     }
     open inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
+        init {
+            message.setOnLongClickListener {
+                message.background.alpha=200
+                true
+            }
+        }
     }
     inner class IntroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val icon:ImageView=itemView.findViewById(R.id.intro_icon)
