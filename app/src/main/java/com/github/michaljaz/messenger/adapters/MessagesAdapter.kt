@@ -19,7 +19,7 @@ class Message(
 
 class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String,private val friendName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-    var onFriendLongClick: ((Message)->Unit) ?= null
+    var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message)->Unit) ?= null
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -27,8 +27,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val icon:ImageView=itemView.findViewById(R.id.imgIcon)
         init {
             message.setOnLongClickListener {
-                onFriendLongClick?.invoke(mMessages[adapterPosition])
-                message.background.alpha=200
+                onFriendLongClick?.invoke(mMessages[adapterPosition],message)
                 true
             }
         }

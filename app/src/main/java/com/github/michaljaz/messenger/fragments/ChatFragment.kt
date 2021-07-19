@@ -148,7 +148,7 @@ class ChatFragment : Fragment() {
         messages.add(Message(message,isMe))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
-            (list.adapter as MessagesAdapter).onFriendLongClick={
+            (list.adapter as MessagesAdapter).onFriendLongClick={ message,text->
                 val dialog = Dialog(m)
                 val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
                 val reaction=v.findViewById<LinearLayout>(R.id.reaction)
@@ -157,12 +157,20 @@ class ChatFragment : Fragment() {
                 val marginTop=m.lastTouch.toInt()-200
                 param.setMargins(0,marginTop,0,0)
                 reaction.layoutParams=param
+
+                text.background.alpha=150
+
                 v.findViewById<ImageView>(R.id.like).setOnClickListener {
                     dialog.dismiss()
                 }
                 v.findViewById<LinearLayout>(R.id.reactionbg).setOnClickListener {
+                    Log.d("xd",it.toString())
                     dialog.dismiss()
                 }
+                dialog.setOnDismissListener {
+                    text.background.alpha=255
+                }
+
                 dialog.setCancelable(true)
                 dialog.setContentView(v)
                 dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
