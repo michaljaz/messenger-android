@@ -143,55 +143,66 @@ class ChatFragment : Fragment() {
         })
         return view
     }
+
     @SuppressLint("ResourceAsColor")
+    fun createReactionDialog(message:TextView){
+        val dialog = Dialog(m)
+        val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
+        val reaction=v.findViewById<LinearLayout>(R.id.reaction)
+        dialog.window?.attributes?.gravity=Gravity.TOP
+        val param=reaction.layoutParams as LinearLayout.LayoutParams
+        val marginTop=m.lastTouch.toInt()-250
+        param.setMargins(0,marginTop,0,0)
+        reaction.layoutParams=param
+
+        message.background.alpha=150
+        val r1=v.findViewById<ImageView>(R.id.r1)
+        val r2=v.findViewById<ImageView>(R.id.r2)
+        val r3=v.findViewById<ImageView>(R.id.r3)
+        val r4=v.findViewById<ImageView>(R.id.r4)
+        val r5=v.findViewById<ImageView>(R.id.r5)
+        val r6=v.findViewById<ImageView>(R.id.r6)
+        val r7=v.findViewById<ImageView>(R.id.r7)
+        val delay:Long=150
+
+        r1.alpha=0f
+        r2.alpha=0f
+        r3.alpha=0f
+        r4.alpha=0f
+        r5.alpha=0f
+        r6.alpha=0f
+        r7.alpha=0f
+        r1.animate().setDuration(delay).alpha(1f)
+        r2.animate().setDuration(delay*2).alpha(1f)
+        r3.animate().setDuration(delay*3).alpha(1f)
+        r4.animate().setDuration(delay*4).alpha(1f)
+        r5.animate().setDuration(delay*5).alpha(1f)
+        r6.animate().setDuration(delay*6).alpha(1f)
+        r7.animate().setDuration(delay*7).alpha(1f)
+        v.findViewById<LinearLayout>(R.id.reactionbg).setOnClickListener {
+            Log.d("xd",it.toString())
+            dialog.dismiss()
+        }
+        dialog.setOnDismissListener {
+            message.background.alpha=255
+        }
+
+        dialog.setCancelable(true)
+        dialog.setContentView(v)
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.transparent))
+        dialog.show()
+    }
+
     private fun addMessage(message:String, isMe:Boolean){
         messages.add(Message(message,isMe))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
-            (list.adapter as MessagesAdapter).onFriendLongClick={ message,text->
-                val dialog = Dialog(m)
-                val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
-                val reaction=v.findViewById<LinearLayout>(R.id.reaction)
-                dialog.window?.attributes?.gravity=Gravity.TOP
-                val param=reaction.layoutParams as LinearLayout.LayoutParams
-                val marginTop=m.lastTouch.toInt()-200
-                param.setMargins(0,marginTop,0,0)
-                reaction.layoutParams=param
-
-                text.background.alpha=150
-                val r1=v.findViewById<ImageView>(R.id.r1)
-                val r2=v.findViewById<ImageView>(R.id.r2)
-                val r3=v.findViewById<ImageView>(R.id.r3)
-                val r4=v.findViewById<ImageView>(R.id.r4)
-                val r5=v.findViewById<ImageView>(R.id.r5)
-                val r6=v.findViewById<ImageView>(R.id.r6)
-                val delay:Long=100
-
-                r1.alpha=0f
-                r2.alpha=0f
-                r3.alpha=0f
-                r4.alpha=0f
-                r5.alpha=0f
-                r6.alpha=0f
-                r1.animate().setDuration(delay).alpha(1f)
-                r2.animate().setDuration(delay*2).alpha(1f)
-                r3.animate().setDuration(delay*3).alpha(1f)
-                r4.animate().setDuration(delay*4).alpha(1f)
-                r5.animate().setDuration(delay*5).alpha(1f)
-                r6.animate().setDuration(delay*6).alpha(1f)
-                v.findViewById<LinearLayout>(R.id.reactionbg).setOnClickListener {
-                    Log.d("xd",it.toString())
-                    dialog.dismiss()
-                }
-                dialog.setOnDismissListener {
-                    text.background.alpha=255
-                }
-
-                dialog.setCancelable(true)
-                dialog.setContentView(v)
-                dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                dialog.window?.setBackgroundDrawable(ColorDrawable(android.R.color.transparent))
-                dialog.show()
+            (list.adapter as MessagesAdapter).onFriendLongClick={ _,msg->
+                createReactionDialog(msg)
+            }
+            (list.adapter as MessagesAdapter).onMyLongClick={ _,msg->
+                createReactionDialog(msg)
             }
         }else{
             (list.adapter as MessagesAdapter).notifyDataSetChanged()

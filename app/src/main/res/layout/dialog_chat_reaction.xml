@@ -9,7 +9,7 @@
         android:focusable="true"
         android:elevation="5dp"
         android:background="@drawable/reaction_padded_bg"
-        android:padding="15dp"
+        android:padding="23dp"
         android:layout_margin="3dp"
         android:id="@+id/reaction"
         android:layout_gravity="center_horizontal"
@@ -51,6 +51,12 @@
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_liker"/>
+        <ImageView
+            android:id="@+id/r7"
+            android:layout_marginLeft="@dimen/reaction_margin"
+            android:layout_width="@dimen/reaction_icons"
+            android:layout_height="@dimen/reaction_icons"
+            android:src="@drawable/ic_plus" />
     </LinearLayout>
 
 </LinearLayout>
