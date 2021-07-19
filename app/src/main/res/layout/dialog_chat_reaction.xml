@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        android:background="@drawable/rounded_edittext"
-        android:padding="10dp"
+        android:elevation="5dp"
+        android:background="@drawable/reaction_padded_bg"
+        android:padding="15dp"
+        android:layout_margin="3dp"
         android:id="@+id/reaction"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
