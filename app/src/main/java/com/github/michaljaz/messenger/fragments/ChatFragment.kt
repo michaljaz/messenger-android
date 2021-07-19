@@ -159,10 +159,26 @@ class ChatFragment : Fragment() {
                 reaction.layoutParams=param
 
                 text.background.alpha=150
+                val r1=v.findViewById<ImageView>(R.id.r1)
+                val r2=v.findViewById<ImageView>(R.id.r2)
+                val r3=v.findViewById<ImageView>(R.id.r3)
+                val r4=v.findViewById<ImageView>(R.id.r4)
+                val r5=v.findViewById<ImageView>(R.id.r5)
+                val r6=v.findViewById<ImageView>(R.id.r6)
+                val delay:Long=100
 
-                v.findViewById<ImageView>(R.id.like).setOnClickListener {
-                    dialog.dismiss()
-                }
+                r1.alpha=0f
+                r2.alpha=0f
+                r3.alpha=0f
+                r4.alpha=0f
+                r5.alpha=0f
+                r6.alpha=0f
+                r1.animate().setDuration(delay).alpha(1f)
+                r2.animate().setDuration(delay*2).alpha(1f)
+                r3.animate().setDuration(delay*3).alpha(1f)
+                r4.animate().setDuration(delay*4).alpha(1f)
+                r5.animate().setDuration(delay*5).alpha(1f)
+                r6.animate().setDuration(delay*6).alpha(1f)
                 v.findViewById<LinearLayout>(R.id.reactionbg).setOnClickListener {
                     Log.d("xd",it.toString())
                     dialog.dismiss()

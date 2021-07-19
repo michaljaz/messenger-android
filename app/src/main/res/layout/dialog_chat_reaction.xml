@@ -17,31 +17,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/like"
+            android:id="@+id/r1"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_love"/>
         <ImageView
+            android:id="@+id/r2"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_haha"/>
         <ImageView
+            android:id="@+id/r3"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_wow"/>
         <ImageView
+            android:id="@+id/r4"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_sad"/>
         <ImageView
+            android:id="@+id/r5"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
             android:src="@drawable/ic_angry"/>
         <ImageView
+            android:id="@+id/r6"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
