@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -42,12 +43,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var db: DatabaseReference
     lateinit var dialog:BottomSheetDialog
+    private var statusDelay: Long=5000
     var chatWith: String="null"
     var chatWithUid: String="null"
     var chatWithPhoto: String="null"
     var allowBack: Boolean=false
     var searchKeyboard: Boolean=true
-    private var statusDelay: Long=5000
+    var lastTouch=0f
+
 
     override fun onPause() {
         dialog.cancel()
@@ -66,6 +69,12 @@ class MainActivity : AppCompatActivity() {
         val prefs: SharedPreferences = getSharedPreferences("chats", Context.MODE_PRIVATE)
         val chatsJSON: String? = prefs.getString("chats", "")
         return Gson().fromJson(chatsJSON, object : TypeToken<ArrayList<Chat?>?>() {}.type)
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
+        lastTouch=event!!.y
+        Log.d("TOUCH",lastTouch.toString())
+        return super.dispatchTouchEvent(event)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

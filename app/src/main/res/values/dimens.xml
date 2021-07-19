@@ -1,4 +1,6 @@
 <resources>
     <dimen name="bubble_radius_round">20dp</dimen>
     <dimen name="bubble_radius">5dp</dimen>
+    <dimen name="reaction_icons">30dp</dimen>
+    <dimen name="reaction_margin">10dp</dimen>
 </resources>

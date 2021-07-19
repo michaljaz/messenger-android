@@ -2,18 +2,13 @@ package com.github.michaljaz.messenger.fragments
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.media.Image
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.core.widget.NestedScrollView
+import androidx.core.view.marginTop
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,8 +21,6 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Message
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -61,6 +54,7 @@ class ChatFragment : Fragment() {
         }, 100)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -157,7 +151,16 @@ class ChatFragment : Fragment() {
             (list.adapter as MessagesAdapter).onFriendLongClick={
                 val dialog = Dialog(m)
                 val v = layoutInflater.inflate(R.layout.dialog_chat_reaction, null)
+                val reaction=v.findViewById<LinearLayout>(R.id.reaction)
+                dialog.window?.attributes?.gravity=Gravity.TOP
+                val param=reaction.layoutParams as LinearLayout.LayoutParams
+                val marginTop=m.lastTouch.toInt()-200
+                param.setMargins(0,marginTop,0,0)
+                reaction.layoutParams=param
                 v.findViewById<ImageView>(R.id.like).setOnClickListener {
+                    dialog.dismiss()
+                }
+                v.findViewById<LinearLayout>(R.id.reactionbg).setOnClickListener {
                     dialog.dismiss()
                 }
                 dialog.setCancelable(true)
