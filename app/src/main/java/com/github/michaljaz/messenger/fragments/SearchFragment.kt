@@ -29,11 +29,8 @@ class SearchFragment : Fragment() {
         m.disableDrawer()
 
         //request search focus
-        if(m.searchKeyboard){
-            view.findViewById<EditText>(R.id.Search).requestFocus()
-            view.findViewById<EditText>(R.id.Search).isFocusableInTouchMode = true
-            m.searchKeyboard=false
-        }
+        view.findViewById<EditText>(R.id.Search).requestFocus()
+        view.findViewById<EditText>(R.id.Search).isFocusableInTouchMode = true
         m.showKeyboard()
 
 

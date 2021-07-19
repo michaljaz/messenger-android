@@ -19,12 +19,13 @@
         tools:ignore="ContentDescription,RtlHardcoded" />
 
     <TextView
+        android:maxWidth="270dp"
         android:paddingHorizontal="15dp"
         android:text="HELLO WORLD"
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="15sp"
         android:paddingVertical="10dp"
         android:background="@drawable/friend_bubble_shape_up"

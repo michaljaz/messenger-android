@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     var chatWithUid: String="null"
     var chatWithPhoto: String="null"
     var allowBack: Boolean=false
-    var searchKeyboard: Boolean=true
     var lastTouch=0f
 
 

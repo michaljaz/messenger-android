@@ -119,7 +119,13 @@ class ChatFragment : Fragment() {
         llm.stackFromEnd = true
         list.layoutManager = llm
 
-        friendLoop(llm)
+        friendIcon.alpha=0f
+        friendName.alpha=0f
+        val handler = Handler()
+        handler.postDelayed( {
+            friendLoop(llm)
+        }, 100)
+
 
         m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
