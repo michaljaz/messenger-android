@@ -127,7 +127,7 @@ class ChatFragment : Fragment() {
         }, 100)
 
 
-        m.getChatRef(m.chatWithUid).child("messages").addChildEventListener(object: ChildEventListener{
+        m.getChatRef(m.chatWithUid)?.child("messages")?.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>
                 Log.d("xd",message["data"].toString())
@@ -268,11 +268,11 @@ class ChatFragment : Fragment() {
             }catch(e:Exception){}
 
             val timestamp=System.currentTimeMillis().toString()
-            m.getChatRef(m.chatWithUid).child("lastMessage").setValue("${m.auth.currentUser!!.displayName}: $message")
-            m.getChatRef(m.chatWithUid).child("lastMessageTimeStamp").setValue(timestamp)
+            m.getChatRef(m.chatWithUid)?.child("lastMessage")?.setValue("${m.auth.currentUser!!.displayName}: $message")
+            m.getChatRef(m.chatWithUid)?.child("lastMessageTimeStamp")?.setValue(timestamp)
 
-            val key=m.getChatRef(m.chatWithUid).child("messages").push().key
-            m.getChatRef(m.chatWithUid).child("messages/${key}").setValue(mapOf(
+            val key=m.getChatRef(m.chatWithUid)?.child("messages")?.push()?.key
+            m.getChatRef(m.chatWithUid)?.child("messages/${key}")?.setValue(mapOf(
                 "data" to message.toString(),
                 "timestamp" to timestamp,
                 "sender" to m.auth.currentUser!!.uid

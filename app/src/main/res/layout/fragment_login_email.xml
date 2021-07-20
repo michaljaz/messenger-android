@@ -19,10 +19,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:id="@+id/backIcon"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:src="@drawable/ic_arrow"/>
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_arrow_padded"/>
             <TextView
                 android:id="@+id/toolbarTitle"
                 android:paddingLeft="15dp"

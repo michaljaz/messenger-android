@@ -128,11 +128,15 @@ class MainActivity : AppCompatActivity() {
         }, statusDelay)
     }
 
-    fun getChatRef(userid:String): DatabaseReference {
-        return if(userid>auth.currentUser!!.uid){
-            db.child("/chats/${auth.currentUser!!.uid}/${userid}")
-        }else{
-            db.child("/chats/${userid}/${auth.currentUser!!.uid}")
+    fun getChatRef(userid:String): DatabaseReference? {
+        return try{
+            if(userid>auth.currentUser!!.uid){
+                db.child("/chats/${auth.currentUser!!.uid}/${userid}")
+            }else{
+                db.child("/chats/${userid}/${auth.currentUser!!.uid}")
+            }
+        }catch(e:Exception){
+            null
         }
     }
 

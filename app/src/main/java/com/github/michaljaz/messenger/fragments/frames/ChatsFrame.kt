@@ -151,8 +151,8 @@ class ChatsFrame : Fragment() {
         for ((k, _) in chatUserIds) {
             m.db.child("/usersData/$k/displayName").get().addOnSuccessListener { displayName ->
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
-                    m.getChatRef(k).child("lastMessage").get().addOnSuccessListener { lastMessage->
-                        m.getChatRef(k).child("lastMessageTimeStamp").get().addOnSuccessListener { lastMessageTimeStamp->
+                    m.getChatRef(k)?.child("lastMessage")?.get()?.addOnSuccessListener { lastMessage->
+                        m.getChatRef(k)?.child("lastMessageTimeStamp")?.get()?.addOnSuccessListener { lastMessageTimeStamp->
                             counter++
                             chats.add(Chat(
                                 displayName.value.toString(),
