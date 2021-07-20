@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.squareup.picasso.Picasso
 
 class User(
@@ -42,15 +43,7 @@ class UsersAdapter(
         val title: TextView = row.findViewById(R.id.txtTitle)
         title.text = mUsers[position].displayName
         val image=mUsers[position].photoUrl
-        if(image=="default"){
-            i1.setImageResource(R.drawable.ic_profile_user)
-        }else{
-            Picasso
-                .get()
-                .load(image)
-                .transform(RoundedTransformation(100, 0))
-                .into(i1)
-        }
+        i1.setIconUrl(image)
         return row
     }
 

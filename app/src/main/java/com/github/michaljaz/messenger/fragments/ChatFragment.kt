@@ -21,6 +21,7 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.adapters.Message
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,6 +35,8 @@ class ChatFragment : Fragment() {
     private lateinit var friendIcon: ImageView
     private lateinit var friendName: TextView
     private var messages = ArrayList<Message>()
+    private var timestampDeltaDate=10000
+    private var timestampDeltaDelay=1000
 
     private fun hideFriend(){
         friendIcon.animate().setDuration(100).alpha(0f)
@@ -76,12 +79,7 @@ class ChatFragment : Fragment() {
         m.disableDrawer()
 
         //update user icon
-        if(m.chatWithPhoto!="default"){
-            Picasso.get()
-                .load(m.chatWithPhoto)
-                .transform(RoundedTransformation(100, 0))
-                .into(friendIcon)
-        }
+        friendIcon.setIconUrl(m.chatWithPhoto)
 
         friendName.text=m.chatWith
 
@@ -227,7 +225,7 @@ class ChatFragment : Fragment() {
 
     private fun addMessage(message:String, isMe:Boolean,timestamp:String){
         val time=timestamp.toLong()
-        if(time-messages[messages.lastIndex].messageTimestamp>10000){
+        if(time-messages[messages.lastIndex].messageTimestamp>timestampDeltaDate){
             messages.add(Message(isDate = true, dateString = getShortDate(time,checkTimestampsDay(time))))
         }
         messages.add(Message(message,isMe,timestamp.toLong()))

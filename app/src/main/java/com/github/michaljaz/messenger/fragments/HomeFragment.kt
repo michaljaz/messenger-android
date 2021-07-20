@@ -24,6 +24,7 @@ import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
 import com.github.michaljaz.messenger.fragments.frames.UsersFrame
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.github.michaljaz.messenger.utils.disableTooltip
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -87,14 +88,7 @@ class HomeFragment : Fragment() {
 
         //update user icon
         val userIcon=view.findViewById<ImageView>(R.id.userIcon)
-        if(photoUrl=="default"){
-            userIcon.setImageResource(R.drawable.ic_profile_user)
-        }else{
-            Picasso.get()
-                .load(photoUrl)
-                .transform(RoundedTransformation(100, 0))
-                .into(userIcon)
-        }
+        userIcon.setIconUrl(photoUrl)
 
         //Update drawer header
         m.updateHeader(

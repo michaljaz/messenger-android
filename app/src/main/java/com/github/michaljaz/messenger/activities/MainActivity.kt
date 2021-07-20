@@ -24,6 +24,7 @@ import com.github.michaljaz.messenger.adapters.OptionsAdapter
 import com.github.michaljaz.messenger.fragments.HomeFragment
 import com.github.michaljaz.messenger.service.MyService
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
@@ -173,15 +174,7 @@ class MainActivity : AppCompatActivity() {
             val navView = findViewById<View>(R.id.side_navigation) as NavigationView
             navView.getHeaderView(0).findViewById<TextView>(R.id.title_name).text=title
             navView.getHeaderView(0).findViewById<TextView>(R.id.subtitle_name).text=subtitle
-            if(photoUrl=="default"){
-                navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView).setImageResource(R.drawable.ic_profile_user)
-            }else{
-                Picasso
-                    .get()
-                    .load(photoUrl)
-                    .transform(RoundedTransformation(100, 0))
-                    .into(navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView))
-            }
+            navView.getHeaderView(0).findViewById<ImageView>(R.id.imageView).setIconUrl(photoUrl)
 
         }catch(e:Exception){}
     }

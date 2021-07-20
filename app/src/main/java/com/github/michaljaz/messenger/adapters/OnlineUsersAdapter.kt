@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.squareup.picasso.Picasso
 
 class OnlineUser(
@@ -36,15 +37,7 @@ class OnlineUsersAdapter (private val mOnlineUsers: ArrayList<OnlineUser>) : Rec
             val user: OnlineUser = mOnlineUsers[position]
             viewHolder.displayName.text=user.displayName
             viewHolder.surName.text="Surname"
-            if(user.photoUrl=="default"){
-                viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
-            }else{
-                Picasso
-                    .get()
-                    .load(user.photoUrl)
-                    .transform(RoundedTransformation(100, 0))
-                    .into(viewHolder.icon)
-            }
+            viewHolder.icon.setIconUrl(user.photoUrl)
         }
     }
 

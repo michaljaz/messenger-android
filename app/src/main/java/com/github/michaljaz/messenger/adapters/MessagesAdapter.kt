@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.setIconUrl
 import com.squareup.picasso.Picasso
 
 class Message(
@@ -22,10 +23,10 @@ class Message(
 
 class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String,private val friendName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-    var MESSAGE_INTRO=0
-    var MESSAGE_FRIEND=1
-    var MESSAGE_MY=2
-    var MESSAGE_DATE=3
+    private var MESSAGE_INTRO=0
+    private var MESSAGE_FRIEND=1
+    private var MESSAGE_MY=2
+    private var MESSAGE_DATE=3
     var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message,TextView)->Unit) ?= null
 
@@ -33,6 +34,10 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val message:TextView=itemView.findViewById(R.id.message)
         val icon:ImageView=itemView.findViewById(R.id.imgIcon)
         init {
+            message.setOnClickListener {
+                Log.d("xd","clicked")
+                message.background.alpha=200
+            }
             message.setOnLongClickListener {
                 onFriendLongClick?.invoke(mMessages[adapterPosition],message)
                 true
@@ -42,6 +47,10 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     open inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
         init {
+            message.setOnClickListener {
+                Log.d("xd","clicked")
+                message.background.alpha=200
+            }
             message.setOnLongClickListener {
                 onMyLongClick?.invoke(mMessages[adapterPosition],message)
                 true
@@ -128,28 +137,12 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             }
 
             if(!down){
-                if(friendPhotoUrl=="default"){
-                    viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
-                }else{
-                    Picasso
-                        .get()
-                        .load(friendPhotoUrl)
-                        .transform(RoundedTransformation(100, 0))
-                        .into(viewHolder.icon)
-                }
+                viewHolder.icon.setIconUrl(friendPhotoUrl)
             }else{
                 viewHolder.icon.setImageResource(0)
             }
         }else if(viewHolder is IntroViewHolder){
-            if(friendPhotoUrl=="default"){
-                viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
-            }else{
-                Picasso
-                    .get()
-                    .load(friendPhotoUrl)
-                    .transform(RoundedTransformation(100, 0))
-                    .into(viewHolder.icon)
-            }
+            viewHolder.icon.setIconUrl(friendPhotoUrl)
             viewHolder.name.text=friendName
         }else if(viewHolder is DateViewHolder){
             viewHolder.date.text=mMessages[position].dateString
