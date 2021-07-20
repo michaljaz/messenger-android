@@ -72,6 +72,10 @@ class ChatFragment : Fragment() {
 
         messages.add(Message("intro",false))
 
+        view.findViewById<ImageView>(R.id.bottomscroll).setOnClickListener {
+            list.smoothScrollToPosition(messages.size - 1)
+        }
+
         //not allow to go back
         m.allowBack=true
 
@@ -115,6 +119,7 @@ class ChatFragment : Fragment() {
 
         //test messages adapter
         list = view.findViewById(R.id.list)
+
         val llm=LinearLayoutManager(context)
         llm.stackFromEnd = true
         list.layoutManager = llm

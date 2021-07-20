@@ -23,8 +23,8 @@
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
                 android:id="@+id/backIcon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 android:src="@drawable/ic_arrow_padded"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
@@ -87,6 +87,20 @@
             android:src="@drawable/ic_like"
             tools:ignore="ContentDescription" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/bottomscroll"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="65dp"
+        android:src="@drawable/ic_down_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
