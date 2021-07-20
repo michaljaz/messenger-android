@@ -130,7 +130,6 @@ class ChatFragment : Fragment() {
 
         //on click send
         view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
-            enableBottomScroll()
             sendMessage(view)
         }
 
