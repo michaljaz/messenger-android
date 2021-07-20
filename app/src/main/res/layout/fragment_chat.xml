@@ -4,21 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/whole"
-    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChatFragment">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <androidx.appcompat.widget.Toolbar
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:elevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
@@ -51,42 +48,61 @@
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/messageField"
+        app:layout_constraintBottom_toTopOf="@id/bottomappBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         android:stackFromBottom="true">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
-        android:layout_margin="5dp"
-        android:id="@+id/messageField"
+    <com.google.android.material.appbar.AppBarLayout
+        app:elevation="0dp"
+        android:id="@+id/bottomappBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-        <EditText
-            android:maxLines="1"
-            android:inputType="text"
-            android:paddingLeft="20dp"
-            android:id="@+id/NewMessage"
-            android:layout_width="fill_parent"
-            android:layout_marginRight="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_edittext"
-            android:hint="@string/message_hint"/>
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="-40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_like"
-            tools:ignore="ContentDescription" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:id="@+id/messageField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                tools:ignore="UnusedAttribute">
+                <EditText
+                    android:maxLines="1"
+                    android:inputType="text"
+                    android:paddingLeft="20dp"
+                    android:id="@+id/NewMessage"
+                    android:layout_width="fill_parent"
+                    android:layout_marginRight="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="@string/message_hint"/>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="-40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_like"
+                    tools:ignore="ContentDescription" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
 
     <ImageView
         android:elevation="5dp"

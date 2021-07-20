@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
 import android.opengl.Visibility
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -23,6 +24,7 @@ import com.github.michaljaz.messenger.adapters.Message
 import com.github.michaljaz.messenger.adapters.MessagesAdapter
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.github.michaljaz.messenger.utils.setIconUrl
+import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -36,6 +38,7 @@ class ChatFragment : Fragment() {
     private lateinit var friendIcon: ImageView
     private lateinit var friendName: TextView
     private lateinit var bottomScroll: ImageView
+    private lateinit var bottomAppBar: AppBarLayout
     private var messages = ArrayList<Message>()
     private var timestampDeltaDate=10000
     private var timestampDeltaDelay=1000
@@ -50,6 +53,14 @@ class ChatFragment : Fragment() {
     }
 
     private fun loop(llm:LinearLayoutManager){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (!list.canScrollVertically(1)) {
+                bottomAppBar.elevation = 0f
+            } else {
+                bottomAppBar.elevation = 8f
+            }
+        }
+
         if(llm.findLastCompletelyVisibleItemPosition()<messages.size-10){
             enableBottomScroll()
         }else{
@@ -85,6 +96,7 @@ class ChatFragment : Fragment() {
         val view=inflater.inflate(R.layout.fragment_chat, container, false)
         m = activity as MainActivity
 
+        bottomAppBar=view.findViewById(R.id.bottomappBar)
         friendIcon=view.findViewById(R.id.userIcon)
         friendName=view.findViewById(R.id.toolbarTitle)
 
