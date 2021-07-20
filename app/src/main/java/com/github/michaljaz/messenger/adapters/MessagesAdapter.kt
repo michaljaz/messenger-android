@@ -14,11 +14,18 @@ import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.squareup.picasso.Picasso
 
 class Message(
-    val text: String,
-    val isMe: Boolean)
+    val text: String="",
+    val isMe: Boolean=false,
+    val messageTimestamp:Long=0,
+    val isDate: Boolean=false,
+    val dateString:String="")
 
 class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String,private val friendName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
+    var MESSAGE_INTRO=0
+    var MESSAGE_FRIEND=1
+    var MESSAGE_MY=2
+    var MESSAGE_DATE=3
     var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message,TextView)->Unit) ?= null
 
@@ -37,10 +44,12 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         init {
             message.setOnLongClickListener {
                 onMyLongClick?.invoke(mMessages[adapterPosition],message)
-                message.background.alpha=200
                 true
             }
         }
+    }
+    inner class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val date:TextView=itemView.findViewById(R.id.date)
     }
     inner class IntroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val icon:ImageView=itemView.findViewById(R.id.intro_icon)
@@ -50,26 +59,31 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         return when (viewType) {
-            0 -> {
+            MESSAGE_INTRO -> {
                 val v=inflater.inflate(R.layout.row_chat_intro, parent, false)
                 IntroViewHolder(v)
             }
-            1 -> {
+            MESSAGE_MY -> {
                 val v=inflater.inflate(R.layout.row_message_my, parent, false)
                 MyViewHolder(v)
             }
-            else -> {
+            MESSAGE_FRIEND -> {
                 val v=inflater.inflate(R.layout.row_message_friend, parent, false)
                 FriendViewHolder(v)
+            }
+            else -> {
+                val v=inflater.inflate(R.layout.row_date, parent, false)
+                DateViewHolder(v)
             }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            position==0 -> { 0 }
-            mMessages[position].isMe -> { 1 }
-            else -> { 2 }
+            position==0 -> { MESSAGE_INTRO }
+            mMessages[position].isDate -> { MESSAGE_DATE }
+            mMessages[position].isMe -> { MESSAGE_MY }
+            else -> { MESSAGE_FRIEND }
         }
     }
 
@@ -78,8 +92,8 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
-            val up=if(position==0){false}else{mMessages[position-1].isMe}
-            val down=if(position==mMessages.lastIndex){false}else{mMessages[position+1].isMe}
+            val up=if(position==1 || mMessages[position-1].isDate){false}else{mMessages[position-1].isMe}
+            val down=if(position==mMessages.lastIndex || mMessages[position+1].isDate){false}else{mMessages[position+1].isMe}
 
             if(up && down){
                 viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_middle)
@@ -97,8 +111,8 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
-            val up=if(position==1){false}else{!mMessages[position-1].isMe}
-            val down=if(position==mMessages.lastIndex){false}else{!mMessages[position+1].isMe}
+            val up=if(position==1 || mMessages[position-1].isDate){false}else{!mMessages[position-1].isMe}
+            val down=if(position==mMessages.lastIndex || mMessages[position+1].isDate){false}else{!mMessages[position+1].isMe}
 
             if(up && down){
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
@@ -137,6 +151,8 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
                     .into(viewHolder.icon)
             }
             viewHolder.name.text=friendName
+        }else if(viewHolder is DateViewHolder){
+            viewHolder.date.text=mMessages[position].dateString
         }
 
     }

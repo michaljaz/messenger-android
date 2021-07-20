@@ -25,6 +25,8 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.squareup.picasso.Picasso
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ChatFragment : Fragment() {
     private lateinit var m: MainActivity
@@ -131,7 +133,7 @@ class ChatFragment : Fragment() {
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>
                 Log.d("xd",message["data"].toString())
-                addMessage(message["data"].toString(),message["sender"].toString()==m.auth.currentUser!!.uid)
+                addMessage(message["data"].toString(),message["sender"].toString()==m.auth.currentUser!!.uid,message["timestamp"].toString())
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -200,8 +202,22 @@ class ChatFragment : Fragment() {
         dialog.show()
     }
 
-    private fun addMessage(message:String, isMe:Boolean){
-        messages.add(Message(message,isMe))
+    private fun getShortDate(ts:Long?):String{
+        if(ts == null) return ""
+        //Get instance of calendar
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        //get current date from ts
+        calendar.timeInMillis = ts
+        //return formatted date
+        return android.text.format.DateFormat.format("dd MMM yyyy HH:mm", calendar).toString()
+    }
+
+    private fun addMessage(message:String, isMe:Boolean,timestamp:String){
+        val time=timestamp.toLong()
+        if(time-messages[messages.lastIndex].messageTimestamp>10000){
+            messages.add(Message(isDate = true, dateString = getShortDate(time)))
+        }
+        messages.add(Message(message,isMe,timestamp.toLong()))
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
             (list.adapter as MessagesAdapter).onFriendLongClick={ _,msg->
