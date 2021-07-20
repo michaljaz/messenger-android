@@ -202,20 +202,33 @@ class ChatFragment : Fragment() {
         dialog.show()
     }
 
-    private fun getShortDate(ts:Long?):String{
+    private fun checkTimestampsDay(t1:Long):Boolean{
+        val c1=Calendar.getInstance()
+        val c2=Calendar.getInstance()
+        c1.timeInMillis=t1
+        c2.timeInMillis=System.currentTimeMillis()
+        return (c1.get(Calendar.YEAR)==c2.get(Calendar.YEAR) && c1.get(Calendar.MONTH)==c2.get(Calendar.MONTH) && c1.get(Calendar.DAY_OF_MONTH)==c2.get(Calendar.DAY_OF_MONTH))
+    }
+
+    private fun getShortDate(ts:Long?,short:Boolean):String{
         if(ts == null) return ""
         //Get instance of calendar
         val calendar = Calendar.getInstance(Locale.getDefault())
         //get current date from ts
         calendar.timeInMillis = ts
         //return formatted date
-        return android.text.format.DateFormat.format("dd MMM yyyy HH:mm", calendar).toString()
+        return if(short){
+            android.text.format.DateFormat.format("HH:mm", calendar).toString()
+        }else{
+            android.text.format.DateFormat.format("dd MMM yyyy HH:mm", calendar).toString()
+        }
+
     }
 
     private fun addMessage(message:String, isMe:Boolean,timestamp:String){
         val time=timestamp.toLong()
         if(time-messages[messages.lastIndex].messageTimestamp>10000){
-            messages.add(Message(isDate = true, dateString = getShortDate(time)))
+            messages.add(Message(isDate = true, dateString = getShortDate(time,checkTimestampsDay(time))))
         }
         messages.add(Message(message,isMe,timestamp.toLong()))
         if(list.adapter==null){
