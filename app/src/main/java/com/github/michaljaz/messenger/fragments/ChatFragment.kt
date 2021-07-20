@@ -3,6 +3,7 @@ package com.github.michaljaz.messenger.fragments
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.drawable.ColorDrawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -34,6 +35,7 @@ class ChatFragment : Fragment() {
     private lateinit var list: RecyclerView
     private lateinit var friendIcon: ImageView
     private lateinit var friendName: TextView
+    private lateinit var bottomScroll: ImageView
     private var messages = ArrayList<Message>()
     private var timestampDeltaDate=10000
     private var timestampDeltaDelay=1000
@@ -47,7 +49,12 @@ class ChatFragment : Fragment() {
         friendName.animate().setDuration(100).alpha(1f)
     }
 
-    private fun friendLoop(llm:LinearLayoutManager){
+    private fun loop(llm:LinearLayoutManager){
+        if(llm.findLastCompletelyVisibleItemPosition()<messages.size-10){
+            enableBottomScroll()
+        }else{
+            hideBottomScroll()
+        }
         if(llm.findFirstVisibleItemPosition()==0){
             hideFriend()
         }else{
@@ -55,8 +62,19 @@ class ChatFragment : Fragment() {
         }
         val handler = Handler()
         handler.postDelayed( {
-            friendLoop(llm)
+            loop(llm)
         }, 100)
+    }
+
+    private fun enableBottomScroll(){
+        bottomScroll.visibility=View.VISIBLE
+        bottomScroll.animate().setDuration(100).translationY(0F).alpha(1f)
+    }
+
+    private fun hideBottomScroll(){
+        bottomScroll.animate().setDuration(50).translationY(50F).alpha(0f).withEndAction {
+            bottomScroll.visibility=View.GONE
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -75,6 +93,10 @@ class ChatFragment : Fragment() {
         view.findViewById<ImageView>(R.id.bottomscroll).setOnClickListener {
             list.smoothScrollToPosition(messages.size - 1)
         }
+        bottomScroll=view.findViewById(R.id.bottomscroll)
+        bottomScroll.visibility=View.GONE
+        bottomScroll.translationY=50F
+        bottomScroll.alpha=0f
 
         //not allow to go back
         m.allowBack=true
@@ -96,6 +118,7 @@ class ChatFragment : Fragment() {
 
         //on click send
         view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
+            enableBottomScroll()
             sendMessage(view)
         }
 
@@ -128,7 +151,7 @@ class ChatFragment : Fragment() {
         friendName.alpha=0f
         val handler = Handler()
         handler.postDelayed( {
-            friendLoop(llm)
+            loop(llm)
         }, 100)
 
 

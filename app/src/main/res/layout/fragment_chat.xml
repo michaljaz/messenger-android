@@ -89,6 +89,7 @@
     </LinearLayout>
 
     <ImageView
+        android:elevation="5dp"
         android:id="@+id/bottomscroll"
         android:clickable="true"
         android:focusable="true"
