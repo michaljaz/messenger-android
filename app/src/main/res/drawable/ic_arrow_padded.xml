@@ -1,0 +1,3 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:top="40px" android:right="40px" android:left="40px" android:bottom="40px" android:drawable="@drawable/ic_arrow"/>
+</layer-list>

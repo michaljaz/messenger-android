@@ -23,9 +23,9 @@
             app:layout_constraintTop_toTopOf="parent">
             <ImageView
                 android:id="@+id/backIcon"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:src="@drawable/ic_arrow"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_arrow_padded"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"/>
