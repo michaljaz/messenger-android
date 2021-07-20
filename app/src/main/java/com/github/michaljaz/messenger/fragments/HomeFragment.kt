@@ -23,6 +23,7 @@ import com.github.michaljaz.messenger.activities.MainActivity
 import com.github.michaljaz.messenger.fragments.frames.ChatsFrame
 import com.github.michaljaz.messenger.fragments.frames.UsersFrame
 import com.github.michaljaz.messenger.utils.RoundedTransformation
+import com.github.michaljaz.messenger.utils.disableTooltip
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -108,6 +109,8 @@ class HomeFragment : Fragment() {
             .replace(R.id.frame_layout, ChatsFrame())
             .setTransition(FragmentTransaction.TRANSIT_NONE)
             .commit()
+        view.findViewById<BottomNavigationView>(R.id.bottom_navigation).disableTooltip()
+
         var prev=1
         view.findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { item ->
             when(item.itemId){
