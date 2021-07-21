@@ -13,6 +13,7 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.SplashScreenActivity"
+            android:noHistory="true"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MyApplication.NoActionBar">

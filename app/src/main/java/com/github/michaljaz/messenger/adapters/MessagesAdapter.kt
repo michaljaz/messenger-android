@@ -100,10 +100,9 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        val message: Message = mMessages[position]
         if(viewHolder is MyViewHolder) {
-            val message: Message = mMessages[position]
             viewHolder.message.text=message.text
-
 
             val isMyUp=if(position==1 || mMessages[position-1].isDate || message.withTimeBreak){false}else{mMessages[position-1].isMe}
             val isMyDown=if(position==mMessages.lastIndex || mMessages[position+1].isDate || mMessages[position+1].withTimeBreak){false}else{mMessages[position+1].isMe}
@@ -136,7 +135,6 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
 
 
         }else if(viewHolder is FriendViewHolder){
-            val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
             val isFriendUp=if(position==1 || mMessages[position-1].isDate || message.withTimeBreak){false}else{!mMessages[position-1].isMe}
@@ -152,17 +150,18 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
                 viewHolder.layout.layoutParams=param
             }
 
-            if(isFriendUp && isFriendDown){
-                viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
-            }
-            if(isFriendUp && !isFriendDown){
-                viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_up)
-            }
-            if(!isFriendUp && isFriendDown){
-                viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_down)
-            }
-            if(!isFriendUp && !isFriendDown){
-                viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape)
+            if(isFriendUp){
+                if(isFriendDown){
+                    viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
+                }else{
+                    viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_up)
+                }
+            }else{
+                if(isFriendDown){
+                    viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_down)
+                }else{
+                    viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape)
+                }
             }
 
             if(!isFriendDown){

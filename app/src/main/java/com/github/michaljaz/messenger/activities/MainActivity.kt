@@ -37,6 +37,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.squareup.picasso.Picasso
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -211,7 +212,7 @@ class MainActivity : AppCompatActivity() {
         if(allowBack){
             super.onBackPressed()
         }else{
-            Log.d("xd","disabled back press")
+            moveTaskToBack(true)
         }
     }
 
