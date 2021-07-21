@@ -80,7 +80,7 @@
                 tools:ignore="UnusedAttribute">
                 <EditText
                     android:maxLines="1"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:id="@+id/NewMessage"
                     android:layout_width="fill_parent"

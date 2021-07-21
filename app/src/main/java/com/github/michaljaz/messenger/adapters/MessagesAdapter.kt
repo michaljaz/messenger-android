@@ -1,25 +1,23 @@
 package com.github.michaljaz.messenger.adapters
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.michaljaz.messenger.R
-import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.github.michaljaz.messenger.utils.setIconUrl
-import com.squareup.picasso.Picasso
 
 class Message(
     val text: String="",
     val isMe: Boolean=false,
     val messageTimestamp:Long=0,
     val isDate: Boolean=false,
-    val dateString:String="")
+    val dateString:String="",
+    val withTimeBreak:Boolean=false)
 
 class MessagesAdapter (private val mMessages: ArrayList<Message>,private val friendPhotoUrl: String,private val friendName: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
@@ -27,12 +25,15 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     private var MESSAGE_FRIEND=1
     private var MESSAGE_MY=2
     private var MESSAGE_DATE=3
+
+
     var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message,TextView)->Unit) ?= null
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
         val icon:ImageView=itemView.findViewById(R.id.imgIcon)
+        val layout:LinearLayout=itemView.findViewById(R.id.layout)
         init {
             message.setOnClickListener {
                 Log.d("xd","clicked")
@@ -46,8 +47,10 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     }
     open inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
+        val layout:LinearLayout=itemView.findViewById(R.id.layout)
         init {
             message.setOnClickListener {
+                Log.d("xd",mMessages[adapterPosition].withTimeBreak.toString())
                 Log.d("xd","clicked")
                 message.background.alpha=200
             }
@@ -101,46 +104,73 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
             val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
-            val up=if(position==1 || mMessages[position-1].isDate){false}else{mMessages[position-1].isMe}
-            val down=if(position==mMessages.lastIndex || mMessages[position+1].isDate){false}else{mMessages[position+1].isMe}
 
-            if(up && down){
-                viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_middle)
+            val isMyUp=if(position==1 || mMessages[position-1].isDate || message.withTimeBreak){false}else{mMessages[position-1].isMe}
+            val isMyDown=if(position==mMessages.lastIndex || mMessages[position+1].isDate || mMessages[position+1].withTimeBreak){false}else{mMessages[position+1].isMe}
+
+            if(message.withTimeBreak){
+                val param=viewHolder.layout.layoutParams as LinearLayout.LayoutParams
+                param.setMargins(0,40,0,0)
+                viewHolder.layout.layoutParams=param
+            }else{
+                val param=viewHolder.layout.layoutParams as LinearLayout.LayoutParams
+                param.setMargins(0,0,0,0)
+                viewHolder.layout.layoutParams=param
             }
-            if(up && !down){
-                viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_up)
+
+            if(isMyUp){
+                if(isMyDown){
+                    viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_middle)
+                }else{
+                    viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_up)
+                }
+            }else{
+                if(isMyDown){
+                    viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_down)
+                }else{
+                    viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape)
+                }
             }
-            if(!up && down){
-                viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape_down)
-            }
-            if(!up && !down){
-                viewHolder.message.setBackgroundResource(R.drawable.my_bubble_shape)
-            }
+
+
+
+
         }else if(viewHolder is FriendViewHolder){
             val message: Message = mMessages[position]
             viewHolder.message.text=message.text
 
-            val up=if(position==1 || mMessages[position-1].isDate){false}else{!mMessages[position-1].isMe}
-            val down=if(position==mMessages.lastIndex || mMessages[position+1].isDate){false}else{!mMessages[position+1].isMe}
+            val isFriendUp=if(position==1 || mMessages[position-1].isDate || message.withTimeBreak){false}else{!mMessages[position-1].isMe}
+            val isFriendDown=if(position==mMessages.lastIndex || mMessages[position+1].isDate || mMessages[position+1].withTimeBreak){false}else{!mMessages[position+1].isMe}
 
-            if(up && down){
+            if(message.withTimeBreak){
+                val param=viewHolder.layout.layoutParams as LinearLayout.LayoutParams
+                param.setMargins(0,40,0,0)
+                viewHolder.layout.layoutParams=param
+            }else{
+                val param=viewHolder.layout.layoutParams as LinearLayout.LayoutParams
+                param.setMargins(0,0,0,0)
+                viewHolder.layout.layoutParams=param
+            }
+
+            if(isFriendUp && isFriendDown){
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_middle)
             }
-            if(up && !down){
+            if(isFriendUp && !isFriendDown){
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_up)
             }
-            if(!up && down){
+            if(!isFriendUp && isFriendDown){
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape_down)
             }
-            if(!up && !down){
+            if(!isFriendUp && !isFriendDown){
                 viewHolder.message.setBackgroundResource(R.drawable.friend_bubble_shape)
             }
 
-            if(!down){
+            if(!isFriendDown){
                 viewHolder.icon.setIconUrl(friendPhotoUrl)
             }else{
                 viewHolder.icon.setImageResource(0)
             }
+
         }else if(viewHolder is IntroViewHolder){
             viewHolder.icon.setIconUrl(friendPhotoUrl)
             viewHolder.name.text=friendName

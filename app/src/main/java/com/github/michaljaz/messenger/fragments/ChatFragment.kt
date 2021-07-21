@@ -40,8 +40,8 @@ class ChatFragment : Fragment() {
     private lateinit var bottomScroll: ImageView
     private lateinit var bottomAppBar: AppBarLayout
     private var messages = ArrayList<Message>()
-    private var timestampDeltaDate=10000
-    private var timestampDeltaDelay=1000
+    private var timestampDeltaDate=1000*60*4
+    private var timestampDeltaBreak=1000*60
 
     private fun hideFriend(){
         friendIcon.animate().setDuration(100).alpha(0f)
@@ -266,8 +266,14 @@ class ChatFragment : Fragment() {
         val time=timestamp.toLong()
         if(time-messages[messages.lastIndex].messageTimestamp>timestampDeltaDate){
             messages.add(Message(isDate = true, dateString = getShortDate(time,checkTimestampsDay(time))))
+            messages.add(Message(message,isMe,timestamp.toLong()))
+        }else if(time-messages[messages.lastIndex].messageTimestamp>timestampDeltaBreak){
+            messages.add(Message(message,isMe,timestamp.toLong(),withTimeBreak = true))
+        }else{
+            messages.add(Message(message,isMe,timestamp.toLong()))
         }
-        messages.add(Message(message,isMe,timestamp.toLong()))
+
+
         if(list.adapter==null){
             list.adapter=MessagesAdapter(messages,m.chatWithPhoto,m.chatWith)
             (list.adapter as MessagesAdapter).onFriendLongClick={ _,msg->

@@ -7,28 +7,33 @@
     android:layout_height="wrap_content"
     android:padding="1dp"
     tools:ignore="UseCompoundDrawables">
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView android:id="@+id/imgIcon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            tools:ignore="ContentDescription,RtlHardcoded" />
 
-    <ImageView android:id="@+id/imgIcon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        tools:ignore="ContentDescription,RtlHardcoded" />
+        <TextView
+            android:maxWidth="270dp"
+            android:paddingHorizontal="15dp"
+            android:text="HELLO WORLD"
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/friend_bubble_shape_up"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
 
-    <TextView
-        android:maxWidth="270dp"
-        android:paddingHorizontal="15dp"
-        android:text="HELLO WORLD"
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:paddingVertical="10dp"
-        android:background="@drawable/friend_bubble_shape_up"
-        tools:ignore="HardcodedText" />
 
 </LinearLayout>

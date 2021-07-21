@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         lastTouch=event!!.y
-        Log.d("TOUCH",lastTouch.toString())
         return super.dispatchTouchEvent(event)
     }
 
