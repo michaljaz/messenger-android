@@ -27,21 +27,52 @@
                 android:clickable="true"
                 android:focusable="true"/>
             <ImageView
-                android:paddingLeft="17dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/userIcon"
-                android:layout_width="55dp"
-                android:layout_height="50dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/ic_profile_user"/>
             <TextView
                 android:id="@+id/toolbarTitle"
-                android:paddingLeft="13dp"
-                android:textSize="20dp"
+                android:paddingLeft="10dp"
+                android:textSize="15dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:gravity="center_vertical"
                 android:text="DisplayName"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"/>
+            <ImageView
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginRight="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_info_button"
+                tools:ignore="RtlHardcoded"
+                android:clickable="true"
+                android:focusable="true"/>
+            <ImageView
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginRight="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_video_camera"
+                tools:ignore="RtlHardcoded"
+                android:clickable="true"
+                android:focusable="true"/>
+            <ImageView
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginRight="15dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:src="@drawable/ic_phone_call"
+                tools:ignore="RtlHardcoded"
+                android:clickable="true"
+                android:focusable="true"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -54,6 +85,21 @@
         app:layout_constraintTop_toBottomOf="@id/appBar"
         android:stackFromBottom="true">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:elevation="5dp"
+        android:id="@+id/bottomscroll"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="65dp"
+        android:src="@drawable/ic_down_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.appbar.AppBarLayout
         app:elevation="0dp"
@@ -104,20 +150,7 @@
 
 
 
-    <ImageView
-        android:elevation="5dp"
-        android:id="@+id/bottomscroll"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="10dp"
-        android:background="@drawable/rounded_edittext"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="65dp"
-        android:src="@drawable/ic_down_arrow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

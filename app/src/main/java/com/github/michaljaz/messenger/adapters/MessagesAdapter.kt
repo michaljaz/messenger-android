@@ -26,7 +26,6 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     private var MESSAGE_MY=2
     private var MESSAGE_DATE=3
 
-
     var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message,TextView)->Unit) ?= null
 

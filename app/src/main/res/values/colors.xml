@@ -10,6 +10,7 @@
     <color name="facebook">#3B5998</color>
     <color name="google">#DB4437</color>
 
-    <color name="friend_message_bubble">#F1F0F0</color>
-    <color name="my_message_bubble">#0283FD</color>
+
+    <color name="secondary_color">#F1F0F0</color>
+    <color name="primary_color">#0283FD</color>
 </resources>

@@ -53,7 +53,8 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/userchat_off"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
