@@ -50,6 +50,8 @@
             app:layout_constraintBottom_toBottomOf="@id/imgIcon"
             tools:ignore="ContentDescription" />
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:id="@+id/DisplayName"
@@ -63,8 +65,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:ellipsize="end"
+            android:maxLines="1"
             android:id="@+id/LastMessage"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="20dp"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
