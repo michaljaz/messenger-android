@@ -63,21 +63,27 @@
             android:textColor="#000000"
             app:layout_constraintStart_toEndOf="@+id/imgIcon"
             app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
-            android:ellipsize="end"
-            android:maxLines="1"
             android:id="@+id/LastMessage"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="75dp"
-            android:layout_marginRight="20dp"
+            android:maxWidth="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="lastMessage"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="@+id/DisplayName"
             app:layout_constraintTop_toBottomOf="@+id/DisplayName"
             tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" · 16 cze"
+            app:layout_constraintStart_toEndOf="@+id/LastMessage"
+            app:layout_constraintTop_toTopOf="@+id/LastMessage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

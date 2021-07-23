@@ -14,6 +14,8 @@ import com.github.michaljaz.messenger.R
 import com.github.michaljaz.messenger.utils.RoundedTransformation
 import com.google.android.material.textfield.TextInputEditText
 import com.squareup.picasso.Picasso
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Chat(
@@ -63,6 +65,8 @@ class ChatsAdapter (val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAda
         val displayName: TextView = itemView.findViewById(R.id.DisplayName)
         val lastMessage: TextView = itemView.findViewById(R.id.LastMessage)
         val icon: ImageView = itemView.findViewById(R.id.imgIcon)
+        val date: TextView=itemView.findViewById(R.id.textView)
+
         init{
             itemView.setOnClickListener {
                 onItemClick?.invoke(mChats[adapterPosition])
@@ -96,6 +100,19 @@ class ChatsAdapter (val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAda
                 .transform(RoundedTransformation(100, 0))
                 .into(viewHolder.icon)
         }
+        val c = Calendar.getInstance()
+        c.timeInMillis=chat.lastMessageTimeStamp.toLong()
+
+        val cc = Calendar.getInstance()
+        cc.timeInMillis=System.currentTimeMillis()
+
+        if(c.get(Calendar.YEAR)==cc.get(Calendar.YEAR)){
+            if(c.get(Calendar.DAY_OF_YEAR)==cc.get(Calendar.DAY_OF_YEAR)){
+                viewHolder.date.text=android.text.format.DateFormat.format(" · HH:mm", c)
+                return
+            }
+        }
+        viewHolder.date.text=android.text.format.DateFormat.format(" · dd MMM", c)
     }
     fun updateListItems(chats:ArrayList<Chat>){
         val diffCallback = ChatsDiffCallback(mChats, chats)

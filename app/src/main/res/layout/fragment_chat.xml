@@ -144,7 +144,7 @@
                 tools:ignore="UnusedAttribute">
                 <EditText
                     android:maxLines="1"
-                    android:inputType="textCapWords"
+                    android:inputType="textCapSentences"
                     android:paddingLeft="20dp"
                     android:id="@+id/NewMessage"
                     android:layout_width="fill_parent"
