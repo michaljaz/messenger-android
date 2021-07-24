@@ -1,5 +1,6 @@
 package com.github.michaljaz.messenger.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,10 @@ class Chat(
     val photoUrl: String,
     val userId: String,
     val lastMessage: String,
-    val lastMessageTimeStamp: String)
+    val lastMessageTimeStamp: String,
+    val lastMessageSender: String) {
+
+}
 
 class ChatsDiffCallback(
     private val mOldChatsList: List<Chat>,
@@ -87,10 +91,11 @@ class ChatsAdapter (val mChats: ArrayList<Chat>) : RecyclerView.Adapter<ChatsAda
         return if(position==0){ 0 }else if(position==1){ 1 }else{2}
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: ChatsAdapter.ViewHolder, position: Int) {
         val chat: Chat = mChats[position]
         viewHolder.displayName.text=chat.displayName
-        viewHolder.lastMessage.text=chat.lastMessage
+        viewHolder.lastMessage.text=chat.lastMessageSender+chat.lastMessage
         if(chat.photoUrl=="default"){
             viewHolder.icon.setImageResource(R.drawable.ic_profile_user)
         }else{

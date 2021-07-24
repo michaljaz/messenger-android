@@ -153,24 +153,27 @@ class ChatsFrame : Fragment() {
                 m.db.child("/usersData/$k/photoUrl").get().addOnSuccessListener { photoUrl ->
                     m.getChatRef(k)?.child("lastMessage")?.get()?.addOnSuccessListener { lastMessage->
                         m.getChatRef(k)?.child("lastMessageTimeStamp")?.get()?.addOnSuccessListener { lastMessageTimeStamp->
-                            counter++
-                            chats.add(Chat(
-                                displayName.value.toString(),
-                                photoUrl.value.toString(),
-                                k,
-                                lastMessage.value.toString(),
-                                lastMessageTimeStamp.value.toString()
-                            ))
-                            if(counter==chatUserIds.size){
-                                chats.sortWith { lhs, rhs ->
-                                    if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
-
+                            m.getChatRef(k)?.child("lastMessageSender")?.get()?.addOnSuccessListener { lastMessageSender ->
+                                counter++
+                                chats.add(Chat(
+                                    displayName.value.toString(),
+                                    photoUrl.value.toString(),
+                                    k,
+                                    lastMessage.value.toString(),
+                                    lastMessageTimeStamp.value.toString(),
+                                    if(lastMessageSender.value.toString()==m.auth.currentUser!!.uid){"You : "}else{""}
+                                ))
+                                if(counter==chatUserIds.size){
+                                    chats.sortWith { lhs, rhs ->
+                                        if (lhs.lastMessageTimeStamp > rhs.lastMessageTimeStamp) -1 else if (lhs.lastMessageTimeStamp < rhs.lastMessageTimeStamp) 1 else 0
+                                    }
+                                    try{
+                                        (list.adapter as ChatsAdapter).updateListItems(chats)
+                                        m.setCacheChats(chats)
+                                    }catch(e:Exception){ }
                                 }
-                                try{
-                                    (list.adapter as ChatsAdapter).updateListItems(chats)
-                                    m.setCacheChats(chats)
-                                }catch(e:Exception){ }
                             }
+
                         }
                     }
                 }

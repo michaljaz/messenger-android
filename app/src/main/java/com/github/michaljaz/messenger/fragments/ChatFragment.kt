@@ -313,8 +313,9 @@ class ChatFragment : Fragment() {
             }catch(e:Exception){}
 
             val timestamp=System.currentTimeMillis().toString()
-            m.getChatRef(m.chatWithUid)?.child("lastMessage")?.setValue("${m.auth.currentUser!!.displayName}: $message")
+            m.getChatRef(m.chatWithUid)?.child("lastMessage")?.setValue("$message")
             m.getChatRef(m.chatWithUid)?.child("lastMessageTimeStamp")?.setValue(timestamp)
+            m.getChatRef(m.chatWithUid)?.child("lastMessageSender")?.setValue(m.auth.currentUser!!.uid)
 
             val key=m.getChatRef(m.chatWithUid)?.child("messages")?.push()?.key
             m.getChatRef(m.chatWithUid)?.child("messages/${key}")?.setValue(mapOf(
