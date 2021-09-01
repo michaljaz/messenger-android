@@ -16,6 +16,7 @@ android {
         versionName "${System.getenv('VERSION_NAME')}"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
