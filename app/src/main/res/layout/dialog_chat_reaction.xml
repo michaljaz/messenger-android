@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/reactionbg"
     android:layout_width="match_parent"
@@ -20,43 +21,43 @@
             android:id="@+id/r1"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_love"/>
+            app:srcCompat="@drawable/ic_love"/>
         <ImageView
             android:id="@+id/r2"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_haha"/>
+            app:srcCompat="@drawable/ic_haha"/>
         <ImageView
             android:id="@+id/r3"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_wow"/>
+            app:srcCompat="@drawable/ic_wow"/>
         <ImageView
             android:id="@+id/r4"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_sad"/>
+            app:srcCompat="@drawable/ic_sad"/>
         <ImageView
             android:id="@+id/r5"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_angry"/>
+            app:srcCompat="@drawable/ic_angry"/>
         <ImageView
             android:id="@+id/r6"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_liker"/>
+            app:srcCompat="@drawable/ic_liker"/>
         <ImageView
             android:id="@+id/r7"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            android:src="@drawable/ic_plus" />
+            app:srcCompat="@drawable/ic_plus" />
     </LinearLayout>
 
 </LinearLayout>

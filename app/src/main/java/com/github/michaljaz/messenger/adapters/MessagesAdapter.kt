@@ -35,7 +35,6 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
         val layout:LinearLayout=itemView.findViewById(R.id.layout)
         init {
             message.setOnClickListener {
-                Log.d("xd","clicked")
                 message.background.alpha=200
             }
             message.setOnLongClickListener {
