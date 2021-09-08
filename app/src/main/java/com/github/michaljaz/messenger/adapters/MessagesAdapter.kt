@@ -28,6 +28,7 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
 
     var onFriendLongClick: ((Message,TextView)->Unit) ?= null
     var onMyLongClick: ((Message,TextView)->Unit) ?= null
+    var onChatIntroClick: (()->Unit) ?= null
 
     inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val message:TextView=itemView.findViewById(R.id.message)
@@ -64,6 +65,11 @@ class MessagesAdapter (private val mMessages: ArrayList<Message>,private val fri
     inner class IntroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val icon:ImageView=itemView.findViewById(R.id.intro_icon)
         val name:TextView=itemView.findViewById(R.id.intro_name)
+        init {
+            itemView.setOnClickListener {
+                onChatIntroClick?.invoke()
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context

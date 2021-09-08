@@ -21,43 +21,43 @@
             android:id="@+id/r1"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_love"/>
+            android:src="@drawable/ic_love"/>
         <ImageView
             android:id="@+id/r2"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_haha"/>
+            android:src="@drawable/ic_haha"/>
         <ImageView
             android:id="@+id/r3"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_wow"/>
+            android:src="@drawable/ic_wow"/>
         <ImageView
             android:id="@+id/r4"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_sad"/>
+            android:src="@drawable/ic_sad"/>
         <ImageView
             android:id="@+id/r5"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_angry"/>
+            android:src="@drawable/ic_angry"/>
         <ImageView
             android:id="@+id/r6"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_liker"/>
+            android:src="@drawable/ic_liker"/>
         <ImageView
             android:id="@+id/r7"
             android:layout_marginLeft="@dimen/reaction_margin"
             android:layout_width="@dimen/reaction_icons"
             android:layout_height="@dimen/reaction_icons"
-            app:srcCompat="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus" />
     </LinearLayout>
 
 </LinearLayout>

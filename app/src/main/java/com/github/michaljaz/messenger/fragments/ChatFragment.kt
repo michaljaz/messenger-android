@@ -128,6 +128,13 @@ class ChatFragment : Fragment() {
             }catch(e:Exception){}
         }
 
+        view.findViewById<ImageView>(R.id.userIcon).setOnClickListener {
+            findNavController().navigate(R.id.chatSettings_on)
+        }
+        view.findViewById<TextView>(R.id.toolbarTitle).setOnClickListener {
+            findNavController().navigate(R.id.chatSettings_on)
+        }
+
         //on click send
         view.findViewById<ImageView>(R.id.imageView2).setOnClickListener {
             sendMessage(view)
@@ -160,10 +167,7 @@ class ChatFragment : Fragment() {
 
         friendIcon.alpha=0f
         friendName.alpha=0f
-        val handler = Handler()
-        handler.postDelayed( {
-            loop(llm)
-        }, 100)
+        loop(llm)
 
 
         m.getChatRef(m.chatWithUid)?.child("messages")?.addChildEventListener(object: ChildEventListener{
@@ -281,6 +285,9 @@ class ChatFragment : Fragment() {
             }
             (list.adapter as MessagesAdapter).onMyLongClick={ _,msg->
                 createReactionDialog(msg)
+            }
+            (list.adapter as MessagesAdapter).onChatIntroClick={
+                findNavController().navigate(R.id.chatSettings_on)
             }
         }else{
             (list.adapter as MessagesAdapter).notifyDataSetChanged()

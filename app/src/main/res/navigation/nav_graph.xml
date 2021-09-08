@@ -55,6 +55,9 @@
             android:id="@+id/userchat_off"
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/chatSettings_on"
+            app:destination="@id/chatSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -89,5 +92,14 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_out_left"
             app:exitAnim="@anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatSettingsFragment"
+        android:name="com.github.michaljaz.messenger.fragments.ChatSettingsFragment"
+        android:label="fragment_chat_settings"
+        tools:layout="@layout/fragment_chat_settings" >
+        <action
+            android:id="@+id/chatSettings_off"
+            app:destination="@id/userChat" />
     </fragment>
 </navigation>
