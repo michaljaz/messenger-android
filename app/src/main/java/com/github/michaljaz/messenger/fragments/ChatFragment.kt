@@ -43,6 +43,7 @@ class ChatFragment : Fragment() {
     private var timestampDeltaDate=1000*60*4
     private var timestampDeltaBreak=1000*60
 
+
     private fun hideFriend(){
         friendIcon.animate().setDuration(100).alpha(0f)
         friendName.animate().setDuration(100).alpha(0f)
@@ -50,6 +51,7 @@ class ChatFragment : Fragment() {
     private fun showFriend(){
         friendIcon.animate().setDuration(100).alpha(1f)
         friendName.animate().setDuration(100).alpha(1f)
+
     }
 
     private fun loop(llm:LinearLayoutManager){
@@ -119,8 +121,10 @@ class ChatFragment : Fragment() {
         //update user icon
         friendIcon.setIconUrl(m.chatWithPhoto)
 
+        //update user name
         friendName.text=m.chatWith
 
+        //back arrow button
         view.findViewById<ImageView>(R.id.backIcon).setOnClickListener {
             try{
                 findNavController().navigate(R.id.userchat_off)
@@ -128,11 +132,16 @@ class ChatFragment : Fragment() {
             }catch(e:Exception){}
         }
 
+        //on click user go to settings
         view.findViewById<ImageView>(R.id.userIcon).setOnClickListener {
-            findNavController().navigate(R.id.chatSettings_on)
+            if(view.findViewById<ImageView>(R.id.userIcon).alpha==1f) {
+                findNavController().navigate(R.id.chatSettings_on)
+            }
         }
         view.findViewById<TextView>(R.id.toolbarTitle).setOnClickListener {
-            findNavController().navigate(R.id.chatSettings_on)
+            if(view.findViewById<ImageView>(R.id.userIcon).alpha==1f){
+                findNavController().navigate(R.id.chatSettings_on)
+            }
         }
 
         //on click send
@@ -165,11 +174,11 @@ class ChatFragment : Fragment() {
         llm.stackFromEnd = true
         list.layoutManager = llm
 
-        friendIcon.alpha=0f
-        friendName.alpha=0f
+        view.findViewById<ImageView>(R.id.userIcon).alpha=0f
+        view.findViewById<ImageView>(R.id.userIcon).alpha=0f
         loop(llm)
 
-
+        //on new message
         m.getChatRef(m.chatWithUid)?.child("messages")?.addChildEventListener(object: ChildEventListener{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val message=snapshot.value as Map<*, *>
